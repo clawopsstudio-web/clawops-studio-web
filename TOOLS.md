@@ -1,40 +1,34 @@
-# TOOLS.md - Local Notes
+# TOOLS
 
-Skills define _how_ tools work. This file is for _your_ specifics — the stuff that's unique to your setup.
+## Core Tools
+- read — file contents (text + images)
+- write — create/overwrite files
+- edit — surgical edits (exact text match required)
+- exec — shell commands (pty for terminal UIs)
 
-## What Goes Here
+## Installed Services (target state)
+- OpenClaw Gateway: port 18789 (loopback / tailscale only)
+- n8n: port 5678 (tailscale only)
+- PinchTab: port 9867 (loopback)
+- Neko: port 8080 (tailscale only)
+- Firecrawl: port 3002 (internal Docker)
+- Paperclip: port 4000 (tailscale only)
 
-Things like:
+## Key APIs
+- OpenAI Codex OAuth — chat/coding access
+- OpenAI API key — available for direct TTS/Whisper-style API usage
+- Gemini (API key — used for embeddings + web search)
+- OpenRouter (fallback models)
+- Telegram Bot API
+- GitHub (PAT — pending)
 
-- Camera names and locations
-- SSH hosts and aliases
-- Preferred voices for TTS
-- Speaker/room names
-- Device nicknames
-- Anything environment-specific
+## Audio
+- Local TTS script: `scripts/openai-tts.sh`
+- Default TTS model: `gpt-4o-mini-tts`
+- Default voice: `onyx`
+- Preferred style: deep, confident, direct
+- Verified local audio generation to Ogg Opus
 
-## Examples
-
-```markdown
-### Cameras
-
-- living-room → Main area, 180° wide angle
-- front-door → Entrance, motion-triggered
-
-### SSH
-
-- home-server → 192.168.1.100, user: admin
-
-### TTS
-
-- Preferred voice: "Nova" (warm, slightly British)
-- Default speaker: Kitchen HomePod
-```
-
-## Why Separate?
-
-Skills are shared. Your setup is yours. Keeping them apart means you can update skills without losing your notes, and share skills without leaking your infrastructure.
-
----
-
-Add whatever helps you do your job. This is your cheat sheet.
+## Browser Automation
+- PinchTab HTTP API: http://localhost:9867
+- Neko stream: http://100.x.x.x:8080 (watch mode)
