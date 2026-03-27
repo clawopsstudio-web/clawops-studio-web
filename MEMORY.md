@@ -292,6 +292,9 @@ When production-ready, provides:
   - `https://www.notion.so/ClawOps-Studio-Operating-System-330be54579ac81e89021c78c2a227f05`
 - A full Notion agent directory plus individual pages for Henry, Ryan, Arjun, Dev, Dave, Kyle, and Tyler now exists.
 - A Notion HQ dashboard now exists with 3 core operational databases: Sales Pipeline, Research Queue, and Build / Ops Tasks.
+- Paperclip live roster was re-verified and cleaned: Henry, Ryan, Arjun, Dev, Dave, Kyle, and Tyler are all live.
+- Henry's trailing-space name issue was fixed, missing titles were added, Arjun was corrected to Research, and all live agent gateway URLs were standardized to `ws://100.78.128.98:18789/`.
+- Ryan is confirmed live in Paperclip and no longer pending.
 - `openrouter/auto` was removed from live OpenClaw config and the global primary model was switched to `openai-codex/gpt-5.4`.
 
 ## 🗺️ VISION & GOALS
