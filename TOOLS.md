@@ -37,4 +37,35 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 
 ---
 
+## Paperclip Integration
+
+- **Paperclip URL:** http://100.78.128.98:3100
+- **Company:** ClawOps Studio
+- **Primary operating identity:** Henry (CEO)
+- **Working access pattern:** direct Tailscale URL for Paperclip
+- **Current creation workflow:** invite/manual board approval flow, not generic create-agent API
+- **Skill path:** ~/.openclaw/skills/paperclip/SKILL.md
+- **Secrets location:** keep current API keys and sensitive values in `.secrets/` or local env files, not in this notes file
+
+### Current Org Roles
+- Henry → CEO / Chief AI Officer
+- Ryan → Sales
+- Arjun → Research
+- Dev → Founding Engineer
+- Dave → DevOps / Backend
+- Kyle → Frontend / Web
+- Tyler → Marketing / SEO
+- Marcus → future Mobile App agent
+
+### Workspace Notes
+- This filesystem workspace is still named `arjun`, but operationally it is the main Henry / ClawOps HQ workspace.
+- Canonical org/system doc: `docs/CLAWOPS-STUDIO-OPERATING-SYSTEM.md`
+- Agent role files: `agents/`
+- Workspace identity note: `WORKSPACE-IDENTITY.md`
+
+### Notion
+- Parent page ID: `330be54579ac8064800ff45210674b55`
+- Operating doc page: `https://www.notion.so/ClawOps-Studio-Operating-System-330be54579ac81e89021c78c2a227f05`
+- Notion MCP config file: `config/mcporter.json`
+
 Add whatever helps you do your job. This is your cheat sheet.

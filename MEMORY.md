@@ -56,14 +56,23 @@
 
 | Agent | Role | Status |
 |-------|------|--------|
-| **Henry** | CEO / Chief AI Officer | Active (me) |
-| **Arjun** | Head of Sales & Pipeline | Pending setup |
-| **Dev** | Founding Engineer | Needs to be hired |
-| **Dave** | DevOps/Backend Agent | To be deployed |
-| **Kyle** | Frontend/Web Agent | To be deployed |
-| **Marcus** | Mobile App Agent | To be deployed |
-| **Tyler** | Marketing/SEO Agent | To be deployed |
-| **Ryan** | Research Agent | To be deployed |
+| **Henry** | CEO / Chief AI Officer | Active |
+| **Ryan** | Sales | Active / structured |
+| **Arjun** | Research | Active / structured |
+| **Dev** | Founding Engineer | Active / structured |
+| **Dave** | DevOps / Backend | Active / structured |
+| **Kyle** | Frontend / Web | Active / structured |
+| **Tyler** | Marketing / SEO | Active / structured |
+| **Marcus** | Mobile App Agent | Future / not onboarded |
+
+### Current Reporting Structure
+- Henry
+  - Ryan
+  - Arjun
+  - Dev
+    - Dave
+    - Kyle
+  - Tyler
 
 ### Agent Templates Source
 - **agency-agents** (msitarzewski): 25+ pre-built agent personas
@@ -246,8 +255,9 @@ When production-ready, provides:
 ## 📅 NEXT ACTIONS
 
 ### Immediate (This Session)
-- [ ] Get Notion page ID from Pulkit
-- [ ] Push documentation to Notion
+- [x] Get Notion page ID from Pulkit
+- [x] Push operating documentation to Notion
+- [x] Create structured agent role files in workspace
 - [ ] Start Phase 1: Core Layer Installation
   - [ ] Install MetaClaw
   - [ ] Install agency-agents
@@ -272,6 +282,16 @@ When production-ready, provides:
 
 ---
 
+## 🧠 CURRENT OPERATING STATE
+
+- Workspace folder is still named `arjun`, but operationally this is now the main **Henry / ClawOps HQ** workspace.
+- The org role swap is now official: **Ryan = Sales** and **Arjun = Research**.
+- A dedicated operating doc exists locally at `docs/CLAWOPS-STUDIO-OPERATING-SYSTEM.md`.
+- Structured agent files now exist under `agents/` for Henry, Ryan, Arjun, Dev, Dave, Kyle, and Tyler.
+- The operating doc was pushed to Notion under the page:
+  - `https://www.notion.so/ClawOps-Studio-Operating-System-330be54579ac81e89021c78c2a227f05`
+- `openrouter/auto` was removed from live OpenClaw config and the global primary model was switched to `openai-codex/gpt-5.4`.
+
 ## 🗺️ VISION & GOALS
 
 **Goal:** 95% automation - client signs up, pays, fills form → fully deployed AI team
@@ -290,4 +310,4 @@ When production-ready, provides:
 
 ---
 
-*Last memory update: 2026-03-27 by Henry (CEO Agent)*
+*Last memory update: 2026-03-27 by Henry (CEO Agent) — org roles, workspace identity, Notion doc push, and model policy refreshed.*
