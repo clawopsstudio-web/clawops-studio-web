@@ -297,6 +297,7 @@ When production-ready, provides:
 - Ryan is confirmed live in Paperclip and no longer pending.
 - `openrouter/auto` was removed from live OpenClaw config and the global primary model was switched to `openai-codex/gpt-5.4`.
 - Cost-heavy `opencode-go/kimi-k2.5` and `opencode-go/glm-5` were then removed from the default allowlist/fallback set, leaving the budget-first model stack in place.
+- A formal `docs/AGENT-OPERATING-SPEC.md` was created to freeze the 7-agent operating design: roles, missions, model policy, tool patterns, external systems, and the stance that Paperclip stays in internal infra while MetaClaw + HiClaw remain part of the architecture direction.
 
 ## 🗺️ VISION & GOALS
 
