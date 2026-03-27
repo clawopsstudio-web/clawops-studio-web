@@ -291,6 +291,7 @@ When production-ready, provides:
 - The operating doc was pushed to Notion under the page:
   - `https://www.notion.so/ClawOps-Studio-Operating-System-330be54579ac81e89021c78c2a227f05`
 - A full Notion agent directory plus individual pages for Henry, Ryan, Arjun, Dev, Dave, Kyle, and Tyler now exists.
+- A Notion HQ dashboard now exists with 3 core operational databases: Sales Pipeline, Research Queue, and Build / Ops Tasks.
 - `openrouter/auto` was removed from live OpenClaw config and the global primary model was switched to `openai-codex/gpt-5.4`.
 
 ## 🗺️ VISION & GOALS

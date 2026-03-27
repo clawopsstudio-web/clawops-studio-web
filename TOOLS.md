@@ -65,8 +65,13 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 
 ### Notion
 - Parent page ID: `330be54579ac8064800ff45210674b55`
+- HQ dashboard page: `https://www.notion.so/ClawOps-HQ-Dashboard-330be54579ac81148dacc9246c0bbdd8`
 - Operating doc page: `https://www.notion.so/ClawOps-Studio-Operating-System-330be54579ac81e89021c78c2a227f05`
 - Agent directory page: `https://www.notion.so/ClawOps-Studio-Agent-Directory-330be54579ac817ab5efeda3c4cc70c7`
+- Core databases:
+  - Sales Pipeline: `https://www.notion.so/a2f094ae3127483a800c29e20e39707a`
+  - Research Queue: `https://www.notion.so/efc14d2482834a98a0116f3d5318884f`
+  - Build / Ops Tasks: `https://www.notion.so/7f4cb17f3ab34547a9051341f38d9c13`
 - Local Notion link index: `docs/NOTION-INDEX.md`
 - Notion MCP config file: `config/mcporter.json`
 
