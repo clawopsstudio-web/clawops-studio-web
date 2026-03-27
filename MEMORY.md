@@ -296,6 +296,7 @@ When production-ready, provides:
 - Henry's trailing-space name issue was fixed, missing titles were added, Arjun was corrected to Research, and all live agent gateway URLs were standardized to `ws://100.78.128.98:18789/`.
 - Ryan is confirmed live in Paperclip and no longer pending.
 - `openrouter/auto` was removed from live OpenClaw config and the global primary model was switched to `openai-codex/gpt-5.4`.
+- Cost-heavy `opencode-go/kimi-k2.5` and `opencode-go/glm-5` were then removed from the default allowlist/fallback set, leaving the budget-first model stack in place.
 
 ## 🗺️ VISION & GOALS
 
