@@ -35,6 +35,13 @@
 - Docker
 - Playwright + Chrome
 - n8n
+- MetaClaw (v0.4.1) - agent auto-improvement
+- HiClaw (v1.0.8) - multi-agent collaboration via Matrix
+  - Manager API: http://127.0.0.1:18080
+  - Higress Console: http://127.0.0.1:18001
+  - Element Web (Matrix client): http://127.0.0.1:18088
+  - LLM: OpenRouter (z-ai/glm-4.5-air:free, free models only)
+  - Admin: admin / ClawOps2026!
 
 ### Multi-Channel + Multi-Model Infrastructure (ROADMAP)
 - **Channels:** Telegram, Discord, WhatsApp (all synced)
