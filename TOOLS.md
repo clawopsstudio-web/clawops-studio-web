@@ -66,6 +66,8 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 ### Notion
 - Parent page ID: `330be54579ac8064800ff45210674b55`
 - Operating doc page: `https://www.notion.so/ClawOps-Studio-Operating-System-330be54579ac81e89021c78c2a227f05`
+- Agent directory page: `https://www.notion.so/ClawOps-Studio-Agent-Directory-330be54579ac817ab5efeda3c4cc70c7`
+- Local Notion link index: `docs/NOTION-INDEX.md`
 - Notion MCP config file: `config/mcporter.json`
 
 Add whatever helps you do your job. This is your cheat sheet.
