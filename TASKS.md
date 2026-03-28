@@ -25,6 +25,11 @@ Priority legend:
 5. Use HiClaw / MetaClaw only where they add practical value now
 6. Decide whether LobsterBoard is needed now or later
 7. Connect GoHighLevel (GHL)
+8. Set up tools, app access, and skills for each agent
+9. Start with Frontend lane: GitHub + Vercel deployment flow
+10. Set up backend baseline (Supabase or insforge.dev)
+11. Build 1-click Contabo deployment + profile-based stack shaping
+12. Start outbound validation and content engine (social outreach + X build-in-public)
 
 ---
 
@@ -62,6 +67,16 @@ Priority legend:
     - cron plan exists
   - Next action: done for files; next is wiring execution behavior into heartbeat/cron safely
 
+- [TODO] **Set up per-agent tools, app access, and skills**
+  - Owner: Henry
+  - Goal: give each lane the minimum working stack needed to execute without babysitting
+  - Definition of done:
+    - tool map exists for all 7 agents
+    - each agent has a preferred execution path documented (direct API, MCP, n8n, browser automation)
+    - required credentials/app access list is documented
+    - first high-value tool is connected per agent where possible
+  - Next action: create an agent tooling matrix and start with Frontend, Sales, and Research
+
 ### P1 — Automation / Delivery
 
 - [TODO] **Set recurring executive checks**
@@ -96,6 +111,45 @@ Priority legend:
     - yes-now / later decision documented
     - if yes, define exact purpose
   - Next action: treat as DEFERRED unless it directly helps sales or operations this week
+
+- [TODO] **Set up Frontend lane for shipping**
+  - Owner: Henry / Kyle
+  - Goal: make Frontend lane able to ship web work with version control and deployment
+  - Definition of done:
+    - GitHub workflow is chosen
+    - repo access path is defined
+    - Vercel deployment path is defined
+    - first deploy flow is tested
+  - Next action: document exact GitHub + Vercel access requirements and first deployment target
+
+- [TODO] **Set backend baseline (Supabase or insforge.dev)**
+  - Owner: Henry / Dev / Dave
+  - Goal: choose the default backend stack for client systems and internal productization
+  - Definition of done:
+    - default backend decision made
+    - rationale documented
+    - first working baseline scaffold defined
+  - Next action: compare Supabase vs insforge.dev against speed, automation, and deployment fit
+
+- [TODO] **Build 1-click Contabo deployment path**
+  - Owner: Henry / Dev / Dave
+  - Goal: provision VPS + install stack + shape agent system from a client business profile/persona
+  - Definition of done:
+    - Contabo API flow is documented
+    - onboarding inputs are defined
+    - stack generation plan exists
+    - first deployment pipeline skeleton exists
+  - Next action: define required onboarding fields and deployment stages from form -> VPS -> stack -> agent setup
+
+- [TODO] **Create outbound validation engine**
+  - Owner: Henry / Ryan / Tyler
+  - Goal: generate early momentum and validate the $399/mo offer
+  - Definition of done:
+    - target channels chosen (Facebook groups, Skool, LinkedIn, X)
+    - outreach/content cadence defined
+    - offer positioning drafted
+    - first batch of posts/outreach drafts prepared
+  - Next action: draft the validation offer and a 7-day outreach/content plan
 
 ### P2 — Structure / Documentation
 
