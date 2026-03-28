@@ -45,7 +45,7 @@ Priority legend:
     - each lane responds to a test prompt
     - safe trigger pattern is documented
     - known limitations are documented (especially topic isolation)
-  - Next action: run one validation sweep across all lanes and record what works vs fails
+  - Next action: run the one-pass sweep in `docs/TELEGRAM-LANE-SWEEP.md` and record PASS / PARTIAL / FAIL for each non-HQ lane
 
 - [DOING] **Connect GoHighLevel (GHL)**
   - Owner: Henry
