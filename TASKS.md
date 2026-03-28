@@ -37,7 +37,7 @@ Priority legend:
 
 ### P0 — Revenue / Operating Core
 
-- [TODO] **Stabilize Telegram lane operations**
+- [DOING] **Stabilize Telegram lane operations**
   - Owner: Henry
   - Goal: confirm HQ, Sales, Research, Dev, DevOps, Frontend, Marketing all operate cleanly in Telegram topics
   - Definition of done:
