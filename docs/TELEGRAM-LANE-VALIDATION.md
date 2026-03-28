@@ -174,3 +174,8 @@ Do claim:
 ## Next Step
 
 Run a single clean validation sweep across all non-HQ lanes and record pass/partial/fail honestly.
+
+After the sweep:
+1. wire GHL for Ryan / Henry using the safe env path in `docs/GHL-SETUP.md`
+2. keep lane stabilization first; do not let CRM setup turn into a rabbit hole
+3. use Supabase as the backend baseline when the backend lane work starts

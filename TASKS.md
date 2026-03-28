@@ -47,7 +47,7 @@ Priority legend:
     - known limitations are documented (especially topic isolation)
   - Next action: run one validation sweep across all lanes and record what works vs fails
 
-- [TODO] **Connect GoHighLevel (GHL)**
+- [DOING] **Connect GoHighLevel (GHL)**
   - Owner: Henry
   - Goal: get CRM connectivity working for pipeline, contacts, opportunities, and follow-up workflows
   - Definition of done:
@@ -55,7 +55,7 @@ Priority legend:
     - credentials requirements documented
     - working connection test completed
     - first useful workflow identified
-  - Next action: verify best integration path (skill vs MCP vs API) and required credentials
+  - Next action: add `GHL_API_KEY` + `GHL_LOCATION_ID` safely through local secrets/env, then run a harmless first test (`pipelines list` or `contacts list`)
 
 - [TODO] **Create autonomy system v1**
   - Owner: Henry
@@ -122,14 +122,14 @@ Priority legend:
     - first deploy flow is tested
   - Next action: document exact GitHub + Vercel access requirements and first deployment target
 
-- [TODO] **Set backend baseline (Supabase or insforge.dev)**
+- [DOING] **Set backend baseline (Supabase)**
   - Owner: Henry / Dev / Dave
-  - Goal: choose the default backend stack for client systems and internal productization
+  - Goal: use Supabase as the default backend stack for client systems and internal productization
   - Definition of done:
-    - default backend decision made
-    - rationale documented
+    - Supabase credentials/access path documented
     - first working baseline scaffold defined
-  - Next action: compare Supabase vs insforge.dev against speed, automation, and deployment fit
+    - initial schema/storage/auth approach chosen
+  - Next action: document required Supabase env/access and define the first baseline use case for ClawOps
 
 - [TODO] **Build 1-click Contabo deployment path**
   - Owner: Henry / Dev / Dave

@@ -113,7 +113,7 @@ Use browser automation only when the platform forces it.
 - Docker
 - Tailscale
 - OpenClaw config/runtime
-- backend provider (Supabase or insforge.dev)
+- Supabase
 - logs and service health
 
 ### Preferred execution
@@ -173,7 +173,7 @@ Use browser automation only when the platform forces it.
 1. GoHighLevel
 2. GitHub
 3. Vercel
-4. backend baseline (Supabase or insforge.dev)
+4. backend baseline (Supabase)
 5. Contabo API
 
 ### Tier 2 — connect after core is stable
