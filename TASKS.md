@@ -55,9 +55,10 @@ Priority legend:
     - credentials requirements documented
     - working connection test completed
     - first useful workflow identified
+  - Current state: `ghl-crm` skill is present and understood; runtime credentials are still missing
   - Next action: add `GHL_API_KEY` + `GHL_LOCATION_ID` safely through local secrets/env, then run a harmless first test (`pipelines list` or `contacts list`)
 
-- [TODO] **Create autonomy system v1**
+- [DOING] **Create autonomy system v1**
   - Owner: Henry
   - Goal: stop needing constant manual prompting from Pulkit
   - Definition of done:
@@ -65,7 +66,9 @@ Priority legend:
     - AUTONOMY-RULES.md exists
     - recurring checks are defined
     - cron plan exists
-  - Next action: done for files; next is wiring execution behavior into heartbeat/cron safely
+    - HQ cron jobs deliver into HQ topic
+    - 7 core agents have quiet lane heartbeats
+  - Next action: verify live behavior in Telegram over 1-2 days, then tighten prompts/frequency based on signal quality
 
 - [TODO] **Set up per-agent tools, app access, and skills**
   - Owner: Henry
@@ -79,21 +82,23 @@ Priority legend:
 
 ### P1 — Automation / Delivery
 
-- [TODO] **Set recurring executive checks**
+- [DOING] **Set recurring executive checks**
   - Owner: Henry
   - Goal: automatic reviews of pipeline, blockers, and system status
   - Definition of done:
     - morning review cadence defined
     - follow-up sweep cadence defined
     - end-of-day summary cadence defined
-  - Next action: implement via HEARTBEAT.md and/or cron schedule
+    - HQ topic receives the updates reliably
+  - Next action: watch for timeout/noise failure modes and trim prompts if needed
 
-- [TODO] **Use HiClaw in a narrow, practical way**
+- [DOING] **Use HiClaw in a narrow, practical way**
   - Owner: Henry
   - Goal: test whether HiClaw adds useful agent-to-agent coordination without becoming overhead
   - Definition of done:
     - one real collaboration use case chosen
     - clear keep-or-skip decision made
+  - Current state: HiClaw services are live locally (manager, console, matrix web)
   - Next action: define one lightweight pilot use case tied to Telegram lane work
 
 - [TODO] **Use MetaClaw as an improvement loop, not a blocker**
@@ -102,6 +107,7 @@ Priority legend:
   - Definition of done:
     - one repeatable failure/improvement loop chosen
     - one workflow selected for optimization
+  - Current state: MetaClaw plugin/storage is active; no focused improvement loop selected yet
   - Next action: pick a single target workflow (e.g. Telegram lane reliability, onboarding, or lead follow-up)
 
 - [TODO] **Decide LobsterBoard timing**
@@ -129,7 +135,19 @@ Priority legend:
     - Supabase credentials/access path documented
     - first working baseline scaffold defined
     - initial schema/storage/auth approach chosen
+  - Current state: Supabase is still the chosen backend direction; launch architecture needs freezing next
   - Next action: document required Supabase env/access and define the first baseline use case for ClawOps
+
+- [DOING] **Bring DeerFlow online intentionally**
+  - Owner: Henry / Arjun
+  - Goal: make DeerFlow available as a usable research/workflow service rather than a dormant repo
+  - Definition of done:
+    - local service is up
+    - access URL is recorded
+    - use case is defined
+    - keep-or-skip decision is made
+  - Current state: DeerFlow Docker stack is live locally at `http://127.0.0.1:2026`
+  - Next action: define one concrete use case and decide whether to expose it beyond local access
 
 - [TODO] **Build 1-click Contabo deployment path**
   - Owner: Henry / Dev / Dave
