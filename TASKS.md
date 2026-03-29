@@ -55,8 +55,8 @@ Priority legend:
     - credentials requirements documented
     - working connection test completed
     - first useful workflow identified
-  - Current state: `ghl-crm` skill is present and understood; runtime credentials are still missing
-  - Next action: add `GHL_API_KEY` + `GHL_LOCATION_ID` safely through local secrets/env, then run a harmless first test (`pipelines list` or `contacts list`)
+  - Current state: `ghl-crm` skill is present; credentials exist in local secrets; raw API attempts returned Cloudflare 403; MCP discovery/handshake works but tool calls are not yet reliably completing
+  - Next action: run a controlled read-only MCP call (`locations_get-location` / `opportunities_get-pipelines`) and capture success/fail with exact error class, then lock the working path
 
 - [DOING] **Create autonomy system v1**
   - Owner: Henry
