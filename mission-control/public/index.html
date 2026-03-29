@@ -9,8 +9,9 @@
 <body>
   <header class="topbar">
     <div>
-      <h1>ClawOps Mission Control</h1>
-      <p class="sub">Mission board + executive panel for Henry / ClawOps HQ</p>
+      <p class="eyebrow">ClawOps HQ</p>
+      <h1>Mission Control</h1>
+      <p class="sub">Structured ops cockpit for Henry — focused, mobile-friendly, and execution-first.</p>
     </div>
     <div class="actions">
       <button id="refreshBtn">Refresh</button>
@@ -19,43 +20,112 @@
   </header>
 
   <main>
+    <section class="hero panel">
+      <div>
+        <p class="eyebrow">What matters now</p>
+        <h2 id="headline">Loading executive snapshot…</h2>
+        <p id="heroSub" class="hero-sub"></p>
+      </div>
+      <div class="hero-actions" id="heroActions"></div>
+    </section>
+
     <section class="stats" id="stats"></section>
 
-    <section class="panel-grid">
-      <article class="panel">
-        <h2>Next 3 Moves</h2>
-        <ol id="nextMoves"></ol>
+    <section class="priority-grid">
+      <article class="panel focus-panel">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Immediate</p>
+            <h2>Top Priorities</h2>
+          </div>
+        </div>
+        <div id="topPriorities" class="priority-list"></div>
       </article>
-      <article class="panel">
-        <h2>System Snapshot</h2>
-        <div id="systemSnapshot" class="compact-list"></div>
+
+      <article class="panel blockers-panel">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Watchlist</p>
+            <h2>Blockers / Risks</h2>
+          </div>
+        </div>
+        <div id="blockers" class="priority-list"></div>
       </article>
+    </section>
+
+    <section class="panel-grid upper-grid">
       <article class="panel">
-        <h2>Agent Routing</h2>
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Execution</p>
+            <h2>Next 3 Moves</h2>
+          </div>
+        </div>
+        <ol id="nextMoves" class="clean-list"></ol>
+      </article>
+
+      <article class="panel">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Routing</p>
+            <h2>Agent & Lane Routing</h2>
+          </div>
+        </div>
         <div id="agentBindings" class="compact-list"></div>
       </article>
-      <article class="panel">
-        <h2>Notion Assets</h2>
-        <div id="notionAssets" class="compact-list"></div>
-      </article>
     </section>
 
-    <section class="board-wrap">
-      <div class="board-header">
-        <h2>Mission Board</h2>
-        <p>Source of truth: local docs + TASKS.md + live OpenClaw config</p>
+    <section class="board-wrap panel">
+      <div class="section-head board-section-head">
+        <div>
+          <p class="eyebrow">Operations Board</p>
+          <h2>Mission Board</h2>
+          <p class="muted">Source of truth: local docs, TASKS.md, and live OpenClaw config.</p>
+        </div>
       </div>
-      <div class="board" id="board"></div>
+      <div class="board board-primary" id="boardPrimary"></div>
+      <div class="board board-secondary" id="boardSecondary"></div>
     </section>
 
-    <section class="panel-grid lower">
+    <section class="panel-grid lower-grid">
+      <article class="panel">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Systems</p>
+            <h2>System Snapshot</h2>
+          </div>
+        </div>
+        <div id="systemSnapshot" class="compact-list"></div>
+      </article>
+
+      <article class="panel">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Stack</p>
+            <h2>Integrations / Apps</h2>
+          </div>
+        </div>
+        <div id="integrations" class="tableish"></div>
+      </article>
+
       <article class="panel wide">
-        <h2>Telegram Lanes</h2>
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Operating Surface</p>
+            <h2>Telegram Lanes</h2>
+          </div>
+        </div>
         <div id="lanes" class="tableish"></div>
       </article>
+
       <article class="panel wide">
-        <h2>Integrations / Apps</h2>
-        <div id="integrations" class="tableish"></div>
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Reference</p>
+            <h2>Notion Assets</h2>
+          </div>
+        </div>
+        <div id="notionAssets" class="compact-list two-col"></div>
       </article>
     </section>
   </main>
