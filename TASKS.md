@@ -70,7 +70,7 @@ Priority legend:
     - 7 core agents have quiet lane heartbeats
   - Next action: verify live behavior in Telegram over 1-2 days, then tighten prompts/frequency based on signal quality
 
-- [TODO] **Set up per-agent tools, app access, and skills**
+- [DOING] **Set up per-agent tools, app access, and skills**
   - Owner: Henry
   - Goal: give each lane the minimum working stack needed to execute without babysitting
   - Definition of done:
@@ -78,7 +78,7 @@ Priority legend:
     - each agent has a preferred execution path documented (direct API, MCP, n8n, browser automation)
     - required credentials/app access list is documented
     - first high-value tool is connected per agent where possible
-  - Next action: create an agent tooling matrix and start with Frontend, Sales, and Research
+  - Next action: tooling matrix created in `docs/AGENT-TOOLING-MATRIX.md`; now run tool verification in order: Frontend (GitHub→Vercel), Sales (GHL read-only), Research (DeerFlow brief)
 
 ### P1 — Automation / Delivery
 
@@ -138,16 +138,17 @@ Priority legend:
   - Current state: Supabase is still the chosen backend direction; launch architecture needs freezing next
   - Next action: document required Supabase env/access and define the first baseline use case for ClawOps
 
-- [DOING] **Bring DeerFlow online intentionally**
+- [DOING] **Arjun + DeerFlow research integration**
   - Owner: Henry / Arjun
-  - Goal: make DeerFlow available as a usable research/workflow service rather than a dormant repo
+  - Goal: make DeerFlow available as a usable research/workflow service for Arjun's research lane
   - Definition of done:
-    - local service is up
-    - access URL is recorded
-    - use case is defined
-    - keep-or-skip decision is made
-  - Current state: DeerFlow Docker stack is live locally at `http://127.0.0.1:2026`
-  - Next action: define one concrete use case and decide whether to expose it beyond local access
+    - local service is up ✅
+    - access URL: `http://127.0.0.1:2026` ✅
+    - model: GLM-4 Flash (OpenRouter free) ✅
+    - security fix applied ✅
+    - integration docs created ✅
+  - Current state: DeerFlow 2.0 running at `http://127.0.0.1:2026` with GLM-4 Flash model. Available for Arjun to use for deep research tasks.
+  - Next action: test first research task (prospect company analysis or market intel brief)
 
 - [TODO] **Build 1-click Contabo deployment path**
   - Owner: Henry / Dev / Dave
