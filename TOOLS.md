@@ -27,6 +27,10 @@ Things like:
 
 ### TTS
 
+- Telegram voice-note format: **Raw OGG**
+- OpenAI TTS preferred voice: **alloy**
+- Voice style: **male, friendly, soothing**
+- Low-latency default: **short replies first, no unnecessary checks, voice only when useful/requested**
 - Preferred voice: "Nova" (warm, slightly British)
 - Default speaker: Kitchen HomePod
 ```
