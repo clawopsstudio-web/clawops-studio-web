@@ -6,10 +6,21 @@ const statusTitles = {
   DEFERRED: 'Deferred'
 };
 
+let loading = false;
+
 async function load() {
-  const res = await fetch('./api/state', { cache: 'no-store' });
-  const state = await res.json();
-  render(state);
+  if (loading) return;
+  loading = true;
+  try {
+    const res = await fetch('./api/state', { cache: 'no-store' });
+    const state = await res.json();
+    render(state);
+    const ts = state?.generatedAt ? new Date(state.generatedAt) : new Date();
+    const el = document.getElementById('lastUpdated');
+    if (el) el.textContent = `Last updated: ${ts.toLocaleTimeString()}`;
+  } finally {
+    loading = false;
+  }
 }
 
 function chip(text, className = '') {
@@ -152,3 +163,6 @@ document.getElementById('refreshBtn').addEventListener('click', load);
 load().catch(err => {
   document.body.innerHTML = `<pre style="padding:20px;color:#fff">Failed to load Mission Control: ${err.message}</pre>`;
 });
+setInterval(() => {
+  load().catch(() => {});
+}, 30000);
