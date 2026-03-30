@@ -84,7 +84,8 @@ Priority legend:
     - each agent has a preferred execution path documented (direct API, MCP, n8n, browser automation)
     - required credentials/app access list is documented
     - first high-value tool is connected per agent where possible
-  - Next action: tooling matrix created in `docs/AGENT-TOOLING-MATRIX.md`; Sales is now validated. Frontend is in progress: Kyle confirmed GitHub access but Vercel CLI is not authenticated yet, so next step is to choose the target web repo and run the smallest safe Vercel auth/link check. After that, continue with Research (DeerFlow brief)
+  - Current truth: tooling matrix refreshed in `docs/AGENT-TOOLING-MATRIX.md`. Sales is validated. Frontend path is clarified: GitHub works, test repo is populated, Kyle confirmed Vercel suitability, but `vercel link` is blocked in this shell by missing Vercel auth/network. Lane sweep is operationally good enough.
+  - Next action: move immediately to Research (real DeerFlow brief), then Backend/DevOps baseline, then lock Ryan's recurring operating loop. Defer Vercel login/link until authenticated runtime is available.
 
 ### P1 — Automation / Delivery
 

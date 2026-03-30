@@ -85,7 +85,7 @@ Client Operates via Telegram / Dashboard
 | **LobsterBoard** | ✅ Installed | Client-facing dashboard |
 | **Mission Control** | ✅ Running on systemd | Internal HQ dashboard at `/dashboard/` via Tailscale |
 | **GitHub** | ✅ Connected (clawopsstudio-web) | Version control — repo: clawopsstudio-web/skills |
-| **Vercel** | ❌ Not connected | Deployment for Kyle |
+| **Vercel** | ❌ Not connected in current shell | Deployment for Kyle; repo/test path verified but auth still missing here |
 
 ---
 
