@@ -24,6 +24,16 @@ Current v1 is read-only and file-backed. Update these files and refresh the page
 - `docs/NOTION-INDEX.md`
 - `~/.openclaw/openclaw.json`
 
+## Sync rule
+Mission Control must stay aligned with real operating progress.
+
+That means:
+- whenever task status changes, update `TASKS.md`
+- whenever infrastructure/runtime truth changes, update `docs/SYSTEM-OVERVIEW.md`
+- whenever routing/models/heartbeats change, update `~/.openclaw/openclaw.json` or the relevant docs
+- the UI auto-refreshes every 30 seconds, so file updates should appear automatically without manual redeploy
+- chat updates alone do **not** count as sync; source-of-truth files must be updated
+
 ## Next likely upgrades
 1. Inline task editing
 2. Notion sync for selected boards

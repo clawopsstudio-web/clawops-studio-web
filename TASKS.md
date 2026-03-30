@@ -71,7 +71,8 @@ Priority legend:
     - cron plan exists
     - HQ cron jobs deliver into HQ topic
     - 7 core agents have quiet lane heartbeats
-  - Next action: verify live behavior in Telegram over 1-2 days, then tighten prompts/frequency based on signal quality
+    - Mission Control stays synced from source-of-truth files as work progresses
+  - Next action: verify live behavior in Telegram over 1-2 days, then tighten prompts/frequency based on signal quality while keeping Mission Control synced to actual progress
 
 - [DOING] **Set up per-agent tools, app access, and skills**
   - Owner: Henry

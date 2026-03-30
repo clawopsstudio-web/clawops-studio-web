@@ -96,7 +96,18 @@ Client Operates via Telegram / Dashboard
 - Restarts automatically on failure
 - Local URL: `http://127.0.0.1:8082/`
 - Tailscale URL: `https://vmi3094584-1.tailec7a72.ts.net/dashboard/`
+- UI auto-refreshes every 30 seconds
 - If the dashboard looks stale, hard refresh once before treating it as down
+
+## 🔄 Mission Control Sync Rule
+
+Mission Control is only trustworthy if source-of-truth files are kept current.
+
+Required behavior:
+- update `TASKS.md` whenever status/progress changes
+- update `docs/SYSTEM-OVERVIEW.md` whenever system/runtime truth changes
+- keep config-backed routing/model changes reflected in `~/.openclaw/openclaw.json`
+- do not treat chat-only updates as board sync
 
 ## 🛠️ Tools & Skills Available
 
