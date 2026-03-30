@@ -61,7 +61,7 @@ Client Operates via Telegram / Dashboard
 | HQ / Command | Henry | 21 | gpt-5.4 | Executive synthesis, routing, priorities |
 | Sales / Pipeline | Ryan | 25 | nemotron-3-super (free) | Outreach, follow-up, pipeline |
 | Research / Intel | Arjun | 26 | minimax-m2.5 (free) | Market intel, prospect research |
-| Founding Engineer | Dev | 27 | minimax-m2.7 | Client deployment architecture |
+| Founding Engineer | Andrew (`dev`) | 27 | minimax-m2.7 | Client deployment architecture |
 | DevOps / Backend | Dave | 29 | gpt-5.3-codex | Infrastructure, reliability |
 | Frontend / Web | Kyle | 30 | gemini-3.1-flash-lite | Websites, dashboards |
 | Marketing / SEO | Tyler | 31 | glm-4.7-flash | Content, SEO, GEO, positioning |
@@ -126,10 +126,10 @@ Client Operates via Telegram / Dashboard
 
 | Task | Status | Owner | Blocker |
 |------|--------|-------|---------|
-| **Telegram lane sweep** | 🔄 Partial | Henry | HQ validated ✅, 6 lanes NOT YET RE-VERIFIED |
+| **Telegram lane sweep** | ✅ Done enough to operate | Henry | Remaining caveat: topic isolation / long-run reliability not fully proven |
 | **GHL connection** | ⚠️ Credentials exist, NOT tested | Henry | MCP working, raw API returns 403 — needs debug |
 | **Autonomy system** | 🔄 Running | Henry | Watch for timeout/noise |
-| **Agent tooling matrix** | ❌ Todo | Henry | Define tools per agent |
+| **Agent tooling matrix** | 🔄 In progress | Henry | Verify tools lane by lane |
 
 ### P1 — This Week
 

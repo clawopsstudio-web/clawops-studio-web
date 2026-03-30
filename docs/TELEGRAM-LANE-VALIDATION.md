@@ -146,16 +146,16 @@ Do claim:
 - Notes: reported by user as working after fresh session + activation always + pinned rules/tests
 
 ### Sales / Ryan
-- Status: PARTIAL
-- Notes: replied with a usable sales follow-up, but signed off as `Ryan (ClawOps Studio – Research & Intelligence)`, which confirms stale role/persona contamination. Activation-always behavior appears to work, but lane identity needed cleanup.
+- Status: PASS
+- Notes: stale research identity was corrected in workspace files, then retested successfully with a short sales follow-up prompt. Current lane behavior is in-role and operational.
 
 ### Research / Arjun
 - Status: PASS
 - Notes: no response on activation-always test; did respond correctly after explicit mention. Role behavior was strong and properly research-focused. Current safe trigger: mention/tag required.
 
-### Founding Engineer / Dev
+### Founding Engineer / Andrew (`dev`)
 - Status: PASS
-- Notes: replied without mention and stayed implementation-focused. Small stale-architecture drift appeared (Paperclip/Marcus references), but lane behavior is usable.
+- Notes: Dev/Dave wiring issue was found and corrected. Topic 27 now identifies cleanly as Andrew, Founding Engineer / Core Build, with no Dave/DevOps contamination in retest.
 
 ### DevOps / Dave
 - Status: PASS
@@ -167,15 +167,25 @@ Do claim:
 
 ### Marketing / Tyler
 - Status: PASS
-- Notes: replied without mention with useful X-post validation copy. Lane fit was good, but `[[tts]]` tags leaked into the output, so formatting/prompt hygiene needed cleanup.
+- Notes: lane fit is good and the earlier `[[tts]]` leakage was patched. Retest produced in-role marketing copy without voice tag contamination.
 
 ---
 
 ## Next Step
 
-Run a single clean validation sweep across all non-HQ lanes and record pass/partial/fail honestly.
+Telegram lane stabilization is complete enough for operations.
 
-After the sweep:
+What is verified:
+1. all non-HQ lanes responded in-role
+2. Ryan identity contamination was fixed
+3. Andrew / Dave separation is now clean
+4. Arjun is safest with mention/tag
+
+What remains unproven:
+1. full topic memory isolation
+2. long-run autonomous reliability across all lanes
+
+Next P0:
 1. wire GHL for Ryan / Henry using the safe env path in `docs/GHL-SETUP.md`
-2. keep lane stabilization first; do not let CRM setup turn into a rabbit hole
+2. keep CRM validation controlled and read-only first
 3. use Supabase as the backend baseline when the backend lane work starts

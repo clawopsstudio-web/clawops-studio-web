@@ -37,16 +37,18 @@ Priority legend:
 
 ### P0 — Revenue / Operating Core
 
-- [DOING] **Stabilize Telegram lane operations**
+- [DONE] **Stabilize Telegram lane operations**
   - Owner: Henry
-  - Goal: confirm HQ, Sales, Research, Dev, DevOps, Frontend, Marketing all operate cleanly in Telegram topics
+  - Goal: confirm HQ, Sales, Research, Founding Engineer, DevOps, Frontend, Marketing all operate cleanly in Telegram topics
   - Definition of done:
     - each lane has pinned role/rules text
     - each lane responds to a test prompt
     - safe trigger pattern is documented
     - known limitations are documented (especially topic isolation)
-  - Current sweep result: Ryan = PARTIAL, Arjun = PASS (mention required), Dev = PASS, Dave = PASS, Kyle = PASS, Tyler = PASS (formatting cleanup needed)
-  - Next action: patch Ryan lane identity, patch Tyler TTS leakage, then keep mention as the safe fallback where activation-always is not proven
+  - Final sweep result: Ryan = PASS, Arjun = PASS (mention safest), Andrew / Founding Engineer = PASS, Dave = PASS, Kyle = PASS, Tyler = PASS
+  - Notes: Ryan stale identity fixed, Tyler TTS leakage fixed, and Dev/Dave split cleaned so topic 27 is Andrew (Founding Engineer) while topic 29 remains Dave (DevOps / Backend)
+  - Remaining caveat: topic memory isolation and long-run autonomous reliability are still not fully proven, but lane behavior is operationally good enough to proceed
+  - Next action: move to GHL read-only validation as the next P0 blocker
 
 - [DOING] **Connect GoHighLevel (GHL)**
   - Owner: Henry
