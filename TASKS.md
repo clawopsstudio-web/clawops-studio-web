@@ -59,7 +59,7 @@ Priority legend:
     - working connection test completed
     - first useful workflow identified
   - Current state: local secrets are present; raw API path still returns Cloudflare 403; MCP is now the validated path. Read-only MCP calls succeeded from the VPS for `locations_get-location`, `opportunities_get-pipelines`, `contacts_get-contacts`, and `opportunities_search-opportunity`. Contacts and pipelines are readable; the first opportunity search returned zero open opportunities.
-  - Next action: lock a safe reusable MCP execution path (without committing secrets), then define Ryan's first working CRM loop as contact triage / follow-up queue review before opportunity-stage automation
+  - Next action: safe reusable MCP execution path is now implemented via `scripts/ghl_mcp.sh`; use it to run Ryan's first working CRM loop: contact triage / follow-up queue review before opportunity-stage automation
 
 - [DOING] **Create autonomy system v1**
   - Owner: Henry

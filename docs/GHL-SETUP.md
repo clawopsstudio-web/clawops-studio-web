@@ -114,12 +114,30 @@ Current conclusion:
 - MCP is the working path for GHL from this machine
 - the safest first practical workflow is contact triage / follow-up review, not opportunity-stage automation yet
 
+## Safe reusable ops path
+
+Use the local wrapper:
+
+```bash
+cd /root/.openclaw/workspaces/arjun
+scripts/ghl_mcp.sh health
+scripts/ghl_mcp.sh contacts 10
+scripts/ghl_mcp.sh triage 25
+```
+
+This path:
+- reads secrets from local `.secrets/ghl.env`
+- builds an ephemeral MCP config in `/tmp`
+- avoids committing secret-bearing server entries into tracked config
+- stays read-only by default
+
 ## After connection works
 
 Next useful sequence:
 1. inspect pipelines ✅
-2. inspect current contacts/opportunities
-3. decide first real workflow
+2. inspect current contacts/opportunities ✅
+3. run contact triage / follow-up review ✅
+4. decide first real workflow
    - new lead creation
    - pipeline movement
    - follow-up drafting
