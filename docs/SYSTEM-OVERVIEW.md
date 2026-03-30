@@ -83,10 +83,20 @@ Client Operates via Telegram / Dashboard
 | **GoHighLevel (GHL)** | ⚠️ Credentials exist, not fully tested | CRM — pipeline, contacts, opportunities |
 | **OpenRouter** | ✅ Connected | LLM models (free + paid) |
 | **LobsterBoard** | ✅ Installed | Client-facing dashboard |
+| **Mission Control** | ✅ Running on systemd | Internal HQ dashboard at `/dashboard/` via Tailscale |
 | **GitHub** | ✅ Connected (clawopsstudio-web) | Version control — repo: clawopsstudio-web/skills |
 | **Vercel** | ❌ Not connected | Deployment for Kyle |
 
 ---
+
+## 📌 Mission Control Durability
+
+- Service name: `mission-control.service`
+- Runs via systemd and is enabled at boot
+- Restarts automatically on failure
+- Local URL: `http://127.0.0.1:8082/`
+- Tailscale URL: `https://vmi3094584-1.tailec7a72.ts.net/dashboard/`
+- If the dashboard looks stale, hard refresh once before treating it as down
 
 ## 🛠️ Tools & Skills Available
 
