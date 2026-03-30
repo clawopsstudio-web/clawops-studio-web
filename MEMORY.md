@@ -282,7 +282,7 @@ When production-ready, provides:
 
 ---
 
-## 🧠 CURRENT OPERATING STATE (Updated 2026-03-29)
+## 🧠 CURRENT OPERATING STATE (Updated 2026-03-30)
 
 ### Session Context
 - Pulkit has given strict instruction: **always check docs/config files first, verify actual state, then respond. Do not hallucinate.**
@@ -301,16 +301,27 @@ When production-ready, provides:
 
 ### Telegram Lane Status
 - HQ (Henry) — Validated working ✅
-- All other lanes (Ryan, Arjun, Dev, Dave, Kyle, Tyler) — NOT YET RE-VERIFIED
+- Ryan — PASS ✅
+- Arjun — PASS ✅ (mention/tag is safest trigger)
+- Andrew / Founding Engineer — PASS ✅
+- Dave — PASS ✅
+- Kyle — PASS ✅
+- Tyler — PASS ✅
+- Honest caveat: full topic memory isolation and long-run autonomous reliability are still not proven
+
+### Durable Operating Pattern: Agent Tooling Matrix
+- Tooling matrix is now a core operating pattern for ClawOps and should be reusable for client deployments.
+- Purpose: map each agent to the minimum viable tools, actual verified access, preferred execution path (direct API → MCP → n8n → browser), blockers, and next validation step.
+- Reason it matters: this converts agents from personas into executable workers, prevents hallucinated capability, speeds up onboarding/debugging, and makes dashboards/docs reflect runtime truth.
+- Recommended future use: every client team should get a lightweight tooling matrix early so deployment moves faster and missing credentials/integrations surface immediately.
 
 ### What's LEFT to Do
-**PRIORITY: Build Agent Tooling Matrix**
-The infrastructure is ready. The remaining work is ASSIGNING tools to agents:
-1. Create tooling matrix (which agent uses which tool)
-2. Verify each agent can access their assigned tools
-3. Test tool access per agent
-4. Run Telegram lane sweep to validate lanes
-5. Connect Vercel for Kyle
+**PRIORITY: Execute the tooling matrix, not just document it**
+1. Run one real DeerFlow brief through Arjun
+2. Define one concise backend/devops reliability baseline for Dave
+3. Lock Ryan's recurring GHL operating loop
+4. Produce Tyler's first one-week validation content batch
+5. Defer Vercel link/login until authenticated runtime is available
 
 ### Key Files
 - `docs/SYSTEM-OVERVIEW.md` — Full system state (source of truth)
@@ -324,6 +335,7 @@ The infrastructure is ready. The remaining work is ASSIGNING tools to agents:
 2. Verify config files before claiming anything
 3. Don't hallucinate
 4. Start new session with tooling matrix focus
+5. Be thoughtful about priority, time cost, and when to cut a low-leverage thread early
 
 ### Org Structure (Confirmed)
 | Agent | Role | Lane |
@@ -354,4 +366,4 @@ The infrastructure is ready. The remaining work is ASSIGNING tools to agents:
 
 ---
 
-*Last memory update: 2026-03-27 by Henry (CEO Agent) — org roles, workspace identity, Notion doc push, and model policy refreshed.*
+*Last memory update: 2026-03-30 by Henry (CEO Agent) — tooling matrix adopted as a durable operating pattern, lane validation state refreshed, and tonight priorities tightened around execution instead of open loops.*
