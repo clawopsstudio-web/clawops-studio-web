@@ -42,7 +42,7 @@ Client Operates via Telegram / Dashboard
 | **Gateway** | ✅ Running (port 18789) | Agent communication |
 | **Tailscale** | ✅ Connected | VPN / remote access |
 | **Docker** | ✅ Running | Container runtime |
-| **Paperclip** | ⚠️ Deferred | Internal orchestration (deprioritized) |
+| **Paperclip** | ⚠️ Deferred / backlog | Internal orchestration (deprioritized) |
 | **MetaClaw** | ✅ Active | Self-improvement loop |
 | **HiClaw** | ✅ Running (local) | Multi-agent collaboration |
 | **DeerFlow** | ✅ Updated & Running | Deep research / workflow automation |
@@ -85,7 +85,7 @@ Client Operates via Telegram / Dashboard
 | **LobsterBoard** | ✅ Installed | Client-facing dashboard |
 | **Mission Control** | ✅ Running on systemd | Internal HQ dashboard at `/dashboard/` via Tailscale |
 | **GitHub** | ✅ Connected (clawopsstudio-web) | Version control — repo: clawopsstudio-web/skills |
-| **Vercel** | ❌ Not connected in current shell | Deployment for Kyle; repo/test path verified but auth still missing here |
+| **Vercel** | ⚠️ Deferred / backlog | Deployment for Kyle; repo/test path verified but auth still missing in current runtime |
 
 ---
 
@@ -136,7 +136,8 @@ Required behavior:
   - Element Web: `http://127.0.0.1:18088`
 - **DeerFlow 2.0** — Deep research, report generation
   - Running at: `http://127.0.0.1:2026`
-  - Model: GLM-4 Flash (OpenRouter free)
+  - Model path discovered: GLM-4 Flash via OpenRouter
+  - Current status: deferred/backlog until auth is fixed and one real revenue-useful brief succeeds
 - **LobsterBoard** — Client dashboard (60+ widgets)
 
 ---
@@ -157,8 +158,8 @@ Required behavior:
 | Task | Status | Owner |
 |------|--------|-------|
 | **HiClaw pilot** | 🔄 Defined | Henry |
-| **DeerFlow test** | 🔄 Ready to test | Arjun |
-| **GitHub + Vercel setup** | ❌ Todo | Kyle |
+| **DeerFlow test** | ⏸ Backlog / deferred | Arjun |
+| **GitHub + Vercel setup** | ⏸ Backlog / deferred | Kyle |
 | **Supabase backend** | ❌ Todo | Dev/Dave |
 | **1-click Contabo deploy** | ❌ Todo | Dev/Dave |
 

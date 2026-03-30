@@ -85,7 +85,7 @@ Priority legend:
     - required credentials/app access list is documented
     - first high-value tool is connected per agent where possible
   - Current truth: tooling matrix refreshed in `docs/AGENT-TOOLING-MATRIX.md`. Sales is validated. Frontend path is clarified: GitHub works, test repo is populated, Kyle confirmed Vercel suitability, but `vercel link` is blocked in this shell by missing Vercel auth/network. Lane sweep is operationally good enough.
-  - Next action: DeerFlow validation surfaced a real blocker — endpoint is up, but live research runs fail because DeerFlow's OpenRouter call returns `401 Missing Authentication header`. DeerFlow config has now been normalized to expect `OPENROUTER_API_KEY` explicitly instead of overloading `OPENAI_API_KEY`; set that env var in DeerFlow, restart the DeerFlow containers, then rerun the Research brief. After that, move to Backend/DevOps baseline, then lock Ryan's recurring operating loop. Defer Vercel login/link until authenticated runtime is available.
+  - Next action: keep the tooling matrix as the source of truth, but treat DeerFlow, Paperclip, and Vercel link as deferred backlog items for now. Move immediately to Backend/DevOps baseline, then lock Ryan's recurring operating loop, then produce Tyler's first 1-week content batch.
 
 ### P1 — Automation / Delivery
 
@@ -125,7 +125,7 @@ Priority legend:
     - if yes, define exact purpose
   - Next action: treat as DEFERRED unless it directly helps sales or operations this week
 
-- [TODO] **Set up Frontend lane for shipping**
+- [DEFERRED] **Set up Frontend lane for shipping**
   - Owner: Henry / Kyle
   - Goal: make Frontend lane able to ship web work with version control and deployment
   - Definition of done:
@@ -133,7 +133,8 @@ Priority legend:
     - repo access path is defined
     - Vercel deployment path is defined
     - first deploy flow is tested
-  - Next action: document exact GitHub + Vercel access requirements and first deployment target
+  - Current state: GitHub path works, test repo is populated, and Vercel suitability is confirmed; only Vercel auth/network in this runtime is missing.
+  - Next action: revisit later when an authenticated Vercel runtime is available, then complete `vercel link` and first deploy flow.
 
 - [DOING] **Set backend baseline (Supabase)**
   - Owner: Henry / Dev / Dave
@@ -145,17 +146,16 @@ Priority legend:
   - Current state: Supabase is still the chosen backend direction; launch architecture needs freezing next
   - Next action: document required Supabase env/access and define the first baseline use case for ClawOps
 
-- [DOING] **Arjun + DeerFlow research integration**
+- [DEFERRED] **Arjun + DeerFlow research integration**
   - Owner: Henry / Arjun
   - Goal: make DeerFlow available as a usable research/workflow service for Arjun's research lane
   - Definition of done:
     - local service is up ✅
     - access URL: `http://127.0.0.1:2026` ✅
-    - model: GLM-4 Flash (OpenRouter free) ✅
-    - security fix applied ✅
-    - integration docs created ✅
-  - Current state: DeerFlow 2.0 running at `http://127.0.0.1:2026` with GLM-4 Flash model. Available for Arjun to use for deep research tasks.
-  - Next action: test first research task (prospect company analysis or market intel brief)
+    - real research run succeeds end-to-end
+    - output is useful enough to justify keeping DeerFlow in the active stack
+  - Current state: service is reachable, but a real LangGraph run failed because DeerFlow's OpenRouter call returned `401 Missing Authentication header`. We are intentionally parking this until later instead of keeping it on tonight's critical path.
+  - Next action: revisit later, wire valid `OPENROUTER_API_KEY`, restart DeerFlow, and run one revenue-relevant research brief before promoting it back into active use.
 
 - [TODO] **Build 1-click Contabo deployment path**
   - Owner: Henry / Dev / Dave
@@ -182,6 +182,7 @@ Priority legend:
 - [DEFERRED] **Revisit Paperclip later**
   - Owner: Henry
   - Goal: restore it only after Telegram + tools + autonomy are working
+  - Current state: explicitly off the critical path; backlog only.
   - Next action: ignore for now unless it blocks live work
 
 ---
