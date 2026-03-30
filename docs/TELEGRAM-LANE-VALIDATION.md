@@ -146,28 +146,28 @@ Do claim:
 - Notes: reported by user as working after fresh session + activation always + pinned rules/tests
 
 ### Sales / Ryan
-- Status: NOT YET RE-VERIFIED
-- Notes:
+- Status: PARTIAL
+- Notes: replied with a usable sales follow-up, but signed off as `Ryan (ClawOps Studio – Research & Intelligence)`, which confirms stale role/persona contamination. Activation-always behavior appears to work, but lane identity needed cleanup.
 
 ### Research / Arjun
-- Status: NOT YET RE-VERIFIED
-- Notes:
+- Status: PASS
+- Notes: no response on activation-always test; did respond correctly after explicit mention. Role behavior was strong and properly research-focused. Current safe trigger: mention/tag required.
 
 ### Founding Engineer / Dev
-- Status: NOT YET RE-VERIFIED
-- Notes:
+- Status: PASS
+- Notes: replied without mention and stayed implementation-focused. Small stale-architecture drift appeared (Paperclip/Marcus references), but lane behavior is usable.
 
 ### DevOps / Dave
-- Status: NOT YET RE-VERIFIED
-- Notes:
+- Status: PASS
+- Notes: replied without mention and stayed clearly in infra/reliability lane. Activation always appears workable here.
 
 ### Frontend / Kyle
-- Status: NOT YET RE-VERIFIED
-- Notes:
+- Status: PASS
+- Notes: replied without mention with a clean GitHub→Vercel workflow answer. Good lane fit; no major drift observed.
 
 ### Marketing / Tyler
-- Status: NOT YET RE-VERIFIED
-- Notes:
+- Status: PASS
+- Notes: replied without mention with useful X-post validation copy. Lane fit was good, but `[[tts]]` tags leaked into the output, so formatting/prompt hygiene needed cleanup.
 
 ---
 

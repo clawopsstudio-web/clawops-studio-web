@@ -45,7 +45,8 @@ Priority legend:
     - each lane responds to a test prompt
     - safe trigger pattern is documented
     - known limitations are documented (especially topic isolation)
-  - Next action: run the one-pass sweep in `docs/TELEGRAM-LANE-SWEEP.md` and record PASS / PARTIAL / FAIL for each non-HQ lane
+  - Current sweep result: Ryan = PARTIAL, Arjun = PASS (mention required), Dev = PASS, Dave = PASS, Kyle = PASS, Tyler = PASS (formatting cleanup needed)
+  - Next action: patch Ryan lane identity, patch Tyler TTS leakage, then keep mention as the safe fallback where activation-always is not proven
 
 - [DOING] **Connect GoHighLevel (GHL)**
   - Owner: Henry
