@@ -101,10 +101,20 @@ These are safe read tests and should be the first check.
 
 ---
 
+## Read-only MCP status
+
+Verified from this VPS:
+- `locations_get-location` → success
+- `opportunities_get-pipelines` → success
+
+Current conclusion:
+- raw REST/API path is still not the preferred path here because it returned Cloudflare 403
+- MCP is the working path for GHL from this machine
+
 ## After connection works
 
 Next useful sequence:
-1. inspect pipelines
+1. inspect pipelines ✅
 2. inspect current contacts/opportunities
 3. decide first real workflow
    - new lead creation

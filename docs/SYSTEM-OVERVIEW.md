@@ -80,7 +80,7 @@ Client Operates via Telegram / Dashboard
 |-----|--------|---------|
 | **Telegram** | ✅ Live | Primary operating surface |
 | **Notion** | ✅ Connected | Docs, databases, HQ dashboard |
-| **GoHighLevel (GHL)** | ⚠️ Credentials exist, not fully tested | CRM — pipeline, contacts, opportunities |
+| **GoHighLevel (GHL)** | 🔄 MCP read-only validated | CRM — pipeline, contacts, opportunities |
 | **OpenRouter** | ✅ Connected | LLM models (free + paid) |
 | **LobsterBoard** | ✅ Installed | Client-facing dashboard |
 | **Mission Control** | ✅ Running on systemd | Internal HQ dashboard at `/dashboard/` via Tailscale |
@@ -148,7 +148,7 @@ Required behavior:
 | Task | Status | Owner | Blocker |
 |------|--------|-------|---------|
 | **Telegram lane sweep** | ✅ Done enough to operate | Henry | Remaining caveat: topic isolation / long-run reliability not fully proven |
-| **GHL connection** | ⚠️ Credentials exist, NOT tested | Henry | MCP working, raw API returns 403 — needs debug |
+| **GHL connection** | 🔄 Read-only MCP validated | Henry | Raw API path still returns 403; next step is reusable safe MCP workflow |
 | **Autonomy system** | 🔄 Running | Henry | Watch for timeout/noise |
 | **Agent tooling matrix** | 🔄 In progress | Henry | Verify tools lane by lane |
 
