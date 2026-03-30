@@ -50,7 +50,7 @@ Priority legend:
   - Remaining caveat: topic memory isolation and long-run autonomous reliability are still not fully proven, but lane behavior is operationally good enough to proceed
   - Next action: move to GHL read-only validation as the next P0 blocker
 
-- [DOING] **Connect GoHighLevel (GHL)**
+- [DONE] **Connect GoHighLevel (GHL)**
   - Owner: Henry
   - Goal: get CRM connectivity working for pipeline, contacts, opportunities, and follow-up workflows
   - Definition of done:
@@ -58,8 +58,10 @@ Priority legend:
     - credentials requirements documented
     - working connection test completed
     - first useful workflow identified
-  - Current state: local secrets are present; raw API path still returns Cloudflare 403; MCP is now the validated path. Read-only MCP calls succeeded from the VPS for `locations_get-location`, `opportunities_get-pipelines`, `contacts_get-contacts`, and `opportunities_search-opportunity`. Contacts and pipelines are readable; the first opportunity search returned zero open opportunities.
-  - Next action: safe reusable MCP execution path is now implemented via `scripts/ghl_mcp.sh`; use it to run Ryan's first working CRM loop: contact triage / follow-up queue review before opportunity-stage automation
+  - Final state: local secrets are present; raw API path still returns Cloudflare 403; MCP is the working path. Read-only MCP calls succeeded from the VPS for `locations_get-location`, `opportunities_get-pipelines`, `contacts_get-contacts`, and `opportunities_search-opportunity`.
+  - Ryan validation: Ryan completed a real lane task using GHL read-only mode, produced a useful CRM cleanup brief, then proposed and executed one safe reversible write on example contact `Sc5W3jnjYc21MLcCjU5d` by adding tag `test-tag-ryan`.
+  - Notes: this is enough to treat Sales + GHL as operational for controlled use. Continue with human-approved, low-risk actions before broader automation or outbound sending.
+  - Next action: move to the next live tool validation (Kyle GitHub→Vercel or Arjun DeerFlow brief)
 
 - [DOING] **Create autonomy system v1**
   - Owner: Henry

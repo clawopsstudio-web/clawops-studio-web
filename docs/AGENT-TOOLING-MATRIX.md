@@ -15,7 +15,7 @@ Purpose: assign minimum viable tool stack per lane, then verify real access.
 | Agent | Lane | Must-Have Tools | Current Status | Next Verification Step |
 |---|---|---|---|---|
 | Henry | HQ / Command | Telegram topics, TASKS/Mission Control, OpenClaw config access | 🟡 | Validate 1 full daily loop: prioritize → delegate → close update |
-| Ryan | Sales / Pipeline | Telegram lane, GHL (contacts/opps), outbound templates | 🟡 MCP wrapper + triage loop ready | Run a real lane task using `scripts/ghl_mcp.sh triage` and produce the follow-up queue |
+| Ryan | Sales / Pipeline | Telegram lane, GHL (contacts/opps), outbound templates | ✅ Read-only + safe write verified | Keep execution human-approved for now; next upgrade is controlled task/note workflows before outreach sending |
 | Arjun | Research / Intel | Telegram lane, DeerFlow, web search/fetch, memory notes | 🟡 | Execute one research brief end-to-end and post summary in lane |
 | Andrew (`dev`) | Founding Engineer | Telegram lane, architecture docs, OpenClaw config, deployment planning | 🟡 | Draft onboarding→deployment path and validate with Dave/Kyle dependencies |
 | Dave | DevOps / Backend | Telegram lane, host/runtime checks, Docker, gateway diagnostics | 🟡 | Run reliability checklist and post PASS/FAIL + fixes |

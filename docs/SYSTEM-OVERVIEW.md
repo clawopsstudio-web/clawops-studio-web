@@ -80,7 +80,7 @@ Client Operates via Telegram / Dashboard
 |-----|--------|---------|
 | **Telegram** | ✅ Live | Primary operating surface |
 | **Notion** | ✅ Connected | Docs, databases, HQ dashboard |
-| **GoHighLevel (GHL)** | 🔄 MCP read-only validated | CRM — pipeline, contacts, opportunities |
+| **GoHighLevel (GHL)** | ✅ MCP operational (read-only + safe write tested) | CRM — pipeline, contacts, opportunities |
 | **OpenRouter** | ✅ Connected | LLM models (free + paid) |
 | **LobsterBoard** | ✅ Installed | Client-facing dashboard |
 | **Mission Control** | ✅ Running on systemd | Internal HQ dashboard at `/dashboard/` via Tailscale |
