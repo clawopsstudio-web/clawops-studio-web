@@ -84,7 +84,7 @@ Priority legend:
     - each agent has a preferred execution path documented (direct API, MCP, n8n, browser automation)
     - required credentials/app access list is documented
     - first high-value tool is connected per agent where possible
-  - Next action: tooling matrix created in `docs/AGENT-TOOLING-MATRIX.md`; now run tool verification in order: Frontend (GitHub→Vercel), Sales (GHL read-only), Research (DeerFlow brief)
+  - Next action: tooling matrix created in `docs/AGENT-TOOLING-MATRIX.md`; Sales is now validated. Frontend is in progress: Kyle confirmed GitHub access but Vercel CLI is not authenticated yet, so next step is to choose the target web repo and run the smallest safe Vercel auth/link check. After that, continue with Research (DeerFlow brief)
 
 ### P1 — Automation / Delivery
 

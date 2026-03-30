@@ -19,7 +19,7 @@ Purpose: assign minimum viable tool stack per lane, then verify real access.
 | Arjun | Research / Intel | Telegram lane, DeerFlow, web search/fetch, memory notes | 🟡 | Execute one research brief end-to-end and post summary in lane |
 | Andrew (`dev`) | Founding Engineer | Telegram lane, architecture docs, OpenClaw config, deployment planning | 🟡 | Draft onboarding→deployment path and validate with Dave/Kyle dependencies |
 | Dave | DevOps / Backend | Telegram lane, host/runtime checks, Docker, gateway diagnostics | 🟡 | Run reliability checklist and post PASS/FAIL + fixes |
-| Kyle | Frontend / Web | Telegram lane, GitHub repo path, Vercel deploy path | ❌ (Vercel not connected) | Verify GitHub→Vercel first deploy flow |
+| Kyle | Frontend / Web | Telegram lane, GitHub repo path, Vercel deploy path | 🟡 GitHub verified; Vercel auth blocked | Confirm target frontend repo, then authenticate Vercel CLI/API and perform the smallest safe pre-deploy link check |
 | Tyler | Marketing / SEO | Telegram lane, content drafting stack, SEO/GEO skillset | ⏳ | Produce 1-week content batch mapped to offer validation |
 
 ## P0 Focus Order
