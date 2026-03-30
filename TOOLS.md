@@ -33,6 +33,10 @@ Things like:
 - Low-latency default: **short replies first, no unnecessary checks, voice only when useful/requested**
 - Preferred voice: "Nova" (warm, slightly British)
 - Default speaker: Kitchen HomePod
+
+### Messaging preferences
+
+- When giving Pulkit text to copy/paste, always put it in a fenced code block for easy copying.
 ```
 
 ## Why Separate?
