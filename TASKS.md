@@ -85,7 +85,7 @@ Priority legend:
     - required credentials/app access list is documented
     - first high-value tool is connected per agent where possible
   - Current truth: tooling matrix refreshed in `docs/AGENT-TOOLING-MATRIX.md`. Sales is validated. Frontend path is clarified: GitHub works, test repo is populated, Kyle confirmed Vercel suitability, but `vercel link` is blocked in this shell by missing Vercel auth/network. Lane sweep is operationally good enough.
-  - Next action: move immediately to Research (real DeerFlow brief), then Backend/DevOps baseline, then lock Ryan's recurring operating loop. Defer Vercel login/link until authenticated runtime is available.
+  - Next action: DeerFlow validation surfaced a real blocker — endpoint is up, but live research runs fail because DeerFlow's OpenRouter call returns `401 Missing Authentication header`. Fix DeerFlow auth first, then rerun the Research brief. After that, move to Backend/DevOps baseline, then lock Ryan's recurring operating loop. Defer Vercel login/link until authenticated runtime is available.
 
 ### P1 — Automation / Delivery
 
