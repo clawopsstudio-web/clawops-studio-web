@@ -282,22 +282,59 @@ When production-ready, provides:
 
 ---
 
-## 🧠 CURRENT OPERATING STATE
+## 🧠 CURRENT OPERATING STATE (Updated 2026-03-29)
 
-- Workspace folder is still named `arjun`, but operationally this is now the main **Henry / ClawOps HQ** workspace.
-- The org role swap is now official: **Ryan = Sales** and **Arjun = Research**.
-- A dedicated operating doc exists locally at `docs/CLAWOPS-STUDIO-OPERATING-SYSTEM.md`.
-- Structured agent files now exist under `agents/` for Henry, Ryan, Arjun, Dev, Dave, Kyle, and Tyler.
-- The operating doc was pushed to Notion under the page:
-  - `https://www.notion.so/ClawOps-Studio-Operating-System-330be54579ac81e89021c78c2a227f05`
-- A full Notion agent directory plus individual pages for Henry, Ryan, Arjun, Dev, Dave, Kyle, and Tyler now exists.
-- A Notion HQ dashboard now exists with 3 core operational databases: Sales Pipeline, Research Queue, and Build / Ops Tasks.
-- Paperclip live roster was re-verified and cleaned: Henry, Ryan, Arjun, Dev, Dave, Kyle, and Tyler are all live.
-- Henry's trailing-space name issue was fixed, missing titles were added, Arjun was corrected to Research, and all live agent gateway URLs were standardized to `ws://100.78.128.98:18789/`.
-- Ryan is confirmed live in Paperclip and no longer pending.
-- `openrouter/auto` was removed from live OpenClaw config and the global primary model was switched to `openai-codex/gpt-5.4`.
-- Cost-heavy `opencode-go/kimi-k2.5` and `opencode-go/glm-5` were then removed from the default allowlist/fallback set, leaving the budget-first model stack in place.
-- A formal `docs/AGENT-OPERATING-SPEC.md` was created to freeze the 7-agent operating design: roles, missions, model policy, tool patterns, external systems, and the stance that Paperclip stays in internal infra while MetaClaw + HiClaw remain part of the architecture direction.
+### Session Context
+- Pulkit has given strict instruction: **always check docs/config files first, verify actual state, then respond. Do not hallucinate.**
+- New session should start by reading `docs/SYSTEM-OVERVIEW.md` for full context
+
+### What's Actually Connected (VERIFIED)
+- **n8n** — Running on Docker, port 5678 ✅
+- **GitHub** — CLI authenticated as `clawopsstudio-web`, repo: `clawopsstudio-web/skills` ✅
+- **GHL (GoHighLevel)** — Credentials exist in `.secrets/ghl.env`, MCP endpoint reachable ✅
+- **Browser automation** — Playwright + Chrome ready ✅
+- **DeerFlow 2.0** — Running at `http://127.0.0.1:2026`, security fix applied ✅
+- **HiClaw** — Running (manager, console, element-web) ✅
+- **MetaClaw** — Active ✅
+- **LobsterBoard** — Installed ✅
+- **Vercel** — NOT connected ❌ (needs login)
+
+### Telegram Lane Status
+- HQ (Henry) — Validated working ✅
+- All other lanes (Ryan, Arjun, Dev, Dave, Kyle, Tyler) — NOT YET RE-VERIFIED
+
+### What's LEFT to Do
+**PRIORITY: Build Agent Tooling Matrix**
+The infrastructure is ready. The remaining work is ASSIGNING tools to agents:
+1. Create tooling matrix (which agent uses which tool)
+2. Verify each agent can access their assigned tools
+3. Test tool access per agent
+4. Run Telegram lane sweep to validate lanes
+5. Connect Vercel for Kyle
+
+### Key Files
+- `docs/SYSTEM-OVERVIEW.md` — Full system state (source of truth)
+- `docs/TELEGRAM-LANE-SWEEP.md` — Lane validation procedure
+- `docs/TELEGRAM-LANE-VALIDATION.md` — Validation log
+- `TASKS.md` — Operating backlog
+- `HEARTBEAT.md` — Operating rules
+
+### Pulkit's Instructions
+1. Check docs before responding
+2. Verify config files before claiming anything
+3. Don't hallucinate
+4. Start new session with tooling matrix focus
+
+### Org Structure (Confirmed)
+| Agent | Role | Lane |
+|-------|------|------|
+| Henry | CEO / HQ | Topic 21 |
+| Ryan | Sales / Pipeline | Topic 25 |
+| Arjun | Research / Intel | Topic 26 |
+| Dev | Founding Engineer | Topic 27 |
+| Dave | DevOps / Backend | Topic 29 |
+| Kyle | Frontend / Web | Topic 30 |
+| Tyler | Marketing / SEO | Topic 31 |
 
 ## 🗺️ VISION & GOALS
 
