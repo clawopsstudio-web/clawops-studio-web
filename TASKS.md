@@ -58,8 +58,8 @@ Priority legend:
     - credentials requirements documented
     - working connection test completed
     - first useful workflow identified
-  - Current state: local secrets are present; raw API path still returns Cloudflare 403; MCP is now the validated path. Read-only MCP calls succeeded from the VPS for `locations_get-location` and `opportunities_get-pipelines`, confirming auth + transport work.
-  - Next action: lock a safe reusable MCP execution path (without committing secrets), then run the next read-only call for contacts/opportunities and define the first real Ryan/Henry workflow
+  - Current state: local secrets are present; raw API path still returns Cloudflare 403; MCP is now the validated path. Read-only MCP calls succeeded from the VPS for `locations_get-location`, `opportunities_get-pipelines`, `contacts_get-contacts`, and `opportunities_search-opportunity`. Contacts and pipelines are readable; the first opportunity search returned zero open opportunities.
+  - Next action: lock a safe reusable MCP execution path (without committing secrets), then define Ryan's first working CRM loop as contact triage / follow-up queue review before opportunity-stage automation
 
 - [DOING] **Create autonomy system v1**
   - Owner: Henry

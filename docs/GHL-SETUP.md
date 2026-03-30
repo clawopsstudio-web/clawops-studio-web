@@ -106,10 +106,13 @@ These are safe read tests and should be the first check.
 Verified from this VPS:
 - `locations_get-location` → success
 - `opportunities_get-pipelines` → success
+- `contacts_get-contacts` → success
+- `opportunities_search-opportunity` → success (first open-opportunity search returned zero results)
 
 Current conclusion:
 - raw REST/API path is still not the preferred path here because it returned Cloudflare 403
 - MCP is the working path for GHL from this machine
+- the safest first practical workflow is contact triage / follow-up review, not opportunity-stage automation yet
 
 ## After connection works
 

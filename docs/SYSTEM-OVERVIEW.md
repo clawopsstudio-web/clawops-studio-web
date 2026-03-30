@@ -148,7 +148,7 @@ Required behavior:
 | Task | Status | Owner | Blocker |
 |------|--------|-------|---------|
 | **Telegram lane sweep** | ✅ Done enough to operate | Henry | Remaining caveat: topic isolation / long-run reliability not fully proven |
-| **GHL connection** | 🔄 Read-only MCP validated | Henry | Raw API path still returns 403; next step is reusable safe MCP workflow |
+| **GHL connection** | 🔄 Read-only MCP validated | Henry | Raw API path still returns 403; next step is reusable safe MCP workflow + contact triage loop |
 | **Autonomy system** | 🔄 Running | Henry | Watch for timeout/noise |
 | **Agent tooling matrix** | 🔄 In progress | Henry | Verify tools lane by lane |
 
