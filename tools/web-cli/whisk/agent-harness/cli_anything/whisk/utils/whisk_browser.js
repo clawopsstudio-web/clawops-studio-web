@@ -61,13 +61,79 @@ async function collectStatus(page) {
   const downloadCount = await page.locator('button').evaluateAll(btns => btns.filter(b => ((b.innerText || b.textContent || '').includes('download'))).length).catch(() => 0);
   const animateCount = await page.locator('button').evaluateAll(btns => btns.filter(b => ((b.innerText || b.textContent || '').includes('ANIMATE'))).length).catch(() => 0);
   const promptVisible = await page.locator('textarea[placeholder*="Describe your idea"]').count().catch(() => 0);
+  const resultImageCount = await page.locator('img').evaluateAll(imgs => imgs.filter(img => (img.src || '').startsWith('blob:')).length).catch(() => 0);
+  const uploadInputCount = await page.locator('input[type=file]').count().catch(() => 0);
   return {
     url: page.url(),
     title: await page.title(),
     promptVisible: !!promptVisible,
     downloadCount,
     animateCount,
+    resultImageCount,
+    uploadInputCount,
     bodyPreview: text.slice(0, 1500),
+  };
+}
+
+async function ensureImagePanel(page) {
+  let text = await bodyText(page);
+  if (/upload image|hide images|subject\n|subject\b/i.test(text)) return;
+  const addImages = page.locator('button').filter({ hasText: /add images/i }).first();
+  if (await addImages.count().catch(() => 0)) {
+    await addImages.click({ timeout: 15000 }).catch(() => {});
+    await page.waitForTimeout(1500);
+  }
+}
+
+async function uploadImage(page, filePath, slotIndex = 0) {
+  await ensureImagePanel(page);
+  const inputs = page.locator('input[type=file]');
+  const count = await inputs.count().catch(() => 0);
+  if (!count) throw new Error('No Whisk image upload inputs found');
+  const index = Math.max(0, Math.min(Number(slotIndex || 0), count - 1));
+  await inputs.nth(index).setInputFiles(filePath);
+  await page.waitForTimeout(4000);
+  const statusText = await bodyText(page);
+  return {
+    uploadInputCount: count,
+    uploadSlotIndex: index,
+    uploadErrorVisible: /something went wrong fetching your media/i.test(statusText),
+  };
+}
+
+async function exportBlobImage(page, outputPath, imageIndex = 0) {
+  const absOut = ensureDirFor(outputPath);
+  const data = await page.evaluate(async ({ imageIndex }) => {
+    const blobImages = Array.from(document.querySelectorAll('img')).map(el => ({ src: el.src || '', width: el.naturalWidth || 0, height: el.naturalHeight || 0 })).filter(x => x.src.startsWith('blob:'));
+    if (!blobImages.length) return { ok: false, error: 'No blob-backed Whisk result images found' };
+    const target = blobImages[Math.max(0, Math.min(imageIndex, blobImages.length - 1))];
+    const res = await fetch(target.src);
+    const blob = await res.blob();
+    const ab = await blob.arrayBuffer();
+    const bytes = new Uint8Array(ab);
+    let binary = '';
+    const chunk = 0x8000;
+    for (let i = 0; i < bytes.length; i += chunk) {
+      binary += String.fromCharCode(...bytes.slice(i, i + chunk));
+    }
+    return {
+      ok: true,
+      src: target.src,
+      mime: blob.type,
+      width: target.width,
+      height: target.height,
+      b64: btoa(binary),
+    };
+  }, { imageIndex: Number(imageIndex || 0) });
+  if (!data.ok) throw new Error(data.error || 'Failed to export blob image');
+  fs.writeFileSync(absOut, Buffer.from(data.b64, 'base64'));
+  return {
+    downloadPath: absOut,
+    downloadMime: data.mime,
+    exportedImageIndex: Number(imageIndex || 0),
+    exportedWidth: data.width,
+    exportedHeight: data.height,
+    exportedSrc: data.src,
   };
 }
 
@@ -115,15 +181,50 @@ async function run() {
           i,
           placeholder: el.getAttribute('placeholder') || '',
           valueLength: (el.value || '').length
-        })).slice(0, 10)
+        })).slice(0, 10),
+        fileInputs: Array.from(document.querySelectorAll('input[type=file]')).map((el, i) => ({
+          i,
+          accept: el.getAttribute('accept') || '',
+          multiple: !!el.multiple
+        })).slice(0, 10),
+        resultImages: Array.from(document.querySelectorAll('img')).map((el, i) => ({
+          i,
+          src: (el.src || '').slice(0, 160),
+          width: el.naturalWidth || 0,
+          height: el.naturalHeight || 0
+        })).filter(x => x.src.startsWith('blob:')).slice(0, 20)
       }));
       return ok({ action, url: page.url(), title: await page.title(), ...inspect });
+    }
+
+    if (action === 'upload-image') {
+      if (!payload.filePath) return fail('Missing filePath for upload-image');
+      const page = await openWhisk(context);
+      await enterToolIfPresent(page);
+      const upload = await uploadImage(page, payload.filePath, payload.slotIndex || 0);
+      const status = await collectStatus(page);
+      return ok({ action, filePath: path.resolve(payload.filePath), ...upload, ...status });
+    }
+
+    if (action === 'export-image') {
+      if (!payload.outputPath) return fail('Missing outputPath for export-image');
+      const page = await openWhisk(context);
+      await enterToolIfPresent(page);
+      const exported = await exportBlobImage(page, payload.outputPath, payload.imageIndex || 0);
+      const status = await collectStatus(page);
+      return ok({ action, ...exported, ...status });
     }
 
     if (action === 'generate') {
       if (!payload.prompt) return fail('Missing prompt for generate');
       const page = await openWhisk(context);
       await enterToolIfPresent(page);
+
+      let upload = null;
+      if (payload.filePath) {
+        upload = await uploadImage(page, payload.filePath, payload.slotIndex || 0);
+      }
+
       const promptBox = page.locator('textarea[placeholder*="Describe your idea"]');
       await promptBox.waitFor({ timeout: 20000 });
       await promptBox.fill(payload.prompt);
@@ -147,6 +248,10 @@ async function run() {
         elapsedMs: Date.now() - started,
       };
 
+      if (upload) {
+        result.upload = upload;
+      }
+
       if (payload.screenshotPath) {
         const absShot = ensureDirFor(payload.screenshotPath);
         await page.screenshot({ path: absShot, fullPage: true });
@@ -154,16 +259,8 @@ async function run() {
       }
 
       if (payload.downloadPath && downloadCount > 0) {
-        const absDl = ensureDirFor(payload.downloadPath);
         try {
-          const button = page.locator('button').filter({ hasText: 'download' }).first();
-          const [download] = await Promise.all([
-            page.waitForEvent('download', { timeout: 20000 }),
-            button.click({ timeout: 15000 })
-          ]);
-          await download.saveAs(absDl);
-          result.downloadPath = absDl;
-          result.suggestedFilename = await download.suggestedFilename();
+          Object.assign(result, await exportBlobImage(page, payload.downloadPath, payload.imageIndex || 0));
         } catch (err) {
           result.downloadError = err && err.message ? err.message : String(err);
         }

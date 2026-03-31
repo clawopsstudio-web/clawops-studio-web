@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 import subprocess
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 
 
 PACKAGE_DIR = Path(__file__).resolve().parents[1]
@@ -32,9 +32,32 @@ def run_helper(payload: Dict[str, Any], timeout: int = 180) -> Dict[str, Any]:
 
 def pretty_result(data: Dict[str, Any]) -> str:
     lines = []
-    for key in ["action", "authenticated", "title", "url", "promptVisible", "downloadCount", "animateCount", "elapsedMs", "screenshotPath", "downloadPath", "suggestedFilename"]:
+    for key in [
+        "action",
+        "authenticated",
+        "title",
+        "url",
+        "promptVisible",
+        "downloadCount",
+        "animateCount",
+        "resultImageCount",
+        "uploadInputCount",
+        "elapsedMs",
+        "filePath",
+        "uploadSlotIndex",
+        "uploadErrorVisible",
+        "screenshotPath",
+        "downloadPath",
+        "downloadMime",
+        "exportedImageIndex",
+        "exportedWidth",
+        "exportedHeight",
+        "suggestedFilename",
+    ]:
         if key in data:
             lines.append(f"{key}: {data[key]}")
+    if data.get("downloadError"):
+        lines.append("downloadError: " + str(data["downloadError"]))
     if data.get("bodyPreview"):
         lines.append("bodyPreview: " + str(data["bodyPreview"])[:300].replace("\n", " | "))
     return "\n".join(lines)

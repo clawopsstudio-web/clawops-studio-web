@@ -10,7 +10,9 @@ This harness automates the Whisk web UI by attaching to an already-running Chrom
 - open
 - status
 - inspect
-- generate (prompt-only)
+- upload-image
+- export-image
+- generate (prompt-only or with one uploaded reference image)
 
 ## Requirements
 - Chrome/Chromium already running with remote debugging at `http://127.0.0.1:9222`
@@ -18,6 +20,6 @@ This harness automates the Whisk web UI by attaching to an already-running Chrom
 - Node.js with Playwright available
 
 ## Known limitations
-- Upload flow is not wrapped yet
-- Download flow is best-effort and tied to current UI behavior
+- Upload currently targets Whisk's hidden file inputs by slot index (0=subject, 1=scene, 2=style)
+- Export currently saves rendered result images by extracting blob-backed DOM images, not by driving the native browser download flow
 - UI changes or auth expiry can break the harness

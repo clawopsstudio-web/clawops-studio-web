@@ -34,4 +34,10 @@ Verified:
 - browser-backed helper can be reached in a real environment
 
 ## Notes
-Full generation/download E2E is intentionally deferred until the harness stabilizes against the live UI.
+The live browser run has now verified:
+- auth-check works against the logged-in Whisk session
+- generate works with prompt-only flow
+- export-image works by extracting blob-backed result images
+- upload-image works against at least the subject slot in the current live UI
+
+A stronger automated end-to-end test can be added later once we want live browser E2E in regular runs.

@@ -19,12 +19,15 @@ pip install -e .
 ```bash
 cli-anything-whisk auth-check
 cli-anything-whisk open
-cli-anything-whisk status --json
-cli-anything-whisk inspect --json
-cli-anything-whisk generate --prompt "flat illustration of an AI agency team" --screenshot out/whisk.png --download out/whisk.jpg --json
+cli-anything-whisk status --json-output
+cli-anything-whisk inspect --json-output
+cli-anything-whisk upload-image --file out/reference.jpg --slot 0 --json-output
+cli-anything-whisk export-image --output out/exported.jpg --image-index 0 --json-output
+cli-anything-whisk generate --prompt "flat illustration of an AI agency team" --screenshot out/whisk.png --download out/whisk.jpg --json-output
+cli-anything-whisk generate --file out/reference.jpg --slot 0 --prompt "subject in a neon cyberpunk city" --download out/whisk-ref.jpg --json-output
 ```
 
 ## Notes
 - This is a session-dependent web harness, not a native API integration.
-- Prompt-only generation is supported in the MVP.
-- File upload is not wrapped yet.
+- Upload works by targeting Whisk's hidden file inputs by slot index.
+- Export works by extracting blob-backed result images from the Whisk page.

@@ -57,20 +57,53 @@ def inspect(cdp_url: str, json_output: bool) -> None:
     click.echo(json.dumps(data, indent=2) if json_output else pretty_result(data))
 
 
+@cli.command("upload-image")
+@click.option("--file", "file_path", required=True, type=click.Path(exists=True, path_type=Path), help="Image file to upload")
+@click.option("--slot", "slot_index", default=0, show_default=True, type=int, help="0=subject, 1=scene, 2=style")
+@click.option("--cdp-url", default="http://127.0.0.1:9222", show_default=True)
+@click.option("--json-output", "json_output", is_flag=True, help="Emit raw JSON")
+def upload_image(file_path: Path, slot_index: int, cdp_url: str, json_output: bool) -> None:
+    try:
+        data = run_helper({"action": "upload-image", "cdpUrl": cdp_url, "filePath": str(file_path), "slotIndex": slot_index})
+    except WhiskHelperError as e:
+        raise click.ClickException(str(e))
+    click.echo(json.dumps(data, indent=2) if json_output else pretty_result(data))
+
+
+@cli.command("export-image")
+@click.option("--output", "output_path", required=True, type=click.Path(path_type=Path), help="Where to save the extracted result image")
+@click.option("--image-index", default=0, show_default=True, type=int, help="Which generated image to export")
+@click.option("--cdp-url", default="http://127.0.0.1:9222", show_default=True)
+@click.option("--json-output", "json_output", is_flag=True, help="Emit raw JSON")
+def export_image(output_path: Path, image_index: int, cdp_url: str, json_output: bool) -> None:
+    try:
+        data = run_helper({"action": "export-image", "cdpUrl": cdp_url, "outputPath": str(output_path), "imageIndex": image_index})
+    except WhiskHelperError as e:
+        raise click.ClickException(str(e))
+    click.echo(json.dumps(data, indent=2) if json_output else pretty_result(data))
+
+
 @cli.command()
 @click.option("--prompt", required=True, help="Prompt to send to Whisk")
+@click.option("--file", "file_path", type=click.Path(exists=True, path_type=Path), help="Optional reference image to upload before generation")
+@click.option("--slot", "slot_index", default=0, show_default=True, type=int, help="0=subject, 1=scene, 2=style")
+@click.option("--image-index", default=0, show_default=True, type=int, help="Which result image to export when using --download")
 @click.option("--cdp-url", default="http://127.0.0.1:9222", show_default=True)
 @click.option("--timeout-ms", default=90000, show_default=True, type=int)
 @click.option("--screenshot", type=click.Path(path_type=Path), help="Save full-page screenshot after generation")
-@click.option("--download", type=click.Path(path_type=Path), help="Download first generated output if available")
+@click.option("--download", type=click.Path(path_type=Path), help="Export generated output by extracting the Whisk blob image")
 @click.option("--json-output", "json_output", is_flag=True, help="Emit raw JSON")
-def generate(prompt: str, cdp_url: str, timeout_ms: int, screenshot: Path | None, download: Path | None, json_output: bool) -> None:
+def generate(prompt: str, file_path: Path | None, slot_index: int, image_index: int, cdp_url: str, timeout_ms: int, screenshot: Path | None, download: Path | None, json_output: bool) -> None:
     payload = {
         "action": "generate",
         "cdpUrl": cdp_url,
         "prompt": prompt,
         "timeoutMs": timeout_ms,
+        "slotIndex": slot_index,
+        "imageIndex": image_index,
     }
+    if file_path:
+        payload["filePath"] = str(file_path)
     if screenshot:
         payload["screenshotPath"] = str(screenshot)
     if download:
