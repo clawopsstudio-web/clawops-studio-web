@@ -211,6 +211,17 @@ Goal: finish all product/revenue work except Contabo before deadline.
   - Status: Deferred — Mission Control is the active dashboard, LobsterBoard not required now
   - Definition of done: Revisit if client-facing dashboard is needed
 
+- [TODO] **Google Workspace core connectivity**
+  - Owner: Henry + Dave
+  - Goal: Connect and validate the highest-value Google Workspace surfaces for operations and agent workflows
+  - Scope: Gmail, Calendar, Drive, Docs, Sheets, AI Studio, Flow/Whisk/Pompli or other useful free Google services as applicable
+  - Next action: inventory exact services/accounts, choose execution path per service (API vs MCP vs n8n vs browser), then connect in priority order
+  - Definition of done:
+    - Core Google account/runtime access verified
+    - Gmail/Calendar/Drive/Docs/Sheets path selected and validated
+    - Best automation path documented for each service
+    - Reusable workflow opportunities identified for n8n/custom MCP
+
 ### P2 — Done
 
 - [DONE] **Backend baseline documentation**
