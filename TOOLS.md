@@ -37,6 +37,12 @@ Things like:
 ### Messaging preferences
 
 - When giving Pulkit text to copy/paste, always put it in a fenced code block for easy copying.
+
+### Browser / auth preferences
+
+- For configuring web apps through browser automation, Pulkit allows using the currently logged-in Gmail/Google session in the browser to sign up or log into services when needed.
+- Use this for practical setup work (e.g. Supabase or similar app onboarding) instead of blocking on manual hand-holding when the session is already available.
+- Still pause before destructive actions, billing commitments, irreversible org/account changes, or anything that could affect security beyond normal login/setup.
 ```
 
 ## Why Separate?
