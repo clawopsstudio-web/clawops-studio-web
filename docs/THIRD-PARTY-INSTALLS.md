@@ -9,8 +9,9 @@ Last updated: 2026-03-31
 - Python package installed in isolated venv: `/root/.openclaw/tools/notebooklm-py`
 - Exposed CLI: `/usr/local/bin/notebooklm`
 - Local OpenClaw skill registered at: `/root/.openclaw/skills/notebooklm/SKILL.md`
-- Current state: installed, not authenticated yet
-- Next step: run `notebooklm login`
+- Current state: installed and authenticated by importing the live browser Google session into `/root/.notebooklm/storage_state.json`
+- Verified: `notebooklm list --json` returned live notebooks successfully
+- Caveat: `notebooklm auth check --test` still showed a temporary DNS/token-fetch issue on one path, but the CLI itself is working for notebook listing
 
 ### CLI-Anything
 - Repo reference: `external/CLI-Anything`
