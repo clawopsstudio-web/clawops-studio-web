@@ -262,25 +262,41 @@ Only connect a Google service if all 3 are true:
 2. it has a clear business use case
 3. it beats the alternatives in leverage
 
-### Notes on uncertain names
-The following names were mentioned conversationally and should be verified before action:
-- Pompli
-- Whisk
-- Flow
+### Verified Google Labs / FX surfaces provided by Pulkit
+These are **not core Google Workspace apps**. Treat them as creative/experimental Google surfaces.
 
-Do not assume:
-- product identity
-- auth method
-- API availability
-- whether the service is still live/relevant
+#### Pomelli
+- URL: `https://labs.google.com/u/0/pomelli`
+- Working understanding: Google Labs marketing/creative generation tool for brand-aware campaign and asset creation
+- Likely best fit: Tyler (marketing), possibly Arjun for campaign ideation support
+- Initial execution path: browser first; later evaluate whether any API/export path exists
+- Priority: optional / Phase 2 experimental
 
-When ready, create a short verification table:
-- exact product name
-- URL
-- what it does
-- API or no API
-- use case for ClawOps
-- worth connecting? yes/no
+#### Whisk
+- URL: `https://labs.google/fx/tools/whisk`
+- Working understanding: Google Labs visual ideation tool for image remixing/generation from image + prompt inputs
+- Likely best fit: Tyler creative, brand ideation, social/post visual generation
+- Initial execution path: browser first; possibly CLI-Anything later if repetitive export workflows become valuable
+- Priority: optional / Phase 2 experimental
+
+#### Flow
+- URL: `https://labs.google/fx/tools/flow`
+- Working understanding: Google creative studio for AI video/image/story generation
+- Likely best fit: Tyler creative production, campaign/video asset generation
+- Initial execution path: browser first; evaluate API/export options later
+- Priority: optional / Phase 2 experimental
+
+### Implication for ClawOps
+These should not be mixed into the first Google integration block with Gmail/Calendar/Drive/Docs/Sheets.
+
+They belong in a separate category:
+- **Google Workspace core ops surfaces** → Gmail, Calendar, Drive, Docs, Sheets
+- **Google creative/AI surfaces** → AI Studio, Pomelli, Whisk, Flow
+
+### Recommended handling
+- connect Workspace core first
+- then test these creative surfaces one by one for actual content ROI
+- only operationalize the ones that produce repeatable output quality worth keeping
 
 ---
 
