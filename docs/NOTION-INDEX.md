@@ -36,6 +36,10 @@
 - Tyler — Marketing / SEO
   - https://www.notion.so/Tyler-Marketing-SEO-330be54579ac81759b46c8356da75ab2
 
+## Workspace Rollups
+- ClawOps Workspace Architecture + Blueprint + Knowledge Rollup
+  - https://www.notion.so/ClawOps-Workspace-Architecture-Blueprint-Knowledge-Rollup-334be54579ac81d7a66ed7572cfa5435
+
 ## Notes
 - These pages were created via Notion API after page access was fixed.
 - Role content was sourced from local files in `agents/`.
