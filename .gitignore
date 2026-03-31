@@ -3,3 +3,5 @@ mission-control/mission-control.log
 .secrets/
 /tmp/
 external/
+out/
+deliveries/

@@ -77,6 +77,15 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 - Agent role files: `agents/`
 - Workspace identity note: `WORKSPACE-IDENTITY.md`
 
+### Telegram delivery outbox
+- Standard staging root for deliverables to send/share later: `deliveries/telegram/`
+- Per-lane folders: `hq`, `ryan`, `arjun`, `dev`, `dave`, `kyle`, `tyler`, plus `shared`
+- Date folder format: `YYYY-MM-DD`
+- Put PDFs, images, audio, and video here when preparing assets for Telegram direct chat or topic lanes.
+- Current staged NotebookLM exports:
+  - `deliveries/telegram/hq/2026-03-31/clawops-studio-ai-workforce.pdf`
+  - `deliveries/telegram/hq/2026-03-31/clawops-studio-ai-workforce-infographic.png`
+
 ### Notion
 - Parent page ID: `330be54579ac8064800ff45210674b55`
 - HQ dashboard page: `https://www.notion.so/ClawOps-HQ-Dashboard-330be54579ac81148dacc9246c0bbdd8`
