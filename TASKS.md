@@ -23,7 +23,7 @@ Priority: P0 = revenue/launch | P1 = this week | P2 = useful
 | Tyler | Content batch (14 posts, viral hooks, 30-day calendar) | ✅ DONE | Ready to publish |
 | Dave | Supabase live setup via browser | DOING | Running now |
 | Ryan | Outbound validation engine + lead list | ✅ DONE | 15 leads, outreach templates ready, GHL contacts pending approval |
-| Kyle | Landing page via GitHub Pages | DOING | Running now |
+| Kyle | Landing page via GitHub Pages | ✅ DONE | Live at clawopsstudio-web.github.io/test/ |
 | Andrew | Architecture freeze | TODO | Next after infra |
 | Henry | Autonomy system + swarm coordination | DOING | Active |
 
@@ -85,16 +85,16 @@ Goal: finish all product/revenue work except Contabo before deadline.
     - GHL contacts pending approval ⚠️ (deferred to safe write verification)
     - Ready to send: yes ✅
 
-- [DOING] **Landing page + offer page**
+- [DONE] **Landing page + offer page**
   - Owner: Kyle
   - Goal: Live landing page for Agency AI Employees via GitHub Pages
-  - Current state: Running — building landing page HTML, pushing to GitHub Pages
-  - Next action: Push page to GitHub, enable Pages, verify live URL
+  - Current state: Done. Live at https://clawopsstudio-web.github.io/test/ — hero, problem, solution, pricing, FAQ, intake form. Pure HTML/CSS/JS, mobile responsive, dark theme.
+  - Next action: Upgrade intake form from Telegram DM to proper backend (Formspree/Tally/Supabase); add Calendly; add analytics
   - Definition of done:
-    - Landing page live at clawopsstudio-web.github.io or similar
-    - Hero, problem, solution, pricing, CTA sections present
-    - Mobile responsive
-    - Intake form or CTA connected
+    - Landing page live ✅
+    - Hero, problem, solution, pricing, CTA sections ✅
+    - Mobile responsive ✅
+    - Intake form or CTA connected ✅
 
 - [DOING] **Supabase live project + credentials**
   - Owner: Dave
