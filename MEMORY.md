@@ -309,6 +309,15 @@ When production-ready, provides:
 - Tyler — PASS ✅
 - Honest caveat: full topic memory isolation and long-run autonomous reliability are still not proven
 
+### 24/7 Hardening Baseline (2026-03-31)
+- Root cause of "drops" is not one bug but a hardening gap: runtime sprawl, unpinned heartbeat behavior, session-store hygiene issues, and stale source-of-truth docs.
+- Safe config hardening applied in `/root/.openclaw/openclaw.json` with backup created at `/root/.openclaw/openclaw.json.bak.20260331T133058Z`.
+- Active agent roster was pruned to the real ClawOps operating team: `main`, `henry`, `arjun`, `dev`, `dave`, `kyle`, `marcus`, `tyler`, `ryan`.
+- `heartbeat.directPolicy` was explicitly pinned to `block` for the core heartbeat agents (`henry`, `arjun`, `dev`, `dave`, `kyle`, `tyler`, `ryan`) to reduce delivery drift.
+- `openclaw-weixin` was disabled/removed from active runtime because it is not part of current business operations.
+- Durable operating rule from Pulkit: default to execute and delegate; interrupt only for human-required logins, destructive/high-risk changes, billing, security lockout risk, or founder-only decisions.
+- Remaining hardening work: verify gateway restart cleanly with new config live, clean stale session/transcript artifacts, and keep TASKS/MEMORY aligned with runtime truth.
+
 ### Durable Operating Pattern: Agent Tooling Matrix
 - Tooling matrix is now a core operating pattern for ClawOps and should be reusable for client deployments.
 - Purpose: map each agent to the minimum viable tools, actual verified access, preferred execution path (direct API → MCP → n8n → browser), blockers, and next validation step.
