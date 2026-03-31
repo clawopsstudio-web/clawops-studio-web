@@ -536,7 +536,39 @@ Until then, deployment remains partially manual or operator-assisted.
 
 ---
 
-## 13. Immediate Next Technical Work
+## 13. Skill / Harness Catalog and Marketplace Direction
+
+ClawOps should treat reusable skills, browser-backed harnesses, setup packs, and install packs as a product asset.
+
+### Frozen strategic direction
+The right sequence is:
+1. **private internal repo first**
+2. **curated internal catalog second**
+3. **client import/install system third**
+4. **public or semi-public marketplace later**
+
+### Why this matters
+This turns ClawOps from a service that knows how to do setup into a system that can repeatedly install and extend that setup.
+
+### What belongs in this catalog direction
+- skill packs
+- install packs
+- integration packs
+- browser/CLI harness packs
+- client-specific overlays
+- setup playbooks and manifests
+
+### What is NOT frozen yet
+- exact packaging spec
+- versioning model
+- install manifest schema
+- public marketplace/go-to-market design
+
+The marketplace idea is valid, but it is a later layer on top of a strong private internal catalog.
+
+---
+
+## 14. Immediate Next Technical Work
 
 1. Define the exact product database schema
 2. Define backend service boundaries and APIs
@@ -545,10 +577,11 @@ Until then, deployment remains partially manual or operator-assisted.
 5. Define Contabo provisioning flow
 6. Define default customer offering matrix
 7. Define skill-pack/install-pack structure
+8. Define private skill/harness catalog structure
 
 ---
 
-## 14. Summary
+## 15. Summary
 
 ClawOps architecture is now frozen at the layer level.
 

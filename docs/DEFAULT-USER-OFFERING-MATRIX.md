@@ -226,3 +226,25 @@ The customer offering should stay lean, clear, and profile-matched.
 - infrastructure/runtime internals
 
 This matrix should be used as the customer-facing packaging baseline before building deeper onboarding, pricing, and architecture flows.
+
+---
+
+## 10. Catalog / Marketplace Direction
+
+ClawOps should eventually support a reusable catalog of installable capabilities.
+
+Recommended maturity path:
+1. private internal repo of skills/harnesses/install packs
+2. curated internal catalog for ClawOps deployments
+3. client-specific import/install workflow
+4. optional broader marketplace later
+
+Important positioning rule:
+- launch focus is not a public marketplace
+- launch focus is a reliable internal capability catalog
+
+Customer-visible outcome later:
+- easier add-ons
+- cleaner upgrades
+- reusable capability packs
+- faster deployment of profile-matched assistants and tools

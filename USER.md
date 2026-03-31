@@ -18,6 +18,7 @@ _Learn about the person you're helping. Update this as you go._
 - He sees NotebookLM as a strong included/recommended capability because it already proved useful in the live ClawOps workflow for content and presentation generation.
 - He wants the assistant to proactively guide customers through Tailscale access, server Chrome login/session capture for browser-backed tools, and gradual app/channel connection without terminal-heavy UX.
 - He prefers architecture/product thinking to stay grounded in the actual user journey, not just internal infrastructure.
+- He likes the idea of a private CLI/skills/harness catalog that can later evolve into a marketplace, but wants the near-term focus to stay on a private internal repo and reusable install packs first.
 
 ---
 
