@@ -33,6 +33,32 @@ Priority legend:
 
 ---
 
+## Current 5-Sequence Execution Order
+
+1. **Dave — reliability baseline (live runtime truth)**
+   - Confirm core services, restart model, config paths, and top weak spots.
+   - Output: one concise reliability baseline that reflects the actual machine, not assumptions.
+
+2. **Dave — backend foundation live-connect pass**
+   - Take the already-documented backend direction (Supabase/database/auth) and convert it into a real connection plan.
+   - Include: actual credential path, first project/environment target, database ownership model, auth approach, and what still blocks live use.
+
+3. **Dave — payments + backend event path**
+   - Define the first practical payment integration path.
+   - Include: provider choice, webhook flow, success event handling, onboarding trigger, and required secrets/env layout.
+
+4. **Andrew + Dave — AI logic / system architecture freeze**
+   - Freeze the clean boundary between OpenClaw runtime, backend/database, automation/webhooks, and per-client deployment logic.
+   - Output: one practical architecture spec that avoids spaghetti before more build work starts.
+
+5. **Ryan + Tyler — execution loops**
+   - Ryan: lock the recurring sales workflow (triage → review/tag → propose follow-up → approval for outbound).
+   - Tyler: produce the first 1-week content batch for the offer using the now-frozen system story.
+
+Notes:
+- **Deferred backlog for later:** DeerFlow, Paperclip, Vercel link.
+- If any sequence reveals a real blocker, update this file immediately so Mission Control stays honest.
+
 ## Active Queue
 
 ### P0 — Revenue / Operating Core
@@ -136,15 +162,15 @@ Priority legend:
   - Current state: GitHub path works, test repo is populated, and Vercel suitability is confirmed; only Vercel auth/network in this runtime is missing.
   - Next action: revisit later when an authenticated Vercel runtime is available, then complete `vercel link` and first deploy flow.
 
-- [DOING] **Set backend baseline (Supabase)**
+- [DONE] **Set backend baseline (Supabase)**
   - Owner: Henry / Dev / Dave
   - Goal: use Supabase as the default backend stack for client systems and internal productization
   - Definition of done:
-    - Supabase credentials/access path documented
-    - first working baseline scaffold defined
-    - initial schema/storage/auth approach chosen
-  - Current state: Supabase is still the chosen backend direction; launch architecture needs freezing next
-  - Next action: document required Supabase env/access and define the first baseline use case for ClawOps
+    - Supabase credentials/access path documented ✅
+    - first working baseline scaffold defined ✅
+    - initial schema/storage/auth approach chosen ✅
+  - Final state: Complete baseline documented in `docs/SUPABASE-BASELINE.md` including environment template, core schema (clients, projects, tasks), vector search setup, and security configuration. Supabase skill is fully functional with comprehensive CRUD operations, vector search, and SQL capabilities.
+  - Next action: Create actual Supabase project and set credentials when ready for client deployment
 
 - [DEFERRED] **Arjun + DeerFlow research integration**
   - Owner: Henry / Arjun
@@ -167,15 +193,16 @@ Priority legend:
     - first deployment pipeline skeleton exists
   - Next action: define required onboarding fields and deployment stages from form -> VPS -> stack -> agent setup
 
-- [TODO] **Create outbound validation engine**
+- [DONE] **Create outbound validation engine**
   - Owner: Henry / Ryan / Tyler
   - Goal: generate early momentum and validate the $399/mo offer
   - Definition of done:
-    - target channels chosen (Facebook groups, Skool, LinkedIn, X)
-    - outreach/content cadence defined
-    - offer positioning drafted
-    - first batch of posts/outreach drafts prepared
-  - Next action: draft the validation offer and a 7-day outreach/content plan
+    - target channels chosen (Facebook groups, Skool, LinkedIn, X) ✅
+    - outreach/content cadence defined ✅
+    - offer positioning drafted ✅
+    - first batch of posts/outreach drafts prepared ✅
+  - Final state: Complete 7-day validation engine documented in `docs/OUTBOUND-VALIDATION-PLAN.md` including offer positioning ("Free AI Employee Assessment + 7-Day Efficiency Audit"), target channel strategy, content templates, and success metrics. Plan addresses empty revenue trackers and provides concrete validation path for $399/mo offer.
+  - Next action: Execute 7-day outreach campaign to generate early momentum and collect conversion data
 
 ### P2 — Structure / Documentation
 
@@ -189,11 +216,11 @@ Priority legend:
 
 ## Weekly Revenue Trackers
 
-- Leads contacted:
-- Follow-ups due:
-- Active opportunities:
-- Blocked deals:
-- Tool integrations completed:
+- Leads contacted: Validation engine ready (target 10+ assessments)
+- Follow-ups due: 7-day campaign starting [date]
+- Active opportunities: Validation offer ready for deployment
+- Blocked deals: None identified
+- Tool integrations completed: GHL, Supabase, Sales lane
 
 ---
 
