@@ -110,6 +110,7 @@ Customer-facing app integration examples:
 - Discord
 - Telegram
 - WhatsApp
+- NotebookLM
 - custom CRMs or internal apps
 
 Important scope rule:
@@ -310,12 +311,16 @@ The assistant should proactively:
 - ask whether to connect messaging apps
 - ask whether to connect business apps
 - ask whether to upgrade or customize the brain layer
+- guide secure private access where needed through Tailscale
+- explain how to access server Chrome safely when a browser-backed tool requires login
 - offer guided setup paths
 
 Example system behavior:
 - connect Telegram now
 - connect Gmail + Calendar next
 - connect GHL if sales workflow is needed
+- connect NotebookLM if content/research output is important
+- install Tailscale on desktop/mobile so private surfaces work safely
 - add a premium model provider later if desired
 
 ## 5.9 Expand to Messaging Channels
@@ -415,6 +420,17 @@ For each integration, the dashboard should present:
 
 This allows guided setup without exposing technical complexity.
 
+### Special session-backed tool rule
+Some useful tools are browser/session-backed rather than clean API products.
+For those tools, the assistant should proactively guide the customer through:
+- connecting private access through Tailscale when needed
+- opening the server/browser safely
+- logging into the target web app in server Chrome
+- allowing the system to capture/reuse the working session where appropriate
+- understanding that these tools may be more fragile than API/MCP integrations
+
+NotebookLM is the best current example of this pattern because it has already proven valuable for content, synthesis, presentation, and research outputs.
+
 ---
 
 ## 8. Internal Delivery Flow
@@ -495,6 +511,7 @@ Examples:
 - Sheets
 - GHL
 - Notion
+- NotebookLM and similar high-value content/research tools when relevant
 - messaging channels
 
 Important implementation note:
@@ -539,6 +556,10 @@ The brain layer is a primary product component.
 - Bring Your Own Brain
 - Hybrid Brain
 
+The product should also support a practical onboarding rule:
+- customers can start immediately on the default starter brain
+- then bring their own provider later without blocking activation
+
 ### 9.3 Dashboard responsibilities
 The dashboard should later expose:
 - active default model
@@ -546,6 +567,7 @@ The dashboard should later expose:
 - connected providers
 - API key status
 - per-agent upgrade options in advanced mode
+- recommendations on whether to stay on starter models or upgrade based on customer goals
 
 ---
 
