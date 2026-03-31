@@ -78,7 +78,8 @@ function render(state) {
   const deferred = byPriority(state.tasks.filter(t => t.status === 'DEFERRED')).slice(0, 6);
 
   document.getElementById('headline').textContent = `${state.summary.p0Open} P0 items open · ${state.summary.blockers} blockers · ${state.summary.doing} actively moving`;
-  document.getElementById('heroSub').textContent = topTasks[0]?.nextAction || 'Refresh after updating TASKS.md or SYSTEM-OVERVIEW.md.';
+  const executionOrder = state.executionOrder || [];
+  document.getElementById('heroSub').textContent = executionOrder[0]?.title || topTasks[0]?.nextAction || 'Refresh after updating TASKS.md or SYSTEM-OVERVIEW.md.';
   document.getElementById('heroActions').innerHTML = topTasks.slice(0, 2).map(t => `
     <div class="hero-action-card">
       <span class="eyebrow">Next move</span>
@@ -104,11 +105,18 @@ function render(state) {
   document.getElementById('topPriorities').innerHTML = topTasks.map(t => listTask(t, 'focus')).join('') || '<div class="empty">No priority items right now.</div>';
   document.getElementById('blockers').innerHTML = blockers.map(t => listTask(t, 'blocked')).join('') || '<div class="empty">No active blockers. Keep shipping.</div>';
 
-  document.getElementById('nextMoves').innerHTML = activeTasks
-    .filter(t => t.nextAction)
-    .slice(0, 3)
-    .map(t => `<li><strong>${t.title}</strong><span>${t.nextAction}</span></li>`)
-    .join('') || '<li><strong>No immediate next moves logged.</strong><span>Update TASKS.md to drive the board.</span></li>';
+  const nextMovesHtml = executionOrder.length
+    ? executionOrder.slice(0, 3).map(item => {
+        const detail = item.notes[0] || 'No note logged yet.';
+        return `<li><strong>Step ${item.step}: ${clean(item.title)}</strong><span>${clean(detail)}</span></li>`;
+      }).join('')
+    : activeTasks
+        .filter(t => t.nextAction)
+        .slice(0, 3)
+        .map(t => `<li><strong>${t.title}</strong><span>${t.nextAction}</span></li>`)
+        .join('');
+
+  document.getElementById('nextMoves').innerHTML = nextMovesHtml || '<li><strong>No immediate next moves logged.</strong><span>Update TASKS.md to drive the board.</span></li>';
 
   document.getElementById('systemSnapshot').innerHTML = state.infrastructure.slice(0, 8)
     .map(item => `<div class="row"><strong>${clean(item.component)}</strong>${chip(clean(item.status))}</div>`)

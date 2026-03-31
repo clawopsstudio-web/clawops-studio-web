@@ -88,12 +88,44 @@ function parseTaskFile(text) {
 }
 
 function parseOperatingPriorities(text) {
-  const block = text.split('## Operating Priorities')[1]?.split('## Active Queue')[0] || '';
+  const afterHeading = text.split('## Operating Priorities')[1] || '';
+  const block = afterHeading.split('## Current 5-Sequence Execution Order')[0] || afterHeading.split('## Active Queue')[0] || '';
   return block
     .split(/\r?\n/)
     .map(l => l.trim())
     .filter(l => /^\d+\./.test(l))
     .map(l => l.replace(/^\d+\.\s*/, ''));
+}
+
+function parseExecutionOrder(text) {
+  const block = text.split('## Current 5-Sequence Execution Order')[1]?.split('## Active Queue')[0] || '';
+  const lines = block.split(/\r?\n/);
+  const items = [];
+  let current = null;
+
+  const finishCurrent = () => {
+    if (current) {
+      items.push(current);
+      current = null;
+    }
+  };
+
+  for (const rawLine of lines) {
+    const line = rawLine.trimEnd();
+    const stepMatch = line.match(/^\s*(\d+)\.\s+\*\*(.+?)\*\*/);
+    if (stepMatch) {
+      finishCurrent();
+      current = { step: Number(stepMatch[1]), title: stepMatch[2], notes: [] };
+      continue;
+    }
+    const noteMatch = line.match(/^\s*-\s+(.+)$/);
+    if (current && noteMatch) {
+      current.notes.push(noteMatch[1].trim());
+    }
+  }
+
+  finishCurrent();
+  return items;
 }
 
 function parseTable(text, heading) {
@@ -161,6 +193,7 @@ function buildState() {
   const notionIndexMd = read('docs/NOTION-INDEX.md');
   const tasks = parseTaskFile(tasksMd);
   const operatingPriorities = parseOperatingPriorities(tasksMd);
+  const executionOrder = parseExecutionOrder(tasksMd);
   const infraRows = parseTable(overviewMd, '## 🏗️ Current Infrastructure').map(([component, status, purpose]) => ({ component, status, purpose }));
   const appRows = parseTable(overviewMd, '## 🔌 Apps & Integrations Connected').map(([app, status, purpose]) => ({ app, status, purpose }));
   const laneRows = parseTable(overviewMd, '## 💬 Operating Model — Telegram Lanes').map(([lane, agent, topic, model, role]) => ({ lane, agent, topic, model, role }));
@@ -180,6 +213,7 @@ function buildState() {
       done: counts.DONE || 0
     },
     operatingPriorities,
+    executionOrder,
     tasks,
     infrastructure: infraRows,
     integrations: appRows,
