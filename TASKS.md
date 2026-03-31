@@ -21,7 +21,7 @@ Priority: P0 = revenue/launch | P1 = this week | P2 = useful
 | Agent | Task | Status | Notes |
 |-------|------|--------|-------|
 | Tyler | Content batch (14 posts, viral hooks, 30-day calendar) | ✅ DONE | Ready to publish |
-| Dave | Supabase live setup via browser | DOING | Running now |
+| Dave | Supabase live setup via browser | BLOCKED | Reached Supabase signup, but blocked by inactive Gmail session + hCaptcha/auth flow |
 | Ryan | Outbound validation engine + lead list | ✅ DONE | 15 leads, outreach templates ready, GHL contacts pending approval |
 | Kyle | Landing page via GitHub Pages | ✅ DONE | Live at clawopsstudio-web.github.io/test/ |
 | Andrew | Architecture freeze | TODO | Next after infra |
@@ -96,11 +96,11 @@ Goal: finish all product/revenue work except Contabo before deadline.
     - Mobile responsive ✅
     - Intake form or CTA connected ✅
 
-- [DOING] **Supabase live project + credentials**
+- [BLOCKED] **Supabase live project + credentials**
   - Owner: Dave
   - Goal: Live Supabase project with schema for clients, projects, tasks, payments
-  - Current state: Running — browser automation creating project via Gmail OAuth
-  - Next action: Create project, collect credentials, save to .secrets/supabase.env, run schema SQL
+  - Current state: Browser automation reached Supabase auth/signup, but current Supabase flow no longer offers Google OAuth here; direct signup triggers hCaptcha, and the available Chrome profile only has a remembered ClawOps Gmail account with no active session/password.
+  - Next action: Resume with an active Gmail session in the browser or a Supabase access token / successful manual auth, then create project, collect credentials, save to .secrets/supabase.env, and run schema SQL.
   - Definition of done:
     - Supabase project created at supabase.com
     - Credentials saved to .secrets/supabase.env
