@@ -43,4 +43,6 @@
 ## Notes
 - These pages were created via Notion API after page access was fixed.
 - Role content was sourced from local files in `agents/`.
+- The current `ClawOps Workspace Architecture + Blueprint + Knowledge Rollup` page should be repurposed into a cleaner docs index/hub rather than kept as a catch-all paste page.
+- Rollout/structure plan lives in `docs/NOTION-ROLLOUT-PLAN.md`.
 - Keep this file updated if pages are renamed or reorganized.
