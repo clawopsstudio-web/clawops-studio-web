@@ -5,3 +5,6 @@ mission-control/mission-control.log
 external/
 out/
 deliveries/
+**/__pycache__/
+**/.pytest_cache/
+**/*.egg-info/
