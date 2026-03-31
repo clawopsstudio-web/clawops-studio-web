@@ -81,10 +81,14 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 - Standard staging root for deliverables to send/share later: `deliveries/telegram/`
 - Per-lane folders: `hq`, `ryan`, `arjun`, `dev`, `dave`, `kyle`, `tyler`, plus `shared`
 - Date folder format: `YYYY-MM-DD`
+- Also maintain a `latest/` folder per lane for stable download links.
 - Put PDFs, images, audio, and video here when preparing assets for Telegram direct chat or topic lanes.
+- Tailnet-only web root for downloads: `https://vmi3094584-1.tailec7a72.ts.net/deliveries/`
 - Current staged NotebookLM exports:
   - `deliveries/telegram/hq/2026-03-31/clawops-studio-ai-workforce.pdf`
   - `deliveries/telegram/hq/2026-03-31/clawops-studio-ai-workforce-infographic.png`
+  - `deliveries/telegram/hq/latest/clawops-studio-ai-workforce.pdf`
+  - `deliveries/telegram/hq/latest/clawops-studio-ai-workforce-infographic.png`
 
 ### Notion
 - Parent page ID: `330be54579ac8064800ff45210674b55`

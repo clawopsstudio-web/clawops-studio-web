@@ -28,9 +28,24 @@ Inside each lane folder, use date buckets:
 
 `YYYY-MM-DD/`
 
+Also keep a `latest/` folder for the newest shareable version of current assets.
+
 Example:
 
 `/root/.openclaw/workspaces/arjun/deliveries/telegram/hq/2026-03-31/`
+`/root/.openclaw/workspaces/arjun/deliveries/telegram/hq/latest/`
+
+## Tailnet download URL
+
+Private download base over Tailscale Serve:
+
+`https://vmi3094584-1.tailec7a72.ts.net/deliveries/`
+
+This is **tailnet only**, not public internet.
+
+Example direct links:
+- `https://vmi3094584-1.tailec7a72.ts.net/deliveries/hq/latest/clawops-studio-ai-workforce.pdf`
+- `https://vmi3094584-1.tailec7a72.ts.net/deliveries/hq/latest/clawops-studio-ai-workforce-infographic.png`
 
 ## Naming convention
 
