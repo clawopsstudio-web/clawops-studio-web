@@ -8,11 +8,11 @@ Priority: P0 = revenue/launch | P1 = this week | P2 = useful
 
 ## Operating Priorities
 
-1. Full Autonomy — Henry + swarm execute without Pulkit micromanaging
-2. Product build — landing page, onboarding, payment, deployment pipeline
-3. Revenue motion — outbound validation, sales content, lead follow-up
-4. Backend/infra — Supabase live, payment webhook, Contabo deploy (deferred)
-5. Agent tooling — each lane has working tools and skills
+1. Architecture freeze — lock OpenClaw vs backend vs DB vs automation boundaries
+2. Backend build — Supabase schema, app wiring, auth/payment/webhook path
+3. Product build — onboarding, payment, deployment pipeline
+4. Revenue motion — outreach execution, sales content publishing, lead follow-up
+5. Runtime hardening — keep the lean roster/docs/session hygiene stable
 
 ---
 
@@ -24,8 +24,8 @@ Priority: P0 = revenue/launch | P1 = this week | P2 = useful
 | Dave | Supabase live project recovery + credentials | ✅ DONE | Project active, healthy, credentials saved to .secrets/supabase.env |
 | Ryan | Outbound validation engine + lead list | ✅ DONE | 15 leads, outreach templates ready, GHL contacts pending approval |
 | Kyle | Landing page via GitHub Pages | ✅ DONE | Live at clawopsstudio-web.github.io/test/ |
-| Andrew | Architecture freeze | TODO | Next after infra |
-| Henry | Autonomy system + swarm coordination | DOING | Active |
+| Andrew | Architecture freeze | TODO | Human-facing name for runtime key `dev`; now highest-leverage build task |
+| Henry | Runtime hardening + sequencing | DOING | Gateway hardened, Weixin removed, session store pruned |
 
 ---
 
@@ -145,6 +145,7 @@ Goal: finish all product/revenue work except Contabo before deadline.
 
 - [TODO] **Architecture freeze**
   - Owner: Andrew + Dave
+  - Runtime note: Andrew remains mapped to internal runtime key `dev` for stability.
   - Goal: Freeze AI/backend boundaries before more build work starts
   - Next action: After current swarm, Andrew defines: OpenClaw runtime vs backend vs DB vs automation
   - Definition of done:
@@ -153,6 +154,12 @@ Goal: finish all product/revenue work except Contabo before deadline.
     - No spaghetti before scale
 
 ### P1 — Infrastructure / Tools
+
+- [DONE] **Runtime hardening baseline**
+  - Owner: Henry
+  - Current state: Gateway bound to loopback, `openclaw-weixin` removed while keeping MetaClaw active, roster pruned to 9 core agents, stale session-store mappings reduced from 63 active sessions to 35.
+  - Next action: Keep docs aligned and avoid reintroducing capability sprawl.
+
 
 - [TODO] **Sales recurring workflow (Ryan's loop)**
   - Owner: Ryan
@@ -224,4 +231,5 @@ Goal: finish all product/revenue work except Contabo before deadline.
 - Backend: Supabase access recovered and credentials secured; next step is schema + backend wiring
 - Payment: Stripe or provider (not started)
 - Deployment: Contabo API (deferred until product ready)
-- Swarm: 4 agents running in parallel (Tyler done, 3 running)
+- Runtime security: gateway bind is loopback-only; MetaClaw kept active; Weixin removed; session-store bloat pruned
+- Sequencing: architecture-first → backend foundation → payments/onboarding → revenue execution

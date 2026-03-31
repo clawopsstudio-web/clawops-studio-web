@@ -59,17 +59,17 @@
 | **Henry** | CEO / Chief AI Officer | Active |
 | **Ryan** | Sales | Active / structured |
 | **Arjun** | Research | Active / structured |
-| **Dev** | Founding Engineer | Active / structured |
+| **Andrew** *(runtime key: `dev`)* | Founding Engineer | Active / structured |
 | **Dave** | DevOps / Backend | Active / structured |
 | **Kyle** | Frontend / Web | Active / structured |
 | **Tyler** | Marketing / SEO | Active / structured |
-| **Marcus** | Mobile App Agent | Future / not onboarded |
+| **Marcus** | Support Agent | Future / deferred |
 
 ### Current Reporting Structure
 - Henry
   - Ryan
   - Arjun
-  - Dev
+  - Andrew *(runtime key: `dev`)*
     - Dave
     - Kyle
   - Tyler
@@ -352,7 +352,7 @@ When production-ready, provides:
 | Henry | CEO / HQ | Topic 21 |
 | Ryan | Sales / Pipeline | Topic 25 |
 | Arjun | Research / Intel | Topic 26 |
-| Dev | Founding Engineer | Topic 27 |
+| Andrew *(runtime key: `dev`)* | Founding Engineer | Topic 27 |
 | Dave | DevOps / Backend | Topic 29 |
 | Kyle | Frontend / Web | Topic 30 |
 | Tyler | Marketing / SEO | Topic 31 |

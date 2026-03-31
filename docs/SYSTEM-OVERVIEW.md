@@ -1,7 +1,7 @@
 # ClawOps Studio — Complete System Overview
 
-**Last Updated:** 2026-03-29  
-**Status:** Pre-launch / Infrastructure Validation
+**Last Updated:** 2026-03-31  
+**Status:** Pre-launch / Hardened Operating Baseline
 
 ---
 
@@ -39,13 +39,13 @@ Client Operates via Telegram / Dashboard
 | Component | Status | Purpose |
 |-----------|--------|---------|
 | **OpenClaw** | ✅ Running | Core agent runtime |
-| **Gateway** | ✅ Running (port 18789) | Agent communication |
-| **Tailscale** | ✅ Connected | VPN / remote access |
+| **Gateway** | ✅ Running on loopback (`127.0.0.1:18789`) | Agent communication with reduced exposure |
+| **Tailscale** | ✅ Active access path | VPN / remote access |
 | **Docker** | ✅ Running | Container runtime |
 | **Paperclip** | ⚠️ Deferred / backlog | Internal orchestration (deprioritized) |
-| **MetaClaw** | ✅ Active | Self-improvement loop |
+| **MetaClaw** | ✅ Active | Optimization / self-improvement layer |
 | **HiClaw** | ✅ Running (local) | Multi-agent collaboration |
-| **DeerFlow** | ✅ Updated & Running | Deep research / workflow automation |
+| **DeerFlow** | ⏸ Deferred / must re-verify before use | Deep research / workflow automation |
 | **n8n** | ✅ Running (Docker) | Workflow automation |
 | **Playwright + Chrome** | ✅ Available | Browser automation |
 | **UFW Firewall** | ✅ Configured | Security |
@@ -59,12 +59,12 @@ Client Operates via Telegram / Dashboard
 | Lane | Agent | Topic # | Model | Role |
 |------|-------|---------|-------|------|
 | HQ / Command | Henry | 21 | gpt-5.4 | Executive synthesis, routing, priorities |
-| Sales / Pipeline | Ryan | 25 | nemotron-3-super (free) | Outreach, follow-up, pipeline |
-| Research / Intel | Arjun | 26 | minimax-m2.5 (free) | Market intel, prospect research |
-| Founding Engineer | Andrew (`dev`) | 27 | minimax-m2.7 | Client deployment architecture |
-| DevOps / Backend | Dave | 29 | gpt-5.3-codex | Infrastructure, reliability |
-| Frontend / Web | Kyle | 30 | gemini-3.1-flash-lite | Websites, dashboards |
-| Marketing / SEO | Tyler | 31 | glm-4.7-flash | Content, SEO, GEO, positioning |
+| Sales / Pipeline | Ryan | 25 | budget-first small/free model | Outreach, follow-up, pipeline |
+| Research / Intel | Arjun | 26 | budget-first small/free model | Market intel, prospect research |
+| Founding Engineer | Andrew (`dev`) | 27 | budget-first small/free model | Client deployment architecture |
+| DevOps / Backend | Dave | 29 | coding/backend model | Infrastructure, reliability |
+| Frontend / Web | Kyle | 30 | lightweight web model | Websites, dashboards |
+| Marketing / SEO | Tyler | 31 | lightweight content model | Content, SEO, GEO, positioning |
 
 **Operating Rules:**
 - Telegram = front door for discussion
@@ -80,12 +80,12 @@ Client Operates via Telegram / Dashboard
 |-----|--------|---------|
 | **Telegram** | ✅ Live | Primary operating surface |
 | **Notion** | ✅ Connected | Docs, databases, HQ dashboard |
-| **GoHighLevel (GHL)** | ✅ MCP operational (read-only + safe write tested) | CRM — pipeline, contacts, opportunities |
+| **GoHighLevel (GHL)** | ✅ MCP operational (read + safe write path validated) | CRM — pipeline, contacts, opportunities |
 | **OpenRouter** | ✅ Connected | LLM models (free + paid) |
-| **LobsterBoard** | ✅ Installed | Client-facing dashboard |
+| **LobsterBoard** | ✅ Installed | Optional client-facing dashboard |
 | **Mission Control** | ✅ Running on systemd | Internal HQ dashboard at `/dashboard/` via Tailscale |
-| **GitHub** | ✅ Connected (clawopsstudio-web) | Version control — repo: clawopsstudio-web/skills |
-| **Vercel** | ⚠️ Deferred / backlog | Deployment for Kyle; repo/test path verified but auth still missing in current runtime |
+| **GitHub** | ✅ Connected | Version control / frontend repo path works |
+| **Vercel** | ⏸ Deferred / backlog | Not a repo problem; blocked by authenticated runtime access and not on critical path |
 
 ---
 
@@ -148,29 +148,29 @@ Required behavior:
 
 | Task | Status | Owner | Blocker |
 |------|--------|-------|---------|
-| **Telegram lane sweep** | ✅ Done enough to operate | Henry | Remaining caveat: topic isolation / long-run reliability not fully proven |
-| **GHL connection** | 🔄 Reusable MCP wrapper + triage loop ready | Henry | Raw API path still returns 403; use `scripts/ghl_mcp.sh` for read-only ops |
-| **Autonomy system** | 🔄 Running | Henry | Watch for timeout/noise |
-| **Agent tooling matrix** | 🔄 In progress | Henry | Verify tools lane by lane |
+| **Architecture freeze** | ❌ Todo | Andrew + Dave | Needs explicit OpenClaw/backend/DB boundary spec |
+| **Supabase backend wiring** | 🔄 Ready to start | Dave | Access recovered; now needs schema/app implementation |
+| **Payment + onboarding path** | ❌ Todo | Henry + Dave | Depends on backend path being locked |
+| **Runtime hardening baseline** | ✅ Done | Henry | Maintain docs + avoid sprawl regression |
 
 ### P1 — This Week
 
 | Task | Status | Owner |
 |------|--------|-------|
-| **HiClaw pilot** | 🔄 Defined | Henry |
-| **DeerFlow test** | ⏸ Backlog / deferred | Arjun |
-| **GitHub + Vercel setup** | ⏸ Backlog / deferred | Kyle |
-| **Supabase backend** | ❌ Todo | Dev/Dave |
-| **1-click Contabo deploy** | ❌ Todo | Dev/Dave |
+| **Ryan recurring GHL loop** | 🔄 Ready to formalize | Ryan + Henry |
+| **Tyler publish first batch** | 🔄 Ready | Tyler |
+| **HiClaw pilot** | ⏸ Deferred | Henry |
+| **DeerFlow validation** | ⏸ Deferred / re-verify before use | Arjun |
+| **Vercel setup** | ⏸ Deferred | Kyle |
 
 ### P2 — Soon
 
 | Task | Status |
 |------|--------|
-| n8n workflows | ❌ Not installed |
 | Client onboarding automation | ❌ Todo |
-| Outbound validation engine | ❌ Todo |
-| Content engine (X, LinkedIn) | ❌ Todo |
+| 1-click Contabo deploy | ❌ Todo |
+| n8n workflow imports | ❌ Todo |
+| Optional client dashboard refinement | ❌ Todo |
 
 ---
 
@@ -257,13 +257,13 @@ Required behavior:
 
 ## 🚦 Next Actions (Priority Order)
 
-1. **Run Telegram lane sweep** — validate all lanes
-2. **Test GHL connection** — verify CRM works
-3. **Test DeerFlow research** — validate Arjun's tool
-4. **Set up GitHub + Vercel** — enable Kyle to ship
-5. **Document Supabase baseline** — enable Dev/Dave
-6. **Define HiClaw pilot use case** — narrow collaboration test
-7. **Build 1-click Contabo flow** — productize deployment
+1. **Freeze architecture** — Andrew + Dave define runtime/backend/DB boundaries
+2. **Build Supabase schema + backend wiring** — move from access recovery into implementation
+3. **Define payment/onboarding flow** — webhook + client record + setup trigger path
+4. **Lock Ryan recurring CRM loop** — triage → approval → outbound
+5. **Publish Tyler’s first batch** — turn content readiness into distribution
+6. **Keep runtime/docs aligned** — Mission Control, TASKS, SYSTEM-OVERVIEW stay truthful
+7. **Revisit deferred threads only if they become revenue-relevant** — DeerFlow, Vercel, HiClaw pilot
 
 ---
 
