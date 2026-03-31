@@ -45,7 +45,7 @@ Paperclip remains part of **internal infrastructure**, but it is **not required 
 | Henry | CEO / Chief AI Officer | Set direction, prioritize work, orchestrate the company, protect focus, drive revenue and delivery decisions | `openai-codex/gpt-5.4` | `google/gemini-3.1-flash-lite-preview` |
 | Ryan | Sales / Pipeline | Generate pipeline, follow up aggressively, move leads toward calls and closes | `openrouter/mistralai/mistral-small-3.1-24b-instruct:free` | `google/gemini-3.1-flash-lite-preview` |
 | Arjun | Research | Produce market intelligence, prospect enrichment, offer research, and decision support | `opencode-go/minimax-m2.7` | `google/gemini-3.1-flash-lite-preview` |
-| Dev | Founding Engineer | Design and implement product architecture, core code, and technical decisions | `openai-codex/gpt-5.3-codex` | `openrouter/qwen/qwen3-coder:free` |
+| Andrew (`dev`) | Founding Engineer | Design and implement product architecture, core code, and technical decisions | `openai-codex/gpt-5.3-codex` | `openrouter/qwen/qwen3-coder:free` |
 | Dave | DevOps / Backend | Handle infrastructure, deployment, backend systems, reliability, and integrations | `openrouter/qwen/qwen3-coder:free` | `google/gemini-3.1-flash-lite-preview` |
 | Kyle | Frontend / Web | Build client-facing UI, frontend systems, websites, and dashboard surfaces | `opencode-go/minimax-m2.5` | `google/gemini-3.1-flash-lite-preview` |
 | Tyler | Marketing / SEO | Own positioning, messaging, content, SEO, GEO, and growth support assets | `openrouter/nvidia/nemotron-3-super-120b-a12b:free` | `google/gemini-3.1-flash-lite-preview` |
