@@ -2,6 +2,9 @@
   "mcpServers": {
     "notion": {
       "baseUrl": "https://mcp.notion.com/mcp"
+    },
+    "n8n-google": {
+      "baseUrl": "http://localhost:5678/mcp/89a55f12-1823-4f0d-9568-980732c57a89"
     }
   },
   "imports": []
