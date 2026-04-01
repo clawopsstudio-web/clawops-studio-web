@@ -268,3 +268,60 @@ Required behavior:
 ---
 
 *This document is the source of truth for ClawOps Studio infrastructure, tools, and priorities.*
+
+---
+
+## OAuth Architecture (Option A - Decided 2026-04-01)
+
+**Decision: ONE centralized Nango for ALL clients**
+
+### How it works:
+```
+Client pays $299-499/mo
+        ↓
+We provision their VPS via Contabo API
+        ↓
+We install OpenClaw on their VPS
+        ↓
+Client connects social accounts through OUR dashboard
+        ↓
+OUR centralized Nango handles OAuth (publicly accessible)
+        ↓
+OUR Nango stores all OAuth tokens
+        ↓
+Client's AI workers call OUR Nango API with their connection-id
+        ↓
+OUR Nango proxies to social platforms with their tokens
+        ↓
+AI workers post on behalf of clients
+```
+
+### Why Option A:
+- ✅ One Nango to manage
+- ✅ We control all OAuth tokens
+- ✅ Client doesn't configure anything technical
+- ✅ Simpler infrastructure
+- ✅ White-label - client never sees Nango
+
+### Current Nango Setup:
+- **URL:** https://vmi3094584-1.tailec7a72.ts.net/oauth/
+- **Admin:** admin / ClawOps2026!
+- **Access:** Public (via Tailscale Funnel)
+- **Database:** nango-db (PostgreSQL 16)
+- **Encryption:** Enabled
+
+### Connection-Id Pattern:
+- `pulkit_twitter` - Pulkit's Twitter
+- `client_001_linkedin` - Client 001's LinkedIn
+- `client_001_facebook` - Client 001's Facebook
+
+### Client Onboarding Flow:
+1. Client signs up → We provision their VPS
+2. We deploy OpenClaw to their VPS
+3. Client's OpenClaw is configured to call OUR Nango
+4. Client connects social accounts via OUR dashboard
+5. OUR Nango handles OAuth → stores tokens
+6. AI workers post via OUR Nango
+
+### NOT per-client Nango:
+We are NOT spinning up a Nango for each client. One Nango handles ALL clients with connection-ids for isolation.
