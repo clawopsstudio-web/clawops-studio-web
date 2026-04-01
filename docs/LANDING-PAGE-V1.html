@@ -1,0 +1,785 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ClawOps Studio — Agency AI Employees from $299/month</title>
+    <meta
+      name="description"
+      content="ClawOps Studio deploys Agency AI Employees in 7 days for digital agencies, SaaS founders, and marketing teams. Automate reporting, onboarding, follow-up, lead triage, and more from $299/month."
+    />
+    <meta property="og:title" content="Your Agency Has an AI Employee Now — at $299/month" />
+    <meta
+      property="og:description"
+      content="Fully deployed in 7 days. 20+ agency workflows. 95% automation."
+    />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#0b1020" />
+    <style>
+      :root {
+        --bg: #07111f;
+        --panel: rgba(11, 18, 35, 0.9);
+        --panel-2: rgba(16, 26, 48, 0.95);
+        --line: rgba(143, 172, 255, 0.18);
+        --text: #eef4ff;
+        --muted: #9eb0d0;
+        --accent: #7c9bff;
+        --accent-2: #59f0c2;
+        --danger: #ff8b8b;
+        --shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+        --radius: 22px;
+        --max: 1180px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background:
+          radial-gradient(circle at top left, rgba(124, 155, 255, 0.18), transparent 32%),
+          radial-gradient(circle at top right, rgba(89, 240, 194, 0.12), transparent 26%),
+          linear-gradient(180deg, #07111f 0%, #08101c 100%);
+        color: var(--text);
+        line-height: 1.6;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      img {
+        max-width: 100%;
+      }
+
+      .container {
+        width: min(var(--max), calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        backdrop-filter: blur(18px);
+        background: rgba(7, 13, 25, 0.72);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      .nav-inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        padding: 16px 0;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 800;
+        letter-spacing: 0.02em;
+      }
+
+      .brand-mark {
+        width: 42px;
+        height: 42px;
+        border-radius: 14px;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        color: #04101a;
+        font-weight: 900;
+        box-shadow: 0 12px 40px rgba(124, 155, 255, 0.35);
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        color: var(--muted);
+        font-size: 0.96rem;
+      }
+
+      .nav-links a:hover {
+        color: var(--text);
+      }
+
+      .button,
+      button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 14px 22px;
+        border-radius: 999px;
+        border: 1px solid transparent;
+        font-weight: 700;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+      }
+
+      .button:hover,
+      button:hover {
+        transform: translateY(-1px);
+      }
+
+      .button-primary {
+        background: linear-gradient(135deg, var(--accent), #9e7cff);
+        color: white;
+        box-shadow: 0 18px 45px rgba(124, 155, 255, 0.32);
+      }
+
+      .button-secondary {
+        background: rgba(255, 255, 255, 0.03);
+        color: var(--text);
+        border-color: rgba(255, 255, 255, 0.12);
+      }
+
+      .hero {
+        padding: 84px 0 54px;
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 28px;
+        align-items: center;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 14px;
+        border-radius: 999px;
+        border: 1px solid rgba(124, 155, 255, 0.22);
+        background: rgba(124, 155, 255, 0.08);
+        color: #cbd8ff;
+        font-size: 0.92rem;
+        margin-bottom: 20px;
+      }
+
+      h1,
+      h2,
+      h3 {
+        line-height: 1.08;
+        margin: 0;
+      }
+
+      h1 {
+        font-size: clamp(2.4rem, 7vw, 4.6rem);
+        max-width: 14ch;
+      }
+
+      .lead {
+        font-size: 1.1rem;
+        color: var(--muted);
+        max-width: 62ch;
+        margin: 20px 0 0;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-top: 28px;
+      }
+
+      .mini-note {
+        color: var(--muted);
+        font-size: 0.95rem;
+        margin-top: 14px;
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+        margin-top: 34px;
+      }
+
+      .stat,
+      .card,
+      .pricing,
+      .proof,
+      .faq,
+      .cta-panel {
+        background: linear-gradient(180deg, rgba(15, 24, 44, 0.96), rgba(8, 15, 28, 0.96));
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+      }
+
+      .stat {
+        padding: 18px;
+      }
+
+      .stat strong {
+        display: block;
+        font-size: 1.5rem;
+        margin-bottom: 6px;
+      }
+
+      .hero-panel {
+        padding: 28px;
+      }
+
+      .hero-panel h3 {
+        font-size: 1.25rem;
+        margin-bottom: 16px;
+      }
+
+      .workflow-list,
+      .check-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .workflow-list li,
+      .check-list li {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        color: var(--muted);
+      }
+
+      .workflow-list li:last-child,
+      .check-list li:last-child {
+        border-bottom: none;
+      }
+
+      .tick,
+      .warn {
+        width: 24px;
+        height: 24px;
+        border-radius: 999px;
+        display: inline-grid;
+        place-items: center;
+        flex: 0 0 24px;
+        font-size: 0.9rem;
+        font-weight: 800;
+      }
+
+      .tick {
+        background: rgba(89, 240, 194, 0.14);
+        color: var(--accent-2);
+      }
+
+      .warn {
+        background: rgba(255, 139, 139, 0.12);
+        color: var(--danger);
+      }
+
+      section {
+        padding: 34px 0;
+      }
+
+      .section-head {
+        max-width: 720px;
+        margin-bottom: 24px;
+      }
+
+      .section-head p {
+        margin: 12px 0 0;
+        color: var(--muted);
+      }
+
+      .grid-3,
+      .grid-2 {
+        display: grid;
+        gap: 18px;
+      }
+
+      .grid-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .grid-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .card {
+        padding: 24px;
+      }
+
+      .card h3 {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+      }
+
+      .card p,
+      .card li {
+        color: var(--muted);
+      }
+
+      .pricing-wrap {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .pricing {
+        padding: 28px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .pricing.popular {
+        border-color: rgba(89, 240, 194, 0.35);
+        transform: translateY(-6px);
+      }
+
+      .badge {
+        display: inline-flex;
+        padding: 7px 12px;
+        border-radius: 999px;
+        background: rgba(89, 240, 194, 0.12);
+        color: var(--accent-2);
+        font-size: 0.85rem;
+        font-weight: 700;
+        margin-bottom: 18px;
+      }
+
+      .price {
+        font-size: 2.4rem;
+        font-weight: 900;
+        margin: 6px 0 8px;
+      }
+
+      .price span {
+        font-size: 1rem;
+        color: var(--muted);
+        font-weight: 600;
+      }
+
+      .proof {
+        padding: 28px;
+      }
+
+      .quote-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+        margin-top: 18px;
+      }
+
+      .quote {
+        padding: 22px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+      }
+
+      .quote strong {
+        display: block;
+        margin-top: 14px;
+      }
+
+      .faq {
+        padding: 10px;
+      }
+
+      details {
+        border-radius: 18px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.02);
+        padding: 18px 18px 6px;
+        margin: 10px;
+      }
+
+      summary {
+        cursor: pointer;
+        font-weight: 700;
+        list-style: none;
+        padding-bottom: 12px;
+      }
+
+      summary::-webkit-details-marker {
+        display: none;
+      }
+
+      details p {
+        margin: 0 0 14px;
+        color: var(--muted);
+      }
+
+      .cta-panel {
+        padding: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 22px;
+      }
+
+      footer {
+        padding: 22px 0 50px;
+        color: var(--muted);
+      }
+
+      .footer-grid {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        padding-top: 24px;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+
+      @media (max-width: 980px) {
+        .hero-grid,
+        .grid-2,
+        .grid-3,
+        .pricing-wrap,
+        .quote-grid,
+        .cta-panel {
+          grid-template-columns: 1fr;
+          display: grid;
+        }
+
+        .stats {
+          grid-template-columns: 1fr;
+        }
+
+        .nav-inner,
+        .footer-grid {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .pricing.popular {
+          transform: none;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .hero {
+          padding-top: 64px;
+        }
+
+        .nav-links {
+          width: 100%;
+          flex-wrap: wrap;
+        }
+
+        .hero-panel,
+        .pricing,
+        .card,
+        .proof,
+        .cta-panel {
+          padding: 22px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="nav">
+      <div class="container nav-inner">
+        <a class="brand" href="#top" aria-label="ClawOps Studio home">
+          <span class="brand-mark">C</span>
+          <span>ClawOps Studio</span>
+        </a>
+        <div class="nav-links">
+          <a href="#problem">Problem</a>
+          <a href="#solution">Solution</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#faq">FAQ</a>
+          <a class="button button-primary" href="intake.html">Book Free Assessment</a>
+        </div>
+      </div>
+    </nav>
+
+    <main id="top">
+      <section class="hero">
+        <div class="container hero-grid">
+          <div>
+            <div class="eyebrow">Built for agencies, SaaS founders, and lean marketing teams</div>
+            <h1>Your Agency Has an AI Employee Now — at $299/month</h1>
+            <p class="lead">
+              Fully deployed in 7 days. 20+ agency workflows. 95% automation. ClawOps Studio installs
+              a production-ready AI employee that handles repetitive delivery, follow-up, reporting,
+              triage, and ops work so your team gets time back immediately.
+            </p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="intake.html">Book Free Assessment</a>
+              <a class="button button-secondary" href="#pricing">See pricing</a>
+            </div>
+            <p class="mini-note">
+              Best fit: agencies doing client reporting, onboarding, lead qualification, handoffs,
+              SOP-heavy delivery, or founder-led operations.
+            </p>
+            <div class="stats">
+              <div class="stat">
+                <strong>7 days</strong>
+                <span>to go live with your first AI employee</span>
+              </div>
+              <div class="stat">
+                <strong>20+ workflows</strong>
+                <span>already mapped for agency and SaaS ops</span>
+              </div>
+              <div class="stat">
+                <strong>95% automation</strong>
+                <span>on repetitive admin and coordination tasks</span>
+              </div>
+            </div>
+          </div>
+
+          <aside class="hero-panel stat">
+            <h3>What gets handled in week one</h3>
+            <ul class="workflow-list">
+              <li><span class="tick">✓</span><span>Lead intake, qualification, and routing before your team touches the account</span></li>
+              <li><span class="tick">✓</span><span>Client onboarding checklists, missing asset follow-ups, and progress nudges</span></li>
+              <li><span class="tick">✓</span><span>Recurring reporting prep, status summaries, and internal handoff notes</span></li>
+              <li><span class="tick">✓</span><span>Inbox triage, SOP enforcement, reminder loops, and task queue cleanup</span></li>
+              <li><span class="tick">✓</span><span>Slack or dashboard-ready updates so owners stop chasing context</span></li>
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <section id="problem">
+        <div class="container">
+          <div class="section-head">
+            <h2>What agency owners waste 20h/week on</h2>
+            <p>
+              Most teams are not losing margin on strategy. They lose it on coordination, reminders,
+              reporting, chasing inputs, and doing the same operational work again every week.
+            </p>
+          </div>
+          <div class="grid-3">
+            <article class="card">
+              <h3>Client updates and reporting</h3>
+              <ul class="check-list">
+                <li><span class="warn">!</span><span>Compiling performance data into client-friendly summaries</span></li>
+                <li><span class="warn">!</span><span>Answering the same progress questions across multiple accounts</span></li>
+                <li><span class="warn">!</span><span>Preparing weekly status notes before meetings</span></li>
+              </ul>
+            </article>
+            <article class="card">
+              <h3>Onboarding and handoffs</h3>
+              <ul class="check-list">
+                <li><span class="warn">!</span><span>Chasing missing assets, approvals, logins, and brand files</span></li>
+                <li><span class="warn">!</span><span>Repeating the same setup steps for every new client</span></li>
+                <li><span class="warn">!</span><span>Making sure nothing falls through during delivery handoff</span></li>
+              </ul>
+            </article>
+            <article class="card">
+              <h3>Founder bottleneck work</h3>
+              <ul class="check-list">
+                <li><span class="warn">!</span><span>Reviewing leads manually before anyone can follow up</span></li>
+                <li><span class="warn">!</span><span>Context switching between sales, ops, and account management</span></li>
+                <li><span class="warn">!</span><span>Being the human glue between systems, tasks, and clients</span></li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="solution">
+        <div class="container">
+          <div class="section-head">
+            <h2>What AI employees handle</h2>
+            <p>
+              We do not sell generic prompts. We deploy a role-based AI employee with workflows,
+              guardrails, handoffs, and clear output expectations so it can operate like part of your team.
+            </p>
+          </div>
+          <div class="grid-2">
+            <article class="card">
+              <h3>Sales and pipeline support</h3>
+              <p>
+                Qualify inbound leads, summarize discovery notes, route high-intent opportunities,
+                remind prospects, and keep your CRM cleaner without another human coordinator.
+              </p>
+            </article>
+            <article class="card">
+              <h3>Client onboarding operations</h3>
+              <p>
+                Collect intake data, request missing assets, trigger setup checklists, and maintain one source
+                of truth across your handoff process.
+              </p>
+            </article>
+            <article class="card">
+              <h3>Delivery coordination</h3>
+              <p>
+                Draft status reports, compile task summaries, flag blockers, and keep account managers from
+                spending hours stitching updates together manually.
+              </p>
+            </article>
+            <article class="card">
+              <h3>Internal execution discipline</h3>
+              <p>
+                Follow SOPs, escalate exceptions, keep task queues moving, and reduce the silent operational drag
+                that makes agencies feel busier than they should be.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="pricing">
+        <div class="container">
+          <div class="section-head">
+            <h2>From $299/month per AI employee</h2>
+            <p>
+              Start with one role, prove the ROI, then expand. Pricing is based on workflow scope,
+              integrations, and how much execution you want automated from day one.
+            </p>
+          </div>
+          <div class="pricing-wrap">
+            <article class="pricing">
+              <div class="badge">Starter</div>
+              <h3>Single workflow operator</h3>
+              <div class="price">$299 <span>/ month</span></div>
+              <p>Best for one high-friction workflow such as intake, reporting prep, or follow-up.</p>
+              <ul class="check-list">
+                <li><span class="tick">✓</span><span>1 AI employee role</span></li>
+                <li><span class="tick">✓</span><span>Core workflow deployment in 7 days</span></li>
+                <li><span class="tick">✓</span><span>Basic handoff and escalation logic</span></li>
+              </ul>
+            </article>
+            <article class="pricing popular">
+              <div class="badge">Most agencies start here</div>
+              <h3>Multi-step ops teammate</h3>
+              <div class="price">$399 <span>/ month</span></div>
+              <p>Best for agencies that want an AI employee running across sales, onboarding, and delivery.</p>
+              <ul class="check-list">
+                <li><span class="tick">✓</span><span>Multiple connected workflows</span></li>
+                <li><span class="tick">✓</span><span>Team-facing update and reporting layer</span></li>
+                <li><span class="tick">✓</span><span>Ongoing optimization based on usage</span></li>
+              </ul>
+            </article>
+            <article class="pricing">
+              <div class="badge">Custom</div>
+              <h3>Full process coverage</h3>
+              <div class="price">$499+ <span>/ month</span></div>
+              <p>Best for founder-led teams that want one AI employee embedded into multiple operating systems.</p>
+              <ul class="check-list">
+                <li><span class="tick">✓</span><span>Complex workflow mapping</span></li>
+                <li><span class="tick">✓</span><span>Broader integration support</span></li>
+                <li><span class="tick">✓</span><span>Priority build and iteration</span></li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="proof-heading">
+        <div class="container">
+          <div class="proof">
+            <div class="section-head" style="margin-bottom: 0;">
+              <h2 id="proof-heading">What we can prove right now</h2>
+              <p>
+                We do not publish fake testimonials. Until live case studies are finalized, we keep the proof honest:
+                we show you the workflow map, the time savings, and how your first AI employee will operate inside your process.
+              </p>
+            </div>
+            <div class="quote-grid">
+              <div class="quote">
+                <p><strong>Deployment speed:</strong> your first AI employee is scoped, configured, and ready to test in 7 days.</p>
+              </div>
+              <div class="quote">
+                <p><strong>Operational focus:</strong> built for repetitive agency work where speed, consistency, and follow-through matter.</p>
+              </div>
+              <div class="quote">
+                <p><strong>Assessment-first process:</strong> before you buy, we map your current bottleneck and show exactly where the automation pays back.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="faq">
+        <div class="container">
+          <div class="section-head">
+            <h2>FAQ</h2>
+            <p>Short answers to the questions serious buyers ask first.</p>
+          </div>
+          <div class="faq">
+            <details open>
+              <summary>What exactly is an Agency AI Employee?</summary>
+              <p>
+                It is a role-based AI operator deployed into a specific function inside your business — for example
+                onboarding, reporting prep, lead triage, or internal coordination. It follows your workflow, not a demo script.
+              </p>
+            </details>
+            <details>
+              <summary>How fast can we launch?</summary>
+              <p>
+                Most teams can launch the first workflow in 7 days once the assessment is complete and we have access to the process inputs.
+              </p>
+            </details>
+            <details>
+              <summary>Will this replace my team?</summary>
+              <p>
+                No. The goal is to remove repetitive work, tighten follow-through, and free your team to focus on strategy,
+                account growth, and higher-leverage execution.
+              </p>
+            </details>
+            <details>
+              <summary>What kinds of businesses are the best fit?</summary>
+              <p>
+                Digital agencies, SaaS founders, and marketing teams with recurring workflows, handoff friction,
+                and too much founder involvement in operations see the fastest payoff.
+              </p>
+            </details>
+            <details>
+              <summary>What happens in the free assessment?</summary>
+              <p>
+                We review your workflow bottleneck, map the highest-ROI automation path, estimate time saved,
+                and recommend the right starting plan.
+              </p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="container">
+          <div class="cta-panel">
+            <div>
+              <h2>Stop hiring more coordination for work software should already be handling.</h2>
+              <p class="lead" style="margin-top: 12px; max-width: 50ch;">
+                If your team is buried in recurring ops, book the assessment and we will show you where your first AI employee delivers ROI fastest.
+              </p>
+            </div>
+            <div>
+              <a class="button button-primary" href="intake.html">Book Free Assessment</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container footer-grid">
+        <div>
+          <strong>ClawOps Studio</strong><br />
+          Agency AI Employees for digital agencies, SaaS founders, and marketing teams.
+        </div>
+        <div class="footer-links">
+          <a href="intake.html">Assessment form</a>
+          <a href="https://t.me/CryptoKin" target="_blank" rel="noreferrer">Telegram contact</a>
+          <a href="#top">Back to top</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

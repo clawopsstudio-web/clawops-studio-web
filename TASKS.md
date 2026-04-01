@@ -79,19 +79,29 @@ The bottleneck is now **implementation order**, not more planning.
 
 ### P0 — Connectivity first
 
-- [DOING] **Google Workspace core connectivity**
+- [DONE] **Google Workspace core connectivity**
   - Owner: Henry + Dave
-  - Goal: Connect and validate Gmail, Calendar, Drive, Docs, Sheets, AI Studio using the cleanest working path per service
-  - Current state: Live browser verification pass completed. Gmail shows partial/drifting session traces; Calendar, Drive, Docs, and Sheets currently bounce to Google sign-in/account chooser; AI Studio is browser-verified only.
-  - Next action: Recover a clean primary Google Workspace session in Chrome, then verify one real action per service and lock the preferred path.
+  - Status (2026-04-01): All verified via browser-backed CLI harness
+  - Gmail ✅ — `google_workspace_browser.py auth-check --service gmail` — PASS
+  - Calendar ✅ — `google_workspace_browser.py auth-check --service calendar` — PASS
+  - Drive ✅ — `google_workspace_browser.py auth-check --service drive` — PASS
+  - Docs ✅ — `google_workspace_browser.py auth-check --service docs` — PASS
+  - Sheets ✅ — `google_workspace_browser.py auth-check --service sheets` — PASS
+  - AI Studio ✅ — `google-ai-studio auth-check` — PASS, authenticated as clawops.studio@gmail.com, project "ClawOps Lead Management System" visible
+  - Preferred execution path: browser CLI harness via Chrome CDP session
+  - CLI location: `/root/.openclaw/skills/google-ai-studio/google_ai_studio_browser.py` (symlinked to `/usr/local/bin/google-ai-studio`)
+  - Session stability: depends on Chrome container staying alive; re-auth if session drops
+
+- [DOING] **Social/media platform connectivity**
+  - Owner: Henry + Tyler + Ryan
+  - Goal: Verify which publishing/outreach platforms should be operational now and connect them through API/MCP/n8n/CLI/browser as appropriate
+  - Scope: X/Twitter, LinkedIn, Facebook, Instagram, and any other platform Pulkit explicitly wants active
+  - Next action: Build a platform matrix with business use, access state, preferred execution path, and blocker
   - Definition of done:
-    - Gmail path selected and one real action verified
-    - Calendar path selected and one real action verified
-    - Drive path selected and one real action verified
-    - Docs path selected and one real action verified
-    - Sheets path selected and one real action verified
-    - AI Studio evaluated and categorized
-    - verified path documented for each service
+    - target platforms frozen
+    - one real working action or verified blocker per platform
+    - preferred path documented for each platform
+    - risky/browser-only flows clearly marked as guided/manual where needed
 
 - [TODO] **Social/media platform connectivity**
   - Owner: Henry + Tyler + Ryan
