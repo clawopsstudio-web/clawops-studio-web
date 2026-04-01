@@ -79,10 +79,11 @@ The bottleneck is now **implementation order**, not more planning.
 
 ### P0 — Connectivity first
 
-- [TODO] **Google Workspace core connectivity**
+- [DOING] **Google Workspace core connectivity**
   - Owner: Henry + Dave
   - Goal: Connect and validate Gmail, Calendar, Drive, Docs, Sheets, AI Studio using the cleanest working path per service
-  - Next action: Create a live connectivity matrix with current access state, owner, preferred path, fallback path, blocker, and next action
+  - Current state: Live browser verification pass completed. Gmail shows partial/drifting session traces; Calendar, Drive, Docs, and Sheets currently bounce to Google sign-in/account chooser; AI Studio is browser-verified only.
+  - Next action: Recover a clean primary Google Workspace session in Chrome, then verify one real action per service and lock the preferred path.
   - Definition of done:
     - Gmail path selected and one real action verified
     - Calendar path selected and one real action verified
