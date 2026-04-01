@@ -92,6 +92,20 @@ The bottleneck is now **implementation order**, not more planning.
   - CLI location: `/root/.openclaw/skills/google-ai-studio/google_ai_studio_browser.py` (symlinked to `/usr/local/bin/google-ai-studio`)
   - Session stability: depends on Chrome container staying alive; re-auth if session drops
 
+- [DONE] **Postiz + Tailscale HTTPS routing**
+  - Owner: Henry
+  - Status (2026-04-01): ✅ ALL VERIFIED
+  - Setup: nginx reverse proxy on host (port 8081) + Tailscale serve (HTTPS on root)
+  - Verified Tailscale HTTPS routes:
+    - `https://vmi3094584-1.tailec7a72.ts.net/postiz/` → Postiz (307 redirect to login)
+    - `https://vmi3094584-1.tailec7a72.ts.net/n8n/` → n8n (200 OK)
+    - `https://vmi3094584-1.tailec7a72.ts.net/chrome/` → Browser/noVNC (200 OK)
+    - `https://vmi3094584-1.tailec7a72.ts.net/dashboard/` → Mission Control (200 OK)
+    - `https://vmi3094584-1.tailec7a72.ts.net/lobsterboard/` → LobsterBoard (200 OK)
+    - `https://vmi3094584-1.tailec7a72.ts.net/command-center/` → Command Center (200 OK)
+    - `https://vmi3094584-1.tailec7a72.ts.net/gateway/` → OpenClaw Gateway (200 OK)
+  - Note: Root `/` redirects to Postiz
+
 - [DOING] **Social/media platform connectivity**
   - Owner: Henry + Tyler + Ryan
   - Goal: Verify which publishing/outreach platforms should be operational now and connect them through API/MCP/n8n/CLI/browser as appropriate
