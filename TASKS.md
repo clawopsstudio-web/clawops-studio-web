@@ -355,3 +355,35 @@ The bottleneck is now **implementation order**, not more planning.
 - Optional messaging channels and many app integrations should not block first activation
 - Contabo remains the intended deployment target, but implementation is deferred until the earlier product path is real
 - Runtime hardening baseline remains in place and should not be destabilized by tool sprawl
+
+---
+
+## Nango Installation (2026-04-01)
+
+### Status: ✅ INSTALLED AND RUNNING
+
+**What was done:**
+1. Removed Postiz (containers, nginx config, skill)
+2. Installed Nango via Docker
+3. Configured OAuth proxy at `/oauth/` path
+4. Nango dashboard accessible at: https://vmi3094584-1.tailec7a72.ts.net/oauth/
+
+**Nango Details:**
+- Container: nango-server (port 3003, 3009)
+- Database: nango-db (PostgreSQL 16)
+- Encryption key: Generated and saved
+- Default credentials: admin / ClawOps2026!
+
+**Next Steps:**
+1. Register OAuth apps on platforms (LinkedIn, Facebook, Instagram, etc.)
+2. Add credentials to Nango dashboard
+3. Test OAuth flow with one platform
+4. Build integration into OpenClaw agents
+
+### White-label Ready
+Nango can be hidden behind ClawOps branding - users don't need to know Nango exists. Agents call the backend API, backend calls Nango proxy.
+
+### Connection-Id Examples
+- `pulkit_twitter` - Pulkit's Twitter connection
+- `client_001_linkedin` - Client 001's LinkedIn
+- `client_001_facebook` - Client 001's Facebook
