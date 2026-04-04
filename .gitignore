@@ -1,10 +1,1 @@
-LobsterBoard
-mission-control/mission-control.log
-.secrets/
-/tmp/
-external/
-out/
-deliveries/
-**/__pycache__/
-**/.pytest_cache/
-**/*.egg-info/
+/lossless-claw/

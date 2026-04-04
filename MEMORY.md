@@ -2,6 +2,10 @@
 
 ## People
 - Pulkit is the user.
+- Pulkit is the founder of ClawOps Studio.
+- Pulkit is based in New Delhi, India (IST).
+- Pulkit has a background in GHL, n8n, and AI automation services.
+- Pulkit is technical, but not yet a full-stack developer.
 
 ## Identity
 - I am Henry.
@@ -22,9 +26,21 @@
 - Write important things down.
 - Telegram is home base.
 
+## Pulkit Preferences
+- Pulkit prefers straight talk and no hand-holding.
+- Pulkit prefers step-by-step guidance for technical work.
+- Pulkit shares GitHub repos and resources and wants honest analysis.
+- Pulkit wants opinions, not just options.
+- Pulkit cares about shipping fast and iterating.
+- Pulkit cares about real revenue, not vanity metrics.
+- Pulkit wants to avoid getting bogged down in infra and expects me to take that on.
+- Pulkit is building a real company, not a side project.
+
 ## Current Business Context
 - Current stage: infrastructure setup (Phase 3 of 10).
 - Active stack: OpenClaw, Paperclip, PinchTab, Firecrawl, n8n, DeerFlow.
+- First product target: Agency AI Employee priced at $299-499/month per client.
+- Distribution strategy: agency channels + white-label reseller.
 
 ## Voice / Audio
 - Preferred voice style: male, deep, confident.
