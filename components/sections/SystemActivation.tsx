@@ -107,7 +107,7 @@ export default function SystemActivation() {
       scrollTrigger: {
         trigger: section,
         start: "top top",
-        end: "+=60%",
+        end: "+=25%",
         pin: pin,
         scrub: 0.9,
         anticipatePin: 1,
@@ -169,7 +169,7 @@ export default function SystemActivation() {
     <section
       ref={sectionRef}
       id="system-activation"
-      className="relative min-h-[200vh] bg-[#080814]"
+      className="relative min-h-[150vh] bg-[#080814]"
     >
       <div ref={pinnedRef} className="relative flex h-screen items-center justify-center overflow-hidden">
         {/* Background atmosphere */}
