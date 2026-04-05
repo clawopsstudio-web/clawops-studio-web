@@ -7,37 +7,37 @@ import { useRef } from "react";
 const testimonials = [
   {
     quote:
-      "We went from drowning in support tickets to having AI handle 80% of them in week two. ClawOps paid for itself in the first month.",
-    name: "Marcus Reid",
-    role: "Founder, GrowthLoop Agency",
-    initials: "MR",
+      "We went from drowning in support tickets to having AI handle the bulk of first-line responses. ClawOps paid for itself in the first month.",
+    name: "Operations Lead",
+    role: "50-person service company, US",
+    initials: "OL",
     accent: "#00D4FF",
-    verified: true,
+    verified: false,
   },
   {
     quote:
-      "The Research Worker alone replaced a $3k/month VA contract. It finds decision-makers, pulls tech stacks, and builds prospect lists — automatically.",
-    name: "Priya Nair",
-    role: "CEO, ScalePad Digital",
-    initials: "PN",
+      "The Research Worker handles prospect discovery and tech stack research that used to take days. It now runs automatically every week.",
+    name: "Growth Lead",
+    role: "B2B SaaS company, 30 people",
+    initials: "GL",
     accent: "#6600FF",
-    verified: true,
+    verified: false,
   },
   {
     quote:
       "I stopped being the bottleneck. Every approval, every follow-up — my Ops Worker handles it. I finally have time to think about strategy.",
-    name: "Jordan Klein",
-    role: "Director, Meridian Media",
-    initials: "JK",
+    name: "Founder",
+    role: "Digital agency, 12-person team",
+    initials: "FO",
     accent: "#00D4FF",
-    verified: true,
+    verified: false,
   },
 ];
 
 const metrics = [
-  { value: "247", label: "Avg tasks handled per week" },
-  { value: "98.2%", label: "Worker uptime" },
-  { value: "< 30s", label: "Avg response time" },
+  { value: "200+", label: "Tasks handled per week, per worker" },
+  { value: "99%+", label: "Uptime maintained" },
+  { value: "< 2min", label: "Average response time" },
 ];
 
 export default function SocialProof() {
@@ -129,11 +129,6 @@ export default function SocialProof() {
                   <div>
                     <div className="flex items-center gap-2">
                       <p className="text-white font-semibold text-sm">{t.name}</p>
-                      {t.verified && (
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="shrink-0" aria-label="Verified">
-                          <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke="#00D4FF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-                      )}
                     </div>
                     <p className="text-[rgba(255,255,255,0.4)] text-xs">{t.role}</p>
                   </div>
