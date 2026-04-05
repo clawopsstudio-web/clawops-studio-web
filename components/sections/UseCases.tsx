@@ -78,7 +78,7 @@ export default function UseCases() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="use-cases" className="relative pt-12 pb-32 md:pt-16" ref={ref}>
+    <section id="use-cases" className="relative pt-8 pb-24 md:pt-10" ref={ref}>
       {/* Top gradient divider */}
       <div
         aria-hidden="true"
@@ -93,7 +93,7 @@ export default function UseCases() {
           initial={{ opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="text-center mb-20"
+          className="text-center mb-10"
         >
           <p className="pre-label mb-4">USE CASES</p>
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
