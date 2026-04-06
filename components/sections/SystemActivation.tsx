@@ -107,7 +107,7 @@ export default function SystemActivation() {
       scrollTrigger: {
         trigger: section,
         start: "top top",
-        end: "+=25%",
+        end: "+=60%",
         pin: pin,
         scrub: 0.9,
         anticipatePin: 1,

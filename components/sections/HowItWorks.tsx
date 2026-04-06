@@ -136,7 +136,7 @@ export default function HowItWorks() {
                 className="relative flex"
               >
                 <div className="relative w-full rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.03)] p-6 md:p-8">
-                  <div className="pointer-events-none absolute left-8 top-6 bg-[linear-gradient(135deg,#00D4FF,#6600FF)] bg-clip-text text-[72px] font-semibold leading-none tracking-[-0.08em] text-transparent opacity-10 md:text-[96px] lg:left-6 lg:top-4">
+                  <div className="pointer-events-none absolute left-6 top-4 bg-[linear-gradient(135deg,#00D4FF,#6600FF)] bg-clip-text text-[56px] font-semibold leading-none tracking-[-0.08em] text-transparent opacity-10 md:left-8 md:top-6 md:text-[96px] lg:left-6 lg:top-4">
                     {step.number}
                   </div>
 

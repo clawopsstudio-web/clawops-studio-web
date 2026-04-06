@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+
 import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
@@ -50,20 +51,12 @@ export default function Navbar() {
       >
         <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
           {/* Logo */}
-          <a href="#" className="flex items-center gap-2.5">
-            <div
-              className="flex h-8 w-8 items-center justify-center rounded-lg text-white"
-              style={{
-                background: "linear-gradient(135deg, #00D4FF, #6600FF)",
-                boxShadow: "0 0 16px rgba(0,212,255,0.4)",
-              }}
-            >
-              <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4" aria-hidden="true">
-                <path d="M12 2L2 7l10 5 10-5-10-5z" fill="currentColor" opacity="0.9"/>
-                <path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </div>
-            <span className="text-base font-bold tracking-tight text-white">ClawOps</span>
+          <a href="#" className="flex items-center">
+            <img
+              src="/clawops-logo-nav.png"
+              alt="ClawOps Studio"
+              className="h-9 w-auto"
+            />
           </a>
 
           {/* Desktop nav */}
