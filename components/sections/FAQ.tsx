@@ -1,3 +1,5 @@
+'use client';
+
 "use client";
 
 import { useRef, useState } from "react";
@@ -20,19 +22,24 @@ const faqs: FAQItem[] = [
       "Workers are deployed as chat-based interfaces inside Telegram, WhatsApp, Discord, or Slack — the apps your team already uses. You message the worker like a colleague: 'Find me 10 prospects in the SaaS space' or 'Summarize this week's support tickets.' The worker operates using browser automation, API calls, and webhooks behind the scenes.",
   },
   {
-    question: "How long does deployment take?",
+    question: "Do I need to be tech-savvy?",
     answer:
-      "Most setups are live within 48 hours. The first session is a 30-minute strategy call to map your workflows and identify the highest-impact automation. Then we configure, connect, and deploy. You don't need a technical team on your end.",
+      "Not at all. ClawOps is designed for founders, operations managers, and teams — not developers. You don't need to write code, manage prompts, or handle infrastructure. We take care of the entire setup and integration.",
   },
   {
-    question: "Do I need to know how to code?",
+    question: "How long does it take to get started?",
     answer:
-      "No. ClawOps is designed for operators, founders, and teams — not developers. You don't write prompts, code workflows, or manage infrastructure. We handle all of that. You just tell us what you want automated and we make it work.",
+      "We target 48 hours for deployment. After a quick strategy call to map your workflows, we configure, connect, and activate your agents. You'll be operational in two business days.",
   },
   {
-    question: "What if my tools don't have an API?",
+    question: "Do you need access to my sensitive data?",
     answer:
-      "Workers use Virtual Chrome — a real browser running in an authenticated session. If a human can do a task in a browser, a worker can too. This means ClawOps works with virtually any web app, including ones without APIs, legacy tools, or internal software.",
+      "We follow strict security protocols. Agents only access the specific data streams needed for their tasks. We leverage secure, enterprise-grade infrastructure and can support custom VPC or data-residency requirements.",
+  },
+  {
+    question: "What if I use tools without APIs?",
+    answer:
+      "We have you covered. Our agents use Virtual Chrome — real browser automation that lets them interact with any web-based application, even if it lacks a formal API or integration, just like a human team member would.",
   },
   {
     question: "Is this only for agencies?",

@@ -1,3 +1,5 @@
+'use client';
+
 "use client";
 
 import { motion, animate, useInView, useMotionValue, useTransform } from "framer-motion";
@@ -84,11 +86,11 @@ const problems = [
     icon: PhoneIcon,
     title: "Leads Go Cold",
     description:
-      "Prospects wait hours for a response. By the time your team replies, they've moved on to a competitor.",
+      "Prospects wait hours for a response. By the time you reply, they've moved on.",
   },
   {
     icon: ClockIcon,
-    title: "The Founder Bottleneck",
+    title: "The Bottleneck",
     description:
       "Every decision, every follow-up, every approval runs through you. You can't scale past 24 hours a day.",
   },
@@ -96,7 +98,7 @@ const problems = [
     icon: LayersIcon,
     title: "Tools That Don't Talk",
     description:
-      "Your stack doesn't connect to itself. Your team fills gaps with manual work that should be automated.",
+      "Your stack doesn't connect to itself. Manual work fills the gaps between your apps.",
   },
 ];
 

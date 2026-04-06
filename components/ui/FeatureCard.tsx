@@ -1,3 +1,5 @@
+'use client';
+
 "use client";
 
 import { useRef, useState, ReactNode } from "react";

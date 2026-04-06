@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -5,8 +6,8 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
-  { label: "What You Get", href: "#capabilities" },
-  { label: "How It Works", href: "#how-it-works" },
+  { label: "Capabilities", href: "#capabilities" },
+  { label: "Deployment", href: "#deployment" },
   { label: "Use Cases", href: "#use-cases" },
   { label: "Pricing", href: "#pricing" },
 ];

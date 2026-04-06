@@ -1,7 +1,6 @@
 import Navbar from "@/components/ui/Navbar";
 import Hero from "@/components/sections/Hero";
 import Problem from "@/components/sections/Problem";
-import SystemActivation from "@/components/sections/SystemActivation";
 import Capabilities from "@/components/sections/Capabilities";
 import Deployment from "@/components/sections/Deployment";
 import HowItWorks from "@/components/sections/HowItWorks";
@@ -21,7 +20,6 @@ export default function Home() {
       <main>
         <Hero />
         <Problem />
-        <SystemActivation />
         <Capabilities />
         <Deployment />
         <HowItWorks />
@@ -37,3 +35,4 @@ export default function Home() {
     </>
   );
 }
+export const dynamic = 'force-dynamic';

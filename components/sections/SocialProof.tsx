@@ -1,3 +1,5 @@
+'use client';
+
 "use client";
 
 import { motion } from "framer-motion";
@@ -7,19 +9,19 @@ import { useRef } from "react";
 const testimonials = [
   {
     quote:
-      "We went from drowning in support tickets to having AI handle the bulk of first-line responses. ClawOps paid for itself in the first month.",
-    name: "Operations Lead",
-    role: "50-person service company, US",
-    initials: "OL",
+      "We went from drowning in support tickets to having AI handle the bulk of first-line responses. It paid for itself in the first month.",
+    name: "Operations Director",
+    role: "Mid-sized service firm",
+    initials: "OD",
     accent: "#00D4FF",
     verified: false,
   },
   {
     quote:
       "The Research Worker handles prospect discovery and tech stack research that used to take days. It now runs automatically every week.",
-    name: "Growth Lead",
-    role: "B2B SaaS company, 30 people",
-    initials: "GL",
+    name: "Growth Manager",
+    role: "B2B SaaS startup",
+    initials: "GM",
     accent: "#6600FF",
     verified: false,
   },
@@ -27,7 +29,7 @@ const testimonials = [
     quote:
       "I stopped being the bottleneck. Every approval, every follow-up — my Ops Worker handles it. I finally have time to think about strategy.",
     name: "Founder",
-    role: "Digital agency, 12-person team",
+    role: "Service business owner",
     initials: "FO",
     accent: "#00D4FF",
     verified: false,
