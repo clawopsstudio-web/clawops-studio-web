@@ -97,3 +97,17 @@ CREATE TABLE IF NOT EXISTS tasks (
 );
 ALTER TABLE tasks ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Users can manage their own tasks" ON tasks USING (auth.uid() = user_id);
+
+-- 6. user_integrations table
+CREATE TABLE IF NOT EXISTS user_integrations (
+  id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+  user_id UUID REFERENCES auth.users ON DELETE CASCADE NOT NULL,
+  provider TEXT NOT NULL,
+  credentials JSONB,
+  connected_at TIMESTAMPTZ DEFAULT NOW(),
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(user_id, provider)
+);
+ALTER TABLE user_integrations ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Users can manage their own integrations" ON user_integrations USING (auth.uid() = user_id);

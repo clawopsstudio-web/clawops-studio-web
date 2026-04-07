@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabase/client'
 import DashboardSidebar from '@/components/ui/DashboardSidebar'
 import { motion } from 'framer-motion'
+import ContaboManager from '@/components/dashboard/ContaboManager'
 
 interface AgentConfig {
   id: string
@@ -220,6 +221,9 @@ export default function MissionControlPage() {
             })}
           </div>
         )}
+
+        {/* Contabo VPS Manager */}
+        <ContaboManager />
 
         {/* Agent Type Reference */}
         <div className="mt-8">

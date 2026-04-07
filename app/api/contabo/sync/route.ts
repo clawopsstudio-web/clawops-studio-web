@@ -1,0 +1,129 @@
+import { createServerClient } from '@supabase/ssr'
+import { NextRequest, NextResponse } from 'next/server'
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+
+export async function POST(request: NextRequest) {
+  const response = NextResponse.next()
+  const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
+    cookies: {
+      getAll() { return request.cookies.getAll() },
+      setAll(cookiesToSet) {
+        cookiesToSet.forEach(({ name, value, options }) => {
+          request.cookies.set(name, value)
+          response.cookies.set(name, value, options)
+        })
+      },
+    },
+  })
+
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
+  const body = await request.json()
+  const { action } = body
+
+  if (action === 'fetch_from_contabo') {
+    // Fetch instances from Contabo API using stored credentials
+    // This endpoint is called server-side so credentials stay hidden
+    try {
+      const { data: contaboToken } = await supabase
+        .from('user_integrations')
+        .select('credentials')
+        .eq('user_id', user.id)
+        .eq('provider', 'contabo')
+        .single()
+
+      if (!contaboToken) {
+        return NextResponse.json({ error: 'Contabo not connected' }, { status: 400 })
+      }
+
+      const creds = contaboToken.credentials
+      const tokenRes = await fetch('https://auth.contabo.com/auth/realms/contabo/protocol/openid-connect/token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          client_id: creds.client_id,
+          client_secret: creds.client_secret,
+          username: creds.username,
+          password: creds.password,
+          grant_type: 'password',
+        }),
+      })
+
+      const tokenData = await tokenRes.json()
+      if (!tokenData.access_token) {
+        return NextResponse.json({ error: 'Contabo auth failed' }, { status: 401 })
+      }
+
+      const instancesRes = await fetch('https://api.contabo.com/v1/compute/instances', {
+        headers: {
+          Authorization: `Bearer ${tokenData.access_token}`,
+          'x-request-id': crypto.randomUUID(),
+        },
+      })
+
+      const raw = await instancesRes.json()
+      const instances = Array.isArray(raw.data) ? raw.data : []
+
+      // Upsert each instance into vps_instances for this user
+      for (const inst of instances) {
+        const { error } = await supabase
+          .from('vps_instances')
+          .upsert({
+            user_id: user.id,
+            instance_id: String(inst.instanceId),
+            name: inst.name || inst.displayName || `vmi${inst.instanceId}`,
+            ip_v4: inst.ipConfig?.v4?.ip || null,
+            ip_v6: inst.ipConfig?.v6?.ip || null,
+            product_id: inst.productId,
+            status: inst.status,
+            region: inst.region,
+            ram_mb: inst.ramMb,
+            cpu_cores: inst.cpuCores,
+            disk_mb: inst.diskMb,
+          }, {
+            onConflict: 'user_id,instance_id',
+          })
+
+        if (error) console.error('Upsert error:', error.message)
+      }
+
+      return NextResponse.json({ synced: instances.length, instances })
+
+    } catch (err: any) {
+      return NextResponse.json({ error: err.message }, { status: 500 })
+    }
+  }
+
+  if (action === 'register_instance') {
+    // Manually register an instance (for vmi3211554 or user entry)
+    const { instance_id, name, ip_v4, product_id, region } = body
+
+    if (!instance_id) {
+      return NextResponse.json({ error: 'instance_id required' }, { status: 400 })
+    }
+
+    const { data: instance, error } = await supabase
+      .from('vps_instances')
+      .upsert({
+        user_id: user.id,
+        instance_id: String(instance_id),
+        name: name || `vmi${instance_id}`,
+        ip_v4: ip_v4 || null,
+        product_id: product_id || null,
+        region: region || null,
+        status: 'tracked',
+      }, {
+        onConflict: 'user_id,instance_id',
+      })
+      .select()
+      .single()
+
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+    return NextResponse.json({ instance })
+  }
+
+  return NextResponse.json({ error: 'Unknown action' }, { status: 400 })
+}
