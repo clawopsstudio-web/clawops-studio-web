@@ -2,6 +2,10 @@ import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase/client';
 
 export async function POST(req: Request) {
+  if (!supabase) {
+    return NextResponse.json({ received: true, note: 'DB not configured' });
+  }
+
   const event = await req.json();
   const eventType = event.event_type;
 
