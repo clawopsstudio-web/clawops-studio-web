@@ -1,14 +1,17 @@
 "use client";
 
 const productLinks = [
-  { label: "What You Get", href: "#capabilities" },
-  { label: "How It Works", href: "#how-it-works" },
-  { label: "Use Cases", href: "#use-cases" },
-  { label: "Integrations", href: "#integrations" },
-  { label: "Pricing", href: "#pricing" },
+  { label: "What You Get", href: "/#capabilities" },
+  { label: "How It Works", href: "/how-it-works" },
+  { label: "Use Cases", href: "/use-cases" },
+  { label: "Integrations", href: "/integrations" },
+  { label: "Pricing", href: "/pricing" },
 ];
 
-const companyLinks = ["About", "Blog", "Careers", "Contact"];
+const companyLinks = [
+  { label: "About", href: "/company" },
+  { label: "Contact", href: "/company#contact" },
+];
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -68,10 +71,10 @@ export default function Footer() {
             <h4 className="text-white font-semibold text-sm mb-4">Company</h4>
             <ul className="space-y-3">
               {companyLinks.map((item) => (
-                <li key={item}>
-                  <span className="text-[rgba(255,255,255,0.25)] text-sm" title="Page not published yet">
-                    {item}
-                  </span>
+                <li key={item.label}>
+                  <a href={item.href} className="text-[rgba(255,255,255,0.4)] hover:text-white text-sm transition-colors">
+                    {item.label}
+                  </a>
                 </li>
               ))}
             </ul>
@@ -80,11 +83,15 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-semibold text-sm mb-4">Legal</h4>
             <ul className="space-y-3">
-              {["Privacy Policy", "Terms of Service", "Security"].map((item) => (
-                <li key={item}>
-                  <span className="text-[rgba(255,255,255,0.25)] text-sm" title="Page not published yet">
-                    {item}
-                  </span>
+              {[
+                { label: "Privacy Policy", href: "/legal/privacy" },
+                { label: "Terms of Service", href: "/legal/terms" },
+                { label: "Cookie Policy", href: "/legal/cookie" },
+              ].map((item) => (
+                <li key={item.label}>
+                  <a href={item.href} className="text-[rgba(255,255,255,0.4)] hover:text-white text-sm transition-colors">
+                    {item.label}
+                  </a>
                 </li>
               ))}
             </ul>

@@ -1,15 +1,15 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
-
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
-  { label: "Capabilities", href: "#capabilities" },
-  { label: "Deployment", href: "#deployment" },
-  { label: "Use Cases", href: "#use-cases" },
-  { label: "Pricing", href: "#pricing" },
+  { label: "How It Works", href: "/how-it-works" },
+  { label: "Use Cases", href: "/use-cases" },
+  { label: "Integrations", href: "/integrations" },
+  { label: "Pricing", href: "/pricing" },
+  { label: "Company", href: "/company" },
 ];
 
 function MenuIcon() {
@@ -52,40 +52,48 @@ export default function Navbar() {
       >
         <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
           {/* Logo */}
-          <a href="#" className="flex items-center">
-            <img
-              src="/clawops-logo-nav.png"
-              alt="ClawOps Studio"
-              className="h-9 w-auto"
-            />
-          </a>
+          <Link href="/" className="flex items-center">
+            <div
+              className="flex h-8 w-8 items-center justify-center rounded-lg"
+              style={{
+                background: "linear-gradient(135deg, #00D4FF, #6600FF)",
+                boxShadow: "0 0 16px rgba(0,212,255,0.4)",
+              }}
+            >
+              <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4 text-white" aria-hidden="true">
+                <path d="M12 2L2 7l10 5 10-5-10-5z" fill="currentColor" opacity="0.9"/>
+                <path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+            <span className="ml-2 text-white font-bold text-lg">ClawOps</span>
+          </Link>
 
           {/* Desktop nav */}
           <ul className="hidden items-center gap-1 md:flex">
             {navLinks.map((link) => (
               <li key={link.href}>
-                <a
+                <Link
                   href={link.href}
                   className="rounded-lg px-3.5 py-2 text-sm text-[rgba(255,255,255,0.55)] transition-all duration-200 hover:bg-[rgba(255,255,255,0.06)] hover:text-white"
                 >
                   {link.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
 
           {/* Desktop CTA */}
           <div className="hidden items-center gap-3 md:flex">
-            <a
-              href="#cta"
+            <Link
+              href="/pricing"
               className="rounded-lg px-4 py-2 text-sm font-semibold text-white transition-all duration-300"
               style={{
                 background: "linear-gradient(135deg, #00D4FF, #6600FF)",
                 boxShadow: "0 0 20px rgba(0,212,255,0.25)",
               }}
             >
-              Book a Strategy Call
-            </a>
+              Deploy AI Team
+            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -112,26 +120,26 @@ export default function Navbar() {
             <ul className="flex flex-col px-6 py-4">
               {navLinks.map((link) => (
                 <li key={link.href}>
-                  <a
+                  <Link
                     href={link.href}
                     onClick={() => setIsOpen(false)}
                     className="block rounded-lg py-3 text-base text-[rgba(255,255,255,0.7)] hover:bg-[rgba(255,255,255,0.05)] hover:text-white"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
               <li className="mt-4">
-                <a
-                  href="#cta"
+                <Link
+                  href="/pricing"
                   onClick={() => setIsOpen(false)}
                   className="block rounded-xl py-3 text-center text-sm font-semibold text-white"
                   style={{
                     background: "linear-gradient(135deg, #00D4FF, #6600FF)",
                   }}
                 >
-                  Book a Strategy Call
-                </a>
+                  Deploy AI Team
+                </Link>
               </li>
             </ul>
           </motion.div>
