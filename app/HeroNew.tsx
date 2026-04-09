@@ -40,7 +40,6 @@ const FEATURES = [
 export default function HeroNew() {
   const [animatedFeatures, setAnimatedFeatures] = useState(0)
   const [videoPlaying, setVideoPlaying] = useState(false)
-  const [videoUrl, setVideoUrl] = useState<string | null>(null)
 
   useEffect(() => {
     let current = 0
@@ -213,9 +212,9 @@ export default function HeroNew() {
             <div className="relative rounded-2xl overflow-hidden border border-[#2d2d44] shadow-2xl shadow-[#00D4FF]/10">
               <div className="relative aspect-video bg-[#0a0a1a]">
                 {/* Video — shown once playing */}
-                {videoPlaying && videoUrl ? (
+                {videoPlaying ? (
                   <video
-                    src={videoUrl}
+                    src="/clawops-ai-os-demo.mp4"
                     controls
                     autoPlay
                     className="absolute inset-0 w-full h-full object-cover"
@@ -232,9 +231,7 @@ export default function HeroNew() {
                     />
                     {/* Play button overlay */}
                     <button
-                      onClick={() => {
-                        if (videoUrl) setVideoPlaying(true)
-                      }}
+                      onClick={() => setVideoPlaying(true)}
                       className="absolute inset-0 flex items-center justify-center group cursor-pointer"
                       aria-label="Play demo video"
                     >
