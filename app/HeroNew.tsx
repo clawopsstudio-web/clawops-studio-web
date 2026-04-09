@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 
 const FEATURES = [
   {
@@ -197,6 +198,41 @@ export default function HeroNew() {
                 <div className="text-gray-500 text-sm">Integrations</div>
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* Product Demo Section */}
+        <div className="relative z-10 px-6 lg:px-12 pb-20">
+          <div className="max-w-5xl mx-auto">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold text-white mb-3">See the AI OS in Action</h2>
+              <p className="text-gray-400">Watch your AI workforce boot up, connect apps, and execute tasks — all from your own VPS.</p>
+            </div>
+            <div className="relative rounded-2xl overflow-hidden border border-[#2d2d44] shadow-2xl shadow-[#00D4FF]/10">
+              {/* Video placeholder - replace with <video> once video is ready */}
+              <div className="relative aspect-video bg-[#0a0a1a]">
+                <Image
+                  src="/clawops-ai-os-hero.jpg"
+                  alt="ClawOps AI OS Demo"
+                  fill
+                  className="object-cover opacity-90"
+                  priority
+                />
+                {/* Play button overlay */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-20 h-20 rounded-full bg-[#00D4FF]/20 backdrop-blur-sm flex items-center justify-center border border-[#00D4FF]/40">
+                    <div className="w-14 h-14 rounded-full bg-[#00D4FF] flex items-center justify-center">
+                      <svg className="w-6 h-6 text-[#0a0a1a] ml-1" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z"/>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                {/* Gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a1a] via-transparent to-transparent opacity-40" />
+              </div>
+            </div>
+            <p className="text-center text-gray-500 text-sm mt-4">Demo shows ClawOps managing real tasks — no staged screenshots.</p>
           </div>
         </div>
 
