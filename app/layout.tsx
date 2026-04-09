@@ -5,12 +5,12 @@ import GlobalStarField from "@/components/ui/GlobalStarField";
 
 export const metadata: Metadata = {
   title: {
-    default: "ClawOps — The AI Operating System for Your VPS",
-    template: "%s | ClawOps — AI OS for VPS",
+    default: "ClawOps — Deploy Unlimited AI Agents. Pay Once.",
+    template: "%s | ClawOps",
   },
   description:
-    "The AI OS for your VPS. Deploy unlimited AI agents. Pay once for infrastructure — no per-token bills, no API costs. Starting at $49/month.",
-  keywords: "AI operating system, AI agents VPS, local AI, no API costs, AI infrastructure, self-hosted AI, Llama VPS, ClawOps, AI OS",
+    "Deploy unlimited AI agents on your own infrastructure. No per-token bills. No API costs. One flat monthly price. Starting at $49/month.",
+  keywords: "AI agents, deploy AI agents, no API costs, local AI, AI infrastructure, ClawOps, AI automation, multi-agent platform",
   metadataBase: new URL('https://clawops-web.vercel.app'),
   alternates: {
     canonical: '/',
@@ -19,18 +19,18 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "ClawOps — The AI Operating System for Your VPS",
+    title: "ClawOps — Deploy Unlimited AI Agents. Pay Once.",
     description:
-      "Deploy unlimited AI agents on your VPS. No per-token billing. No API costs. One flat infrastructure fee.",
+      "Deploy unlimited AI agents on your own infrastructure. No per-token bills. No API costs. One flat monthly price.",
     type: "website",
     locale: "en_US",
     siteName: "ClawOps",
   },
   twitter: {
     card: "summary_large_image",
-    title: "ClawOps — The AI Operating System for Your VPS",
+    title: "ClawOps — Deploy Unlimited AI Agents. Pay Once.",
     description:
-      "Deploy unlimited AI agents on your VPS. No per-token billing. No API costs.",
+      "Deploy unlimited AI agents on your own infrastructure. No per-token bills. No API costs.",
     creator: "@ClawOps",
   },
   robots: {
@@ -52,8 +52,8 @@ export const metadata: Metadata = {
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
-  name: 'ClawOps — AI Operating System',
-  description: 'The AI Operating System for your VPS. Deploy unlimited AI agents. Pay once for infrastructure.',
+  name: 'ClawOps — AI Agent Platform',
+  description: 'Deploy unlimited AI agents on your own infrastructure. No per-token bills. No API costs. One flat monthly price.',
   applicationCategory: 'BusinessApplication',
   operatingSystem: 'Self-hosted VPS (Ampere ARM)',
   offers: {

@@ -37,7 +37,7 @@ export default function Footer() {
               <span className="text-white font-bold text-lg group-hover:text-[#00D4FF] transition-colors">ClawOps</span>
             </a>
             <p className="text-[rgba(255,255,255,0.45)] text-sm leading-relaxed max-w-xs">
-              The AI Operating System for your VPS. Deploy unlimited agents. Pay once.
+              Deploy unlimited AI agents on your own infrastructure. One flat monthly price.
             </p>
             <div className="flex items-center gap-3 mt-6">
               {["Twitter/X", "LinkedIn"].map((label) => (

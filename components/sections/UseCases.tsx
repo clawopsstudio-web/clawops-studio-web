@@ -80,7 +80,7 @@ export default function UseCases() {
     <section
       ref={ref}
       id="use-cases"
-      className="relative overflow-hidden bg-[#04040c] px-6 py-20 md:py-32"
+      className="relative overflow-hidden bg-[#04040c] px-6 py-16 md:py-24"
     >
       <div
         aria-hidden="true"
@@ -111,7 +111,7 @@ export default function UseCases() {
             Your AI Workers. Every Department.
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-[rgba(255,255,255,0.5)]">
-            One VPS. Multiple agents. Doing the work that used to cost you thousands in human hours every month.
+            One platform. Multiple agents. Doing the work that used to cost you thousands in human hours every month.
           </p>
         </motion.div>
 

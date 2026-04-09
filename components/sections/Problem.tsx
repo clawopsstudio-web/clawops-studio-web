@@ -3,31 +3,32 @@
 import { motion, animate, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
-function DollarIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6" aria-hidden="true">
-      <path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function CpuIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6" aria-hidden="true">
-      <rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" strokeWidth="1.6" />
-      <rect x="9" y="9" width="6" height="6" stroke="currentColor" strokeWidth="1.6" />
-      <path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function ScaleIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6" aria-hidden="true">
-      <path d="M16 16l3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1zM2 16l3-8 3 8c-.87.65-1.92 1-3 1S.87 16.65 2 16zM12 2C9.24 2 7 4.24 7 7s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5z" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
+const problems = [
+  {
+    number: "01",
+    title: "You're Paying Per Agent, Not Per Infrastructure",
+    description:
+      "Most AI platforms charge per agent, per seat, per token. Add five clients? Your bill quintuples. Every agent you deploy is a new line item — forever.",
+    color: "#00D4FF",
+    stat: "3-5x bill growth per new client",
+  },
+  {
+    number: "02",
+    title: "Your Client Data Goes Through Third-Party Servers",
+    description:
+      "Every prompt, every response, every piece of client data passes through OpenAI, Anthropic, or Google. You're handing over confidential business data to AI vendors every single day.",
+    color: "#6600FF",
+    stat: "100% of prompts routed externally",
+  },
+  {
+    number: "03",
+    title: "Agents Don't Share Memory or Context",
+    description:
+      "Your AI stack is a collection of disconnected API calls. One agent handles support. Another handles sales. They don't share context, don't remember, don't learn. It's automation, not intelligence.",
+    color: "#00D4FF",
+    stat: "0 shared memory between agents",
+  },
+];
 
 function CountUpNumber({ value, prefix = "", suffix = "" }: { value: number; prefix?: string; suffix?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
@@ -47,36 +48,15 @@ function CountUpNumber({ value, prefix = "", suffix = "" }: { value: number; pre
   return <span ref={ref}>{prefix}{display}{suffix}</span>;
 }
 
-const problems = [
-  {
-    icon: DollarIcon,
-    title: "You're Paying Rent on Someone Else's Hardware",
-    description:
-      "Every API call costs tokens. Every agent you deploy costs more. Add 10 clients, your bill doubles. Your AI infrastructure is a recurring cost that never stops growing.",
-  },
-  {
-    icon: CpuIcon,
-    title: "Your Prompts Route Through Other People\'s Servers",
-    description:
-      "Client data. Sales pipelines. Internal memos. Every prompt — and every response — passes through OpenAI, Anthropic, or Google. You're paying them to see your business.",
-  },
-  {
-    icon: ScaleIcon,
-    title: "There\'s No OS — Just Fragile API Glue",
-    description:
-      "No process manager. No memory persistence. No shared context between agents. Your AI stack is a collection of API calls held together with scripts. It breaks when one link changes.",
-  },
-];
-
 export default function Problem() {
   const sectionRef = useRef<HTMLElement>(null);
-  const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
+  const isInView = useInView(sectionRef, { once: true, amount: 0.15 });
 
   return (
     <section
       ref={sectionRef}
       id="problem"
-      className="relative overflow-hidden bg-[#04040c] px-6 pt-14 pb-12 md:pt-20 md:pb-20"
+      className="relative overflow-hidden bg-[#04040c] px-6 py-16 md:py-24"
     >
       <div
         aria-hidden="true"
@@ -91,7 +71,7 @@ export default function Problem() {
         className="pointer-events-none absolute inset-0 opacity-80"
         style={{
           background:
-            "radial-gradient(circle at 50% 10%, rgba(102,0,255,0.12), transparent 32%), radial-gradient(circle at 50% 90%, rgba(0,212,255,0.08), transparent 28%)",
+            "radial-gradient(circle at 50% 10%, rgba(102,0,255,0.1), transparent 32%), radial-gradient(circle at 50% 90%, rgba(0,212,255,0.06), transparent 28%)",
         }}
       />
 
@@ -100,63 +80,62 @@ export default function Problem() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : undefined}
           transition={{ duration: 0.6 }}
-          className="text-center"
+          className="text-center mb-12 md:mb-16"
         >
-          <p className="font-mono text-xs uppercase tracking-[0.28em] text-[rgba(255,255,255,0.5)]">
+          <p className="font-mono text-xs uppercase tracking-[0.28em] text-[rgba(255,255,255,0.4)]">
             The Problem
           </p>
-          <h2 className="mt-3 text-[clamp(1.5rem,4vw,2rem)] font-bold tracking-[-0.03em] text-white md:text-5xl">
-            Your AI Stack Has No Operating System
+          <h2 className="mt-3 text-[clamp(1.75rem,4vw,2.5rem)] font-bold tracking-[-0.03em] text-white md:text-5xl">
+            AI Agents Are Expensive.<br className="hidden md:block" /> Fragile. And Someone Else's.
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-[rgba(255,255,255,0.5)]">
-            You&apos;re renting an app when you should own the platform. Every prompt you send costs money. Every agent you deploy costs more. There&apos;s no kernel, no filesystem, no process manager — just API bills stacking up.
+          <p className="mx-auto mt-5 max-w-2xl text-base md:text-lg text-[rgba(255,255,255,0.45)] leading-relaxed">
+            The promise of AI agents is real. But the current way to run them — API costs, token billing, no memory, no shared context — makes it unaffordable for most businesses.
           </p>
         </motion.div>
 
-        <div className="mt-10 grid gap-4 md:grid-cols-3 md:gap-6">
-          {problems.map((problem, index) => {
-            const Icon = problem.icon;
-            return (
-              <motion.article
-                key={problem.title}
-                initial={{ opacity: 0, y: 40 }}
-                animate={isInView ? { opacity: 1, y: 0 } : undefined}
-                transition={{
-                  duration: 0.7,
-                  delay: 0.15 * index,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-                className="group rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.03)] p-6 transition duration-300 hover:-translate-y-1 hover:border-[#00D4FF]"
-              >
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.03)] text-[#00D4FF] transition duration-300 group-hover:border-[rgba(0,212,255,0.4)] group-hover:shadow-[0_0_30px_rgba(0,212,255,0.12)]">
-                  <Icon />
-                </div>
-                <h3 className="mt-4 text-xl font-semibold text-white sm:mt-6 sm:text-2xl">{problem.title}</h3>
-                <p className="mt-4 text-base leading-7 text-[rgba(255,255,255,0.5)]">
-                  {problem.description}
-                </p>
-              </motion.article>
-            );
-          })}
+        <div className="grid gap-5 md:grid-cols-3">
+          {problems.map((problem, index) => (
+            <motion.article
+              key={problem.number}
+              initial={{ opacity: 0, y: 40 }}
+              animate={isInView ? { opacity: 1, y: 0 } : undefined}
+              transition={{
+                duration: 0.7,
+                delay: 0.1 * (index + 1),
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="group rounded-2xl border border-[rgba(255,255,255,0.07)] bg-[rgba(255,255,255,0.02)] p-6 md:p-7 transition-all duration-300 hover:-translate-y-1"
+              style={{ borderTopColor: problem.color, borderTopWidth: '2px' }}
+            >
+              <div className="font-mono text-xs font-bold text-[rgba(255,255,255,0.25)] mb-4">{problem.number}</div>
+              <h3 className="text-lg md:text-xl font-semibold text-white leading-snug mb-3">{problem.title}</h3>
+              <p className="text-sm leading-relaxed text-[rgba(255,255,255,0.45)]">
+                {problem.description}
+              </p>
+              <div className="mt-5 rounded-lg bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.06)] px-3 py-2">
+                <p className="text-xs font-medium" style={{ color: problem.color }}>{problem.stat}</p>
+              </div>
+            </motion.article>
+          ))}
         </div>
 
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={isInView ? { opacity: 1, y: 0 } : undefined}
-          transition={{ duration: 0.7, delay: 0.55 }}
-          className="mx-auto mt-14 grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6"
+          transition={{ duration: 0.7, delay: 0.5 }}
+          className="mx-auto mt-12 grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4"
         >
           {[
-            { value: 2400, prefix: "$", suffix: "+", label: "avg API spend cut per client" },
-            { value: 40, prefix: "", suffix: "%", label: "data stays on your VPS" },
-            { value: 50, prefix: "<", suffix: "ms", label: "response time vs 2000ms+ API" },
-            { value: 100, prefix: "", suffix: "%", label: "predictable monthly cost" },
+            { value: 2400, prefix: "$", suffix: "+", label: "avg monthly API bill for one client" },
+            { value: 0, prefix: "$", suffix: "", label: "API costs with ClawOps — flat fee only" },
+            { value: 80, prefix: "", suffix: "%", label: "tasks auto-resolved by agents" },
+            { value: 100, prefix: "", suffix: "%", label: "client data stays private" },
           ].map((stat) => (
-            <div key={stat.label} className="rounded-xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.03)] p-5 text-center">
-              <div className="text-2xl font-bold text-[#00D4FF] md:text-3xl">
+            <div key={stat.label} className="rounded-xl border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.02)] p-4 md:p-5 text-center">
+              <div className="text-2xl md:text-3xl font-bold text-white">
                 <CountUpNumber value={stat.value} prefix={stat.prefix} suffix={stat.suffix} />
               </div>
-              <p className="mt-1 text-xs text-[rgba(255,255,255,0.4)]">{stat.label}</p>
+              <p className="mt-1 text-[10px] md:text-xs text-[rgba(255,255,255,0.35)] leading-snug">{stat.label}</p>
             </div>
           ))}
         </motion.div>

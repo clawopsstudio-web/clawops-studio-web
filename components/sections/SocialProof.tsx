@@ -60,7 +60,7 @@ export default function SocialProof() {
     <section
       ref={ref}
       id="social-proof"
-      className="relative overflow-hidden bg-[#04040c] px-6 py-20 md:py-32"
+      className="relative overflow-hidden bg-[#04040c] px-6 py-16 md:py-24"
     >
       <div
         aria-hidden="true"
@@ -96,7 +96,7 @@ export default function SocialProof() {
           className="mt-16 text-center"
         >
           <p className="font-mono text-xs uppercase tracking-[0.28em] text-[rgba(255,255,255,0.5)]">
-            Already Running on the AI OS
+            Trusted by Teams Running AI Agents
           </p>
 
           <div className="mt-8 grid gap-4 md:grid-cols-3">

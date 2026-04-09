@@ -8,33 +8,37 @@ type Step = {
   title: string;
   description: string;
   detail: string;
+  color: string;
 };
 
 const steps: Step[] = [
   {
     number: "01",
-    title: "Install Your OS",
-    description: "Choose your VPS tier — Starter, Pro, or Business. Each is a pre-configured AI OS image. Ampere ARM hardware. No setup required.",
-    detail: "Your OS image boots in under 60 seconds",
+    title: "Sign Up & Choose Your Plan",
+    description: "Pick Starter, Pro, or Business. Your agent platform spins up automatically. No servers to configure, no code to write.",
+    detail: "Platform ready in 3 minutes — no IT degree required",
+    color: "#00D4FF",
   },
   {
     number: "02",
-    title: "Connect Your Apps",
-    description: "Link your tools — Telegram, WhatsApp, Chrome, Slack, GHL, n8n, and 500+ more. Pre-built connectors, OAuth flows handled.",
-    detail: "Most integrations live in under 5 minutes",
+    title: "Connect Your Tools",
+    description: "Link Telegram, WhatsApp, Slack, HubSpot, Notion, or any of 500+ integrations. Pre-built connectors, OAuth handled, live in minutes.",
+    detail: "Most integrations connected same day",
+    color: "#6600FF",
   },
   {
     number: "03",
-    title: "Boot Your Agents",
-    description: "Deploy Sales, Support, Research, and Ops agents. They'll remember context, share memory, and start working immediately.",
-    detail: "Your AI workforce, live and running 24/7",
+    title: "Deploy Your Agents",
+    description: "Pick your agent types — Sales, Support, Research, Ops. They'll start learning your business, connecting to your data, and working immediately.",
+    detail: "First agent working in under 3 minutes",
+    color: "#00D4FF",
   },
 ];
 
 function DesktopConnector({ isInView }: { isInView: boolean }) {
   const pathId = useId();
   return (
-    <div className="pointer-events-none absolute left-0 right-0 top-[7.5rem] hidden px-8 lg:block xl:px-12">
+    <div className="pointer-events-none absolute left-0 right-0 top-[4.5rem] hidden px-8 lg:block xl:px-12">
       <svg viewBox="0 0 1200 120" className="h-[120px] w-full" preserveAspectRatio="none" aria-hidden="true">
         <defs>
           <linearGradient id={pathId} x1="0%" y1="0%" x2="100%" y2="0%">
@@ -67,7 +71,7 @@ export default function HowItWorks() {
     <section
       ref={ref}
       id="how-it-works"
-      className="relative overflow-hidden bg-[#04040c] px-6 py-20 md:py-32"
+      className="relative overflow-hidden bg-[#04040c] px-6 py-16 md:py-24"
     >
       <div
         aria-hidden="true"
@@ -80,7 +84,7 @@ export default function HowItWorks() {
         aria-hidden="true"
         className="pointer-events-none absolute inset-0"
         style={{
-          background: "radial-gradient(ellipse 60% 40% at 50% 100%, rgba(102,0,255,0.1), transparent 70%)",
+          background: "radial-gradient(ellipse 60% 40% at 50% 100%, rgba(102,0,255,0.08), transparent 70%)",
         }}
       />
 
@@ -89,63 +93,66 @@ export default function HowItWorks() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : undefined}
           transition={{ duration: 0.6 }}
-          className="text-center"
+          className="text-center mb-12 md:mb-16"
         >
-          <p className="font-mono text-xs uppercase tracking-[0.28em] text-[rgba(255,255,255,0.5)]">
-            Boot Sequence
+          <p className="font-mono text-xs uppercase tracking-[0.28em] text-[rgba(255,255,255,0.4)]">
+            How It Works
           </p>
-          <h2 className="mt-3 text-[clamp(1.5rem,4vw,2rem)] font-bold tracking-[-0.03em] text-white md:text-5xl">
-            From Zero to AI OS in 3 Minutes
+          <h2 className="mt-3 text-[clamp(1.75rem,4vw,2.5rem)] font-bold tracking-[-0.03em] text-white md:text-5xl">
+            From Signup to First Agent<br className="hidden md:block" /> in 3 Minutes
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-[rgba(255,255,255,0.5)]">
-            Install once. Your AI workforce boots up and gets to work — every time you need it.
+          <p className="mx-auto mt-5 max-w-2xl text-base md:text-lg text-[rgba(255,255,255,0.45)] leading-relaxed">
+            No technical setup. No configuration files. No command line. Just sign up, connect your tools, and deploy your first AI agent.
           </p>
         </motion.div>
 
         <DesktopConnector isInView={isInView} />
 
-        <div className="relative mt-16 grid gap-8 md:grid-cols-3 md:gap-6">
+        <div className="relative mt-14 grid gap-8 md:grid-cols-3 md:gap-6">
           {steps.map((step, index) => (
             <motion.div
               key={step.number}
               initial={{ opacity: 0, y: 40 }}
               animate={isInView ? { opacity: 1, y: 0 } : undefined}
-              transition={{ duration: 0.7, delay: 0.2 * index, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.7, delay: 0.2 * (index + 1), ease: [0.22, 1, 0.36, 1] }}
               className="relative flex flex-col items-center text-center"
             >
-              {/* Step number circle */}
-              <div className="relative z-10 flex h-16 w-16 items-center justify-center rounded-full border-2 border-[#00D4FF] bg-[#04040c] shadow-[0_0_30px_rgba(0,212,255,0.2)]">
-                <span className="font-mono text-lg font-bold text-[#00D4FF]">{step.number}</span>
+              {/* Step circle */}
+              <div
+                className="relative z-10 flex h-14 w-14 items-center justify-center rounded-full border-2 bg-[#04040c]"
+                style={{ borderColor: step.color, boxShadow: `0 0 24px ${step.color}33` }}
+              >
+                <span className="font-mono text-base font-bold" style={{ color: step.color }}>{step.number}</span>
               </div>
 
-              {/* Mobile connector line */}
+              {/* Mobile connector */}
               {index < steps.length - 1 && (
-                <div className="absolute top-8 left-1/2 h-8 w-px bg-gradient-to-b from-[#00D4FF]/30 to-transparent md:hidden" />
+                <div className="absolute top-7 left-1/2 h-8 w-px bg-gradient-to-b from-[rgba(255,255,255,0.15)] to-transparent md:hidden" />
               )}
 
-              <div className="mt-6 w-full rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.02)] p-6">
-                <h3 className="text-xl font-semibold text-white">{step.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-[rgba(255,255,255,0.5)]">
+              <div className="mt-5 w-full rounded-2xl border border-[rgba(255,255,255,0.07)] bg-[rgba(255,255,255,0.02)] p-6 text-left">
+                <h3 className="text-lg font-semibold text-white mb-2">{step.title}</h3>
+                <p className="text-sm leading-relaxed text-[rgba(255,255,255,0.45)]">
                   {step.description}
                 </p>
-                <div className="mt-4 rounded-lg bg-[rgba(0,212,255,0.08)] px-3 py-2">
-                  <p className="text-xs font-medium text-[#00D4FF]">{step.detail}</p>
+                <div className="mt-4 rounded-lg bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.06)] px-3 py-2">
+                  <p className="text-xs font-medium" style={{ color: step.color }}>{step.detail}</p>
                 </div>
               </div>
             </motion.div>
           ))}
         </div>
 
-        {/* Timeline total */}
+        {/* Timeline callout */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={isInView ? { opacity: 1, scale: 1 } : undefined}
           transition={{ duration: 0.5, delay: 0.8 }}
-          className="mx-auto mt-12 max-w-md rounded-2xl border border-[rgba(0,212,255,0.2)] bg-[rgba(0,212,255,0.04)] p-6 text-center"
+          className="mx-auto mt-12 max-w-sm rounded-2xl border border-[rgba(0,212,255,0.15)] bg-[rgba(0,212,255,0.03)] p-6 text-center"
         >
-          <div className="text-4xl font-bold text-white">3 minutes</div>
-          <p className="mt-2 text-sm text-[rgba(255,255,255,0.5)]">
-            Your AI OS is installed, connected, and your first agent is working
+          <div className="text-3xl font-bold text-white">3 minutes</div>
+          <p className="mt-2 text-sm text-[rgba(255,255,255,0.45)]">
+            From signup to your first AI agent live and working
           </p>
         </motion.div>
       </div>

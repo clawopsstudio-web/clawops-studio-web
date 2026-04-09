@@ -1,342 +1,445 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { motion, useScroll, useTransform } from 'framer-motion'
 
-const FEATURES = [
+/* ─── Floating 3D shapes that react to scroll ─── */
+function FloatingShapes() {
+  const ref = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll()
+
+  // Parallax positions
+  const orb1Y = useTransform(scrollYProgress, [0, 1], ['0%', '-40%'])
+  const orb2Y = useTransform(scrollYProgress, [0, 1], ['0%', '-20%'])
+  const orb3Y = useTransform(scrollYProgress, [0, 1], ['0%', '-60%'])
+  const ringRotate = useTransform(scrollYProgress, [0, 1], ['0deg', '180deg'])
+  const gridY = useTransform(scrollYProgress, [0, 1], ['0%', '-30%'])
+  const gridOpacity = useTransform(scrollYProgress, [0, 0.3, 1], [0.15, 0.15, 0])
+
+  return (
+    <div ref={ref} className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+      {/* Glowing orb 1 — top left */}
+      <motion.div
+        style={{ y: orb1Y }}
+        className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full"
+      >
+        <div className="w-full h-full rounded-full"
+          style={{
+            background: 'radial-gradient(circle, rgba(0,212,255,0.18) 0%, rgba(0,212,255,0.05) 40%, transparent 70%)',
+            filter: 'blur(2px)',
+          }}
+        />
+      </motion.div>
+
+      {/* Glowing orb 2 — bottom right */}
+      <motion.div
+        style={{ y: orb2Y }}
+        className="absolute -bottom-40 right-0 w-[600px] h-[600px]"
+      >
+        <div className="w-full h-full rounded-full"
+          style={{
+            background: 'radial-gradient(circle, rgba(102,0,255,0.2) 0%, rgba(102,0,255,0.05) 40%, transparent 70%)',
+          }}
+        />
+      </motion.div>
+
+      {/* Rotating ring — center right */}
+      <motion.div
+        style={{ y: orb3Y, rotate: ringRotate }}
+        className="absolute top-1/4 right-[10%] w-64 h-64"
+      >
+        <svg viewBox="0 0 256 256" className="w-full h-full opacity-25">
+          <circle cx="128" cy="128" r="100" fill="none" stroke="#00D4FF" strokeWidth="1" strokeDasharray="8 12" />
+          <circle cx="128" cy="128" r="80" fill="none" stroke="#6600FF" strokeWidth="0.5" strokeDasharray="4 16" />
+          <circle cx="128" cy="128" r="60" fill="none" stroke="#00D4FF" strokeWidth="0.5" />
+        </svg>
+      </motion.div>
+
+      {/* Perspective grid — bottom */}
+      <motion.div
+        style={{ y: gridY, opacity: gridOpacity }}
+        className="absolute bottom-0 left-0 right-0 h-48"
+      >
+        <div className="w-full h-full"
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(0,212,255,0.15) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(0,212,255,0.15) 1px, transparent 1px)
+            `,
+            backgroundSize: '40px 40px',
+            transform: 'perspective(400px) rotateX(60deg)',
+            transformOrigin: 'bottom',
+          }}
+        />
+      </motion.div>
+
+      {/* Floating particle dots */}
+      {[...Array(12)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute w-1 h-1 rounded-full bg-[#00D4FF]"
+          style={{
+            left: `${8 + i * 8}%`,
+            top: `${15 + (i % 5) * 15}%`,
+          }}
+          animate={{
+            y: [0, -12, 0],
+            opacity: [0.2, 0.6, 0.2],
+          }}
+          transition={{
+            duration: 3 + (i % 3),
+            repeat: Infinity,
+            delay: i * 0.3,
+            ease: 'easeInOut',
+          }}
+        />
+      ))}
+    </div>
+  )
+}
+
+/* ─── 3D floating cards that drift on scroll ─── */
+function FloatingCards() {
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+      {/* Card 1 — top right */}
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.6, ease: [0.22, 1, 0.36, 1] as const }}
+        className="absolute top-[20%] right-[8%] hidden md:block"
+      >
+        <div className="w-48 h-32 rounded-xl border border-[rgba(0,212,255,0.15)] bg-[rgba(0,212,255,0.05)] backdrop-blur-md p-4"
+          style={{ boxShadow: '0 8px 32px rgba(0,0,0,0.4), 0 0 20px rgba(0,212,255,0.05)' }}
+        >
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-2 h-2 rounded-full bg-[#10b981]" />
+            <span className="text-xs text-[rgba(255,255,255,0.5)]">Agent active</span>
+          </div>
+          <div className="text-lg font-bold text-white">Sales Agent</div>
+          <div className="text-xs text-[rgba(255,255,255,0.3)] mt-1">Processing 47 leads</div>
+        </div>
+      </motion.div>
+
+      {/* Card 2 — bottom left */}
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.8, ease: [0.22, 1, 0.36, 1] as const }}
+        className="absolute bottom-[30%] left-[5%] hidden lg:block"
+      >
+        <div className="w-44 h-28 rounded-xl border border-[rgba(102,0,255,0.2)] bg-[rgba(102,0,255,0.05)] backdrop-blur-md p-4"
+          style={{ boxShadow: '0 8px 32px rgba(0,0,0,0.4)' }}
+        >
+          <div className="text-xs text-[rgba(255,255,255,0.4)] mb-1">API Costs</div>
+          <div className="text-2xl font-bold text-white">$0.00</div>
+          <div className="text-xs text-[#10b981] mt-1">-100% vs last month</div>
+        </div>
+      </motion.div>
+
+      {/* Card 3 — mid right */}
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 1.0, ease: [0.22, 1, 0.36, 1] as const }}
+        className="absolute top-[45%] right-[3%] hidden xl:block"
+      >
+        <div className="w-40 h-24 rounded-xl border border-[rgba(0,212,255,0.12)] bg-[rgba(0,0,0,0.3)] backdrop-blur-md p-4"
+          style={{ boxShadow: '0 8px 32px rgba(0,0,0,0.4)' }}
+        >
+          <div className="text-xs text-[rgba(255,255,255,0.4)] mb-1">Integrations</div>
+          <div className="flex -space-x-1">
+            {['T', 'W', 'S', 'N', 'H'].map((l, i) => (
+              <div key={i} className="w-6 h-6 rounded-full bg-[rgba(0,212,255,0.2)] border border-[rgba(0,0,0,0.3)] flex items-center justify-center text-[8px] text-[#00D4FF] font-bold">
+                {l}
+              </div>
+            ))}
+            <div className="w-6 h-6 rounded-full bg-[rgba(255,255,255,0.1)] border border-[rgba(255,255,255,0.1)] flex items-center justify-center text-[8px] text-[rgba(255,255,255,0.4)]">
+              +495
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  )
+}
+
+const QUICK_STATS = [
+  { value: '$2,400', label: 'Avg saved / month' },
+  { value: '3 min', label: 'Time to first agent' },
+  { value: '500+', label: 'Integrations ready' },
+]
+
+const FEATURE_CARDS = [
   {
-    title: 'Your AI Infrastructure',
-    description: 'Pre-configured VPS with GPU-ready infrastructure. Deploy your AI workers in minutes.',
-    icon: '🖥️'
+    icon: '🤖',
+    title: 'Deploy Unlimited Agents',
+    desc: 'Sales, Support, Research, Ops — run them all simultaneously on your own infrastructure.',
+    color: '#00D4FF',
   },
   {
-    title: 'Local, Private AI',
-    description: 'No API costs. Run powerful AI models like Gemma 4 completely locally on your own infrastructure.',
-    icon: '🔒'
+    icon: '💰',
+    title: 'No API Bills. Ever.',
+    desc: 'Your queries run locally. No per-token costs. No vendor lock-in. Flat monthly pricing.',
+    color: '#6600FF',
   },
   {
-    title: 'Multi-Agent Ecosystem',
-    description: 'Run multiple specialized AI agents in one instance. Each agent can focus on different tasks.',
-    icon: '🤖'
+    icon: '🔌',
+    title: '500+ Tools, Pre-Connected',
+    desc: 'Telegram, WhatsApp, Slack, HubSpot, GHL, Notion — your agents work with everything you use.',
+    color: '#00D4FF',
   },
   {
-    title: '500+ Integrations',
-    description: 'Connect to any service via API, webhook, or MCP. Your AI works with everything you use.',
-    icon: '🔌'
+    icon: '⚡',
+    title: 'Instant Response',
+    desc: 'Agents run on your infrastructure. No API queues. Sub-50ms response times, every time.',
+    color: '#6600FF',
   },
   {
-    title: 'Zero Latency',
-    description: 'Your agents run on your own VPS. No queuing, no external dependencies, instant response.',
-    icon: '⚡'
+    icon: '🔒',
+    title: 'Complete Data Privacy',
+    desc: 'Client data never touches a third-party API. Full GDPR compliance. Your data, your server.',
+    color: '#00D4FF',
   },
   {
-    title: 'Complete Privacy',
-    description: 'Your data never leaves your infrastructure. Full control and compliance with your own VPS.',
-    icon: '🔐'
-  }
+    icon: '🌐',
+    title: 'Works 24/7, Auto-Retries',
+    desc: 'Agents recover from failures automatically. No babysitting. No ops team required.',
+    color: '#6600FF',
+  },
 ]
 
 export default function HeroNew() {
-  const [animatedFeatures, setAnimatedFeatures] = useState(0)
-  const [videoPlaying, setVideoPlaying] = useState(false)
-
-  useEffect(() => {
-    let current = 0
-    const interval = setInterval(() => {
-      if (current < FEATURES.length) {
-        setAnimatedFeatures(current + 1)
-        current++
-      } else {
-        clearInterval(interval)
-      }
-    }, 200)
-    return () => clearInterval(interval)
-  }, [])
+  const { scrollYProgress } = useScroll()
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0])
+  const heroScale = useTransform(scrollYProgress, [0, 0.15], [1, 0.95])
 
   return (
     <div className="relative overflow-hidden">
-      {/* Animated Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#0a0a1a] via-[#1a1a2e] to-[#0f0f1a]">
-        {/* Grid Pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `
-              linear-gradient(rgba(0, 212, 255, 0.1) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(0, 212, 255, 0.1) 1px, transparent 1px)
-            `,
-            backgroundSize: '50px 50px'
-          }} />
-        </div>
 
-        {/* Animated Orbs */}
-        {[0, 1, 2, 3].map((i) => (
-          <div
-            key={i}
-            className="absolute rounded-full blur-3xl"
-            style={{
-              width: i % 2 === 0 ? '600px' : '400px',
-              height: i % 2 === 0 ? '600px' : '400px',
-              background: i % 2 === 0
-                ? 'radial-gradient(circle, rgba(0, 212, 255, 0.15) 0%, transparent 70%)'
-                : 'radial-gradient(circle, rgba(102, 0, 255, 0.15) 0%, transparent 70%)',
-              left: `${i * 25}%`,
-              top: `${i * 10}%`,
-              animation: `pulse ${8 + i * 2}s ease-in-out infinite`
-            }}
-          />
-        ))}
-
-        {/* Animated Lines */}
-        {[0, 1, 2].map((i) => (
-          <div
-            key={i}
-            className="absolute bg-gradient-to-r from-[#00D4FF] to-transparent opacity-20"
-            style={{
-              width: `${200 + Math.sin(Date.now() / 1000 + i) * 50}px`,
-              height: '2px',
-              left: `${20 + i * 30}%`,
-              top: `${40 + i * 10}%`,
-              animation: `flow ${3 + i}s linear infinite`
-            }}
-          />
-        ))}
+      {/* Fixed depth background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#0a0a1a] via-[#0f0f2a] to-[#08081a]">
+        <div className="absolute inset-0 opacity-[0.07]"
+          style={{
+            backgroundImage: `linear-gradient(rgba(0,212,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.1) 1px, transparent 1px)`,
+            backgroundSize: '60px 60px',
+          }}
+        />
       </div>
 
-      {/* Floating Icons */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {FEATURES.slice(0, 3).map((feature, i) => (
-          <div
-            key={i}
-            className="absolute text-4xl opacity-20"
-            style={{
-              left: `${5 + i * 30}%`,
-              top: `${10 + Math.sin(Date.now() / 2000 + i) * 5}%`,
-              animation: `float ${4 + i}s ease-in-out infinite`
-            }}
-          >
-            {feature.icon}
-          </div>
-        ))}
-      </div>
+      {/* Floating 3D shapes */}
+      <FloatingShapes />
+      <FloatingCards />
 
-      {/* Main Content */}
-      <div className="relative z-10">
-        {/* Navbar */}
-        <nav className="flex items-center justify-between px-6 lg:px-12 py-6">
-          <Link href="/" className="text-2xl font-bold bg-gradient-to-r from-[#00D4FF] to-[#6600FF] bg-clip-text text-transparent">
-            ClawOps
-          </Link>
-          <div className="flex items-center gap-6">
-            <Link
-              href="/login"
-              className="text-gray-400 hover:text-white transition-colors"
-            >
-              Log In
-            </Link>
-            <Link
-              href="/signup"
-              className="bg-[#00D4FF] hover:bg-[#00b8e8] text-[#0a0a1a] font-semibold px-6 py-2 rounded-lg transition-colors"
-            >
-              Get Started Free
-            </Link>
-          </div>
-        </nav>
-
-        {/* Hero Section */}
-        <div className="min-h-screen flex items-center px-6 lg:px-12 py-20">
-          <div className="max-w-4xl mx-auto">
+      {/* Main Hero Content */}
+      <motion.div
+        style={{ opacity: heroOpacity, scale: heroScale }}
+        className="relative z-10 min-h-screen flex flex-col"
+      >
+        {/* Hero */}
+        <div className="flex-1 flex items-center px-6 lg:px-12 pt-28 pb-16">
+          <div className="max-w-3xl mx-auto md:mx-0">
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 bg-[#2d2d44] hover:bg-[#3d3d54] text-gray-300 px-4 py-2 rounded-full text-sm mb-8 transition-colors">
-              <span className="w-2 h-2 bg-[#10b981] rounded-full animate-pulse" />
-              The AI OS for Your VPS — Deployed in 3 Minutes
-            </div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="inline-flex items-center gap-2 bg-[rgba(0,212,255,0.08)] border border-[rgba(0,212,255,0.2)] text-[#00D4FF] px-4 py-1.5 rounded-full text-xs font-medium mb-8"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-[#10b981] animate-pulse" />
+              Deploy Your First Agent in 3 Minutes — No Credit Card
+            </motion.div>
 
             {/* Headline */}
-            <h1 className="text-5xl md:text-7xl font-bold leading-tight mb-6">
-              The AI Operating System<br />
-              <span className="bg-gradient-to-r from-[#00D4FF] via-[#6600FF] to-[#00D4FF] bg-clip-text text-transparent">
-                For Your VPS.
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.1 }}
+              className="text-[clamp(2.5rem,7vw,5rem)] font-black leading-[1.05] tracking-[-0.03em] mb-6"
+            >
+              <span className="text-white">Deploy Unlimited</span>
+              <br />
+              <span className="bg-gradient-to-r from-[#00D4FF] via-[#9966FF] to-[#00D4FF] bg-clip-text text-transparent">
+                AI Agents.
               </span>
               <br />
-              Built for Your Team.
-            </h1>
+              <span className="text-white">Pay Once.</span>
+            </motion.h1>
 
             {/* Subheadline */}
-            <p className="text-xl text-gray-400 mb-10 max-w-2xl">
-              Think of it as macOS for your AI workforce — except the hardware lives in your cloud, and there's no per-app fee.
-              <span className="text-white"> Run unlimited agents. Pay once for the VPS.</span>
-            </p>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-lg md:text-xl text-[rgba(255,255,255,0.5)] mb-10 max-w-xl leading-relaxed"
+            >
+              ClawOps runs your entire AI workforce — Sales, Support, Research, Ops — on{' '}
+              <span className="text-white">your own infrastructure</span>. No per-agent API bills.
+              No token costs. Just flat, predictable pricing from day one.
+            </motion.p>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-wrap gap-4 mb-16">
+            {/* CTAs */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="flex flex-wrap gap-4 mb-12"
+            >
               <Link
-                href="/signup"
-                className="bg-gradient-to-r from-[#00D4FF] to-[#6600FF] hover:opacity-90 text-white font-semibold px-8 py-4 rounded-lg transition-opacity"
+                href="/auth/signup"
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-[#00D4FF] to-[#6600FF] hover:opacity-90 text-white font-semibold px-8 py-4 rounded-xl transition-opacity text-base"
               >
-                Start Building Free
+                Start Free — No Credit Card
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
               </Link>
               <Link
                 href="/how-it-works"
-                className="bg-[#2d2d44] hover:bg-[#3d3d54] text-white font-semibold px-8 py-4 rounded-lg transition-colors"
+                className="inline-flex items-center gap-2 bg-[rgba(255,255,255,0.06)] hover:bg-[rgba(255,255,255,0.1)] border border-[rgba(255,255,255,0.1)] text-white font-medium px-8 py-4 rounded-xl transition-all text-base"
               >
                 See How It Works
               </Link>
-            </div>
+            </motion.div>
 
-            {/* Stats */}
-            <div className="grid grid-cols-3 gap-8 border-t border-[#2d2d44] pt-8">
-              <div>
-                <div className="text-3xl font-bold text-white mb-1">$2,400</div>
-                <div className="text-gray-500 text-sm">Avg. saved/month</div>
-              </div>
-              <div>
-                <div className="text-3xl font-bold text-white mb-1">3 min</div>
-                <div className="text-gray-500 text-sm">To deploy</div>
-              </div>
-              <div>
-                <div className="text-3xl font-bold text-white mb-1">500+</div>
-                <div className="text-gray-500 text-sm">Integrations</div>
-              </div>
-            </div>
+            {/* Quick stats */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+              className="flex flex-wrap gap-8 border-t border-[rgba(255,255,255,0.08)] pt-8"
+            >
+              {QUICK_STATS.map((s) => (
+                <div key={s.label}>
+                  <div className="text-2xl md:text-3xl font-bold text-white">{s.value}</div>
+                  <div className="text-xs md:text-sm text-[rgba(255,255,255,0.4)] mt-0.5">{s.label}</div>
+                </div>
+              ))}
+            </motion.div>
           </div>
         </div>
+      </motion.div>
 
-        {/* Product Demo Section */}
-        <div className="relative z-10 px-6 lg:px-12 pb-20">
-          <div className="max-w-5xl mx-auto">
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-white mb-3">See the AI OS in Action</h2>
-              <p className="text-gray-400">Watch your AI workforce boot up, connect apps, and execute tasks — all from your own VPS.</p>
-            </div>
-            <div className="relative rounded-2xl overflow-hidden border border-[#2d2d44] shadow-2xl shadow-[#00D4FF]/10">
-              <div className="relative aspect-video bg-[#0a0a1a]">
-                {/* Video — shown once playing */}
-                {videoPlaying ? (
-                  <video
-                    src="/clawops-ai-os-demo.mp4"
-                    controls
-                    autoPlay
-                    className="absolute inset-0 w-full h-full object-cover"
-                    onEnded={() => setVideoPlaying(false)}
-                  />
-                ) : (
-                  <>
-                    <Image
-                      src="/clawops-ai-os-hero.jpg"
-                      alt="ClawOps AI OS Demo"
-                      fill
-                      className="object-cover opacity-90"
-                      priority
-                    />
-                    {/* Play button overlay */}
-                    <button
-                      onClick={() => setVideoPlaying(true)}
-                      className="absolute inset-0 flex items-center justify-center group cursor-pointer"
-                      aria-label="Play demo video"
-                    >
-                      <div className="w-20 h-20 rounded-full bg-[#00D4FF]/20 backdrop-blur-sm flex items-center justify-center border border-[#00D4FF]/40 group-hover:bg-[#00D4FF]/30 transition-all duration-300 group-hover:scale-110">
-                        <div className="w-14 h-14 rounded-full bg-[#00D4FF] flex items-center justify-center shadow-lg shadow-[#00D4FF]/30 group-hover:shadow-[#00D4FF]/50 transition-shadow">
-                          <svg className="w-6 h-6 text-[#0a0a1a] ml-1" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M8 5v14l11-7z"/>
-                          </svg>
-                        </div>
-                      </div>
-                    </button>
-                    {/* Gradient overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a1a] via-transparent to-transparent opacity-40" />
-                    {/* "Demo" badge */}
-                    <div className="absolute bottom-4 left-4 bg-[#00D4FF]/10 backdrop-blur-sm border border-[#00D4FF]/20 text-[#00D4FF] text-xs px-3 py-1 rounded-full">
-                      12s demo
+      {/* ── Scroll indicator ── */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2"
+        aria-hidden="true"
+      >
+        <span className="text-[rgba(255,255,255,0.25)] text-[10px] uppercase tracking-[0.2em]">Scroll</span>
+        <div className="w-px h-12 bg-gradient-to-b from-[rgba(0,212,255,0.4)] to-transparent animate-[pulse_2s_ease-in-out_infinite]" />
+      </motion.div>
+
+      {/* ── Product Demo Video ── */}
+      <div className="relative z-10 px-6 lg:px-12 py-12 md:py-16">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-6">
+            <h2 className="text-xl md:text-2xl font-bold text-white">See It in Action</h2>
+            <p className="text-sm text-[rgba(255,255,255,0.4)] mt-1">Real agent workflows. No staging. Click to play.</p>
+          </div>
+          <div className="relative rounded-2xl overflow-hidden border border-[rgba(255,255,255,0.08)] shadow-2xl shadow-[#00D4FF]/5">
+            <div className="relative aspect-video bg-[#06060f]">
+              <Image
+                src="/clawops-ai-os-hero.jpg"
+                alt="ClawOps demo — AI agent dashboard"
+                fill
+                className="object-cover"
+                priority
+              />
+              {/* Play button */}
+              <label className="absolute inset-0 flex items-center justify-center cursor-pointer group" htmlFor="hero-video-toggle">
+                <div className="w-20 h-20 rounded-full bg-[rgba(0,212,255,0.15)] backdrop-blur-sm border border-[rgba(0,212,255,0.3)] flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <div className="w-14 h-14 rounded-full bg-[#00D4FF] flex items-center justify-center shadow-lg shadow-[#00D4FF]/30">
+                    <svg className="w-5 h-5 text-[#06060f] ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M8 5v14l11-7z"/>
+                    </svg>
+                  </div>
+                </div>
+              </label>
+              {/* Hidden video — shown on click */}
+              <input type="checkbox" id="hero-video-toggle" className="peer hidden" />
+              <div className="absolute inset-0 peer-checked:hidden">
+                <Image src="/clawops-ai-os-hero.jpg" alt="ClawOps demo" fill className="object-cover" priority />
+                <label className="absolute inset-0 flex items-center justify-center cursor-pointer group" htmlFor="hero-video-toggle">
+                  <div className="w-20 h-20 rounded-full bg-[rgba(0,212,255,0.15)] backdrop-blur-sm border border-[rgba(0,212,255,0.3)] flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <div className="w-14 h-14 rounded-full bg-[#00D4FF] flex items-center justify-center shadow-lg shadow-[#00D4FF]/30">
+                      <svg className="w-5 h-5 text-[#06060f] ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z"/>
+                      </svg>
                     </div>
-                  </>
-                )}
+                  </div>
+                </label>
+                <div className="absolute inset-0 bg-gradient-to-t from-[#06060f] via-transparent to-transparent opacity-50" />
+                <div className="absolute bottom-4 left-4 bg-[rgba(0,212,255,0.1)] border border-[rgba(0,212,255,0.2)] text-[#00D4FF] text-xs px-3 py-1 rounded-full backdrop-blur-sm">
+                  12s demo
+                </div>
               </div>
-            </div>
-            <p className="text-center text-gray-500 text-sm mt-4">Click to watch — no staged screenshots, real agent workflows.</p>
-          </div>
-        </div>
-
-        {/* Animated Features */}
-        <div className="relative z-10 px-6 lg:px-12 py-20">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {FEATURES.map((feature, index) => (
-              <div
-                key={index}
-                className={`bg-[#1a1a2e] border border-[#2d2d44] rounded-xl p-6 transition-all ${
-                  index < animatedFeatures ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                }`}
-                style={{ transitionDelay: `${index * 100}ms` }}
-              >
-                <div className="text-4xl mb-4">{feature.icon}</div>
-                <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
-                <p className="text-gray-400 text-sm">{feature.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Animated Divider */}
-        <div className="relative z-10 px-6 lg:px-12 py-16 overflow-hidden">
-          <div className="relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-[#00D4FF] via-transparent to-transparent opacity-20" />
-            <div className="bg-[#0a0a1a] rounded-2xl p-8 md:p-12 border border-[#2d2d44]">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                <div>
-                  <div className="text-5xl font-bold bg-gradient-to-r from-[#00D4FF] to-[#6600FF] bg-clip-text text-transparent mb-2">
-                    $3,000/mo
-                  </div>
-                  <p className="text-gray-400">
-                    What you save vs. hiring humans
-                  </p>
-                </div>
-                <div>
-                  <div className="text-5xl font-bold bg-gradient-to-r from-[#6600FF] to-[#00D4FF] bg-clip-text text-transparent mb-2">
-                    100%
-                  </div>
-                  <p className="text-gray-400">
-                    Local AI - No API costs
-                  </p>
-                </div>
-                <div>
-                  <div className="text-5xl font-bold bg-gradient-to-r from-[#00D4FF] to-[#6600FF] bg-clip-text text-transparent mb-2">
-                    3 min
-                  </div>
-                  <p className="text-gray-400">
-                    Time to deploy your first agent
-                  </p>
-                </div>
+              <div className="hidden peer-checked:block absolute inset-0 bg-black">
+                <video
+                  src="/clawops-ai-os-demo.mp4"
+                  controls
+                  autoPlay
+                  className="w-full h-full object-cover"
+                />
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Keyframes */}
-      <style jsx global>{`
-        @keyframes pulse {
-          0%, 100% { opacity: 0.5; transform: scale(1); }
-          50% { opacity: 1; transform: scale(1.1); }
-        }
+      {/* ── Feature Cards ── */}
+      <div className="relative z-10 px-6 lg:px-12 pb-16 md:pb-24">
+        <div className="max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {FEATURE_CARDS.map((card, i) => (
+              <motion.div
+                key={card.title}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.6, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                className="rounded-2xl border border-[rgba(255,255,255,0.07)] bg-[rgba(255,255,255,0.02)] p-5 hover:border-[rgba(0,212,255,0.2)] hover:bg-[rgba(255,255,255,0.04)] transition-all duration-300 group"
+              >
+                <div className="text-3xl mb-3">{card.icon}</div>
+                <h3 className="text-base font-semibold text-white mb-2">{card.title}</h3>
+                <p className="text-sm text-[rgba(255,255,255,0.45)] leading-relaxed">{card.desc}</p>
+                <div className="mt-3 h-px bg-gradient-to-r from-[rgba(0,212,255,0.3)] to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              </motion.div>
+            ))}
+          </div>
 
-        @keyframes flow {
-          0% { transform: translateX(-100px) rotate(0deg); opacity: 0; }
-          50% { opacity: 1; }
-          100% { transform: translateX(100px) rotate(180deg); opacity: 0; }
-        }
+          {/* Social proof bar */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="mt-12 rounded-2xl border border-[rgba(255,255,255,0.07)] bg-[rgba(255,255,255,0.02)] p-6 md:p-8"
+          >
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+              <div>
+                <div className="text-3xl md:text-4xl font-black bg-gradient-to-r from-[#00D4FF] to-[#6600FF] bg-clip-text text-transparent">
+                  $3,000/mo
+                </div>
+                <p className="text-sm text-[rgba(255,255,255,0.4)] mt-1">Saved vs hiring humans</p>
+              </div>
+              <div className="border-t md:border-t-0 md:border-l border-[rgba(255,255,255,0.06)]">
+                <div className="text-3xl md:text-4xl font-black text-white">100%</div>
+                <p className="text-sm text-[rgba(255,255,255,0.4)] mt-1">Private — no API data sharing</p>
+              </div>
+              <div className="border-t md:border-t-0 md:border-l border-[rgba(255,255,255,0.06)]">
+                <div className="text-3xl md:text-4xl font-black text-white">3 min</div>
+                <p className="text-sm text-[rgba(255,255,255,0.4)] mt-1">From signup to first agent live</p>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </div>
 
-        @keyframes float {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-20px); }
-        }
-
-        .gradient-text {
-          background: linear-gradient(to right, #00D4FF, #6600FF, #00D4FF);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-        }
-      `}</style>
     </div>
   )
 }

@@ -9,7 +9,14 @@ const navLinks = [
   { label: "Use Cases", href: "/use-cases" },
   { label: "Integrations", href: "/integrations" },
   { label: "Pricing", href: "/pricing" },
-  { label: "Company", href: "/company" },
+];
+
+const productLinks = [
+  { label: "Capabilities", href: "/#capabilities" },
+  { label: "How It Works", href: "/how-it-works" },
+  { label: "Use Cases", href: "/use-cases" },
+  { label: "Integrations", href: "/integrations" },
+  { label: "Pricing", href: "/pricing" },
 ];
 
 function MenuIcon() {

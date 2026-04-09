@@ -1,3 +1,4 @@
+import Navbar from "@/components/ui/Navbar";
 import HeroNew from "./HeroNew";
 import Problem from "@/components/sections/Problem";
 import Capabilities from "@/components/sections/Capabilities";
@@ -12,6 +13,7 @@ import Footer from "@/components/sections/Footer";
 export default function Home() {
   return (
     <>
+      <Navbar />
       <main>
         <HeroNew />
         <Problem />
