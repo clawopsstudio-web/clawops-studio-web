@@ -83,13 +83,13 @@ export default function AmpereStylePricing() {
       {/* Header */}
       <div className="text-center mb-16">
         <h1 className="text-4xl md:text-6xl font-bold mb-4">
-          Pay for Infrastructure,<br />
+          The AI OS Your VPS<br />
           <span className="bg-gradient-to-r from-[#00D4FF] to-[#6600FF] bg-clip-text text-transparent">
-            Not AI Costs
+            Has Been Waiting For
           </span>
         </h1>
         <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-          Pre-configured VPS + AI infrastructure. Deploy your AI workers in minutes, not days.
+          Flat VPS pricing. Unlimited agents. Zero per-token billing. Pick a plan, install the OS, ship your AI workforce.
         </p>
       </div>
 

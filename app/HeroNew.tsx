@@ -147,23 +147,23 @@ export default function HeroNew() {
             {/* Badge */}
             <div className="inline-flex items-center gap-2 bg-[#2d2d44] hover:bg-[#3d3d54] text-gray-300 px-4 py-2 rounded-full text-sm mb-8 transition-colors">
               <span className="w-2 h-2 bg-[#10b981] rounded-full animate-pulse" />
-              Built on Ampere ARM VPS — GPU-Ready Infrastructure
+              The AI OS for Your VPS — Deployed in 3 Minutes
             </div>
 
             {/* Headline */}
             <h1 className="text-5xl md:text-7xl font-bold leading-tight mb-6">
-              Stop Paying Per Message.<br />
+              The AI Operating System<br />
               <span className="bg-gradient-to-r from-[#00D4FF] via-[#6600FF] to-[#00D4FF] bg-clip-text text-transparent">
-                Own Your AI
+                For Your VPS.
               </span>
               <br />
-              Infrastructure.
+              Built for Your Team.
             </h1>
 
             {/* Subheadline */}
             <p className="text-xl text-gray-400 mb-10 max-w-2xl">
-              Deploy AI agents on your own VPS. No API bills. No per-token charges. No surprise invoices at month-end.
-              <span className="text-white"> Just flat, predictable infrastructure costs.</span>
+              Think of it as macOS for your AI workforce — except the hardware lives in your cloud, and there's no per-app fee.
+              <span className="text-white"> Run unlimited agents. Pay once for the VPS.</span>
             </p>
 
             {/* CTA Buttons */}

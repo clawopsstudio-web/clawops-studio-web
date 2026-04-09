@@ -6,39 +6,39 @@ import { useRef } from "react";
 const capabilities = [
   {
     emoji: "🖥️",
-    title: "Your Own VPS — Not Shared Cloud",
-    description: "2-6 dedicated vCPUs, 4-12GB RAM, 50-200GB NVMe SSD. No noisy neighbors. Your agents never wait in someone else's queue.",
-    highlight: "Fully dedicated resources. Always.",
+    title: "Bare Metal VPS — Your Hardware",
+    description: "2-6 dedicated vCPUs, 4-12GB RAM, 50-200GB NVMe SSD. This is the hardware your AI OS runs on. No shared cloud. No noisy neighbors.",
+    highlight: "Your hardware. Your rules.",
   },
   {
     emoji: "🔒",
-    title: "Local AI — Zero API Costs",
-    description: "Run Gemma 4, Llama, or any open model on your VPS. Your prompts never leave your server. No API bills. No per-token math.",
-    highlight: "Predictable cost. Every single month.",
+    title: "Local Models — Your Kernel",
+    description: "Run Gemma 4, Llama, or any open model directly on your VPS. No API calls. No data leaving your server. No per-token billing cycle.",
+    highlight: "Zero API overhead. Full control.",
   },
   {
     emoji: "🤖",
-    title: "Multiple Agents, One VPS",
-    description: "Deploy Sales, Support, Research, and Ops agents — all running simultaneously. Each handles its domain. You manage the team.",
-    highlight: "Scale agents without scaling costs.",
+    title: "Multi-Agent Runtime — Your Processes",
+    description: "Deploy Sales, Support, Research, and Ops agents simultaneously. Each is an independent process. They share memory. They share context. They share the bill.",
+    highlight: "Unlimited agents. One VPS. One flat fee.",
   },
   {
     emoji: "🔌",
-    title: "500+ Tools Connected",
-    description: "Telegram, WhatsApp, Chrome, Slack, GHL, n8n, HubSpot, Notion, MCP. If it has an API or runs in a browser — your agents can use it.",
-    highlight: "Most connected AI stack in its class.",
+    title: "500+ Integrations — Your App Store",
+    description: "Telegram, WhatsApp, Chrome, Slack, GHL, n8n, HubSpot, Notion, MCP. Your agents connect to every tool your business runs on — natively.",
+    highlight: "The most connected AI runtime available.",
   },
   {
     emoji: "⚡",
-    title: "Instant Responses — No Queues",
-    description: "Your VPS processes every request. No API rate limits. No 429 errors. No waiting. Your agents respond in under 50ms, every time.",
-    highlight: "50ms response time. Guaranteed.",
+    title: "Edge Execution — Zero Latency",
+    description: "Every request is processed on your VPS. No API roundtrips. No rate limits. No queuing. Your agents respond in under 50ms, every single time.",
+    highlight: "50ms. No exceptions.",
   },
   {
     emoji: "🔐",
-    title: "Your Data Never Leaves Your Server",
-    description: "Client data, strategies, pipelines — all on YOUR infrastructure. GDPR compliant. HIPAA-ready config available. You control everything.",
-    highlight: "Complete data sovereignty. No exceptions.",
+    title: "Data Sovereignty — Your Firewall",
+    description: "Client data. Sales pipelines. Internal strategies. All behind YOUR firewall, on YOUR server. GDPR compliant. HIPAA-ready config available.",
+    highlight: "Your data never leaves your infrastructure.",
   },
 ];
 
@@ -88,13 +88,13 @@ export default function Capabilities() {
           className="text-center"
         >
           <p className="font-mono text-xs uppercase tracking-[0.28em] text-[rgba(255,255,255,0.5)]">
-            What You Get
+            The Operating System
           </p>
           <h2 className="mt-3 text-[clamp(1.5rem,4vw,2rem)] font-bold tracking-[-0.03em] text-white md:text-5xl">
-            One Stack. Everything Your AI Workers Need.
+            Everything an AI OS Needs. Nothing It Doesn&apos;t.
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-[rgba(255,255,255,0.5)]">
-            Stop paying per message. Pay for infrastructure once — and run unlimited agents on it.
+            ClawOps is the operating system your VPS has been missing. Boot once. Deploy your entire AI workforce.
           </p>
         </motion.div>
 

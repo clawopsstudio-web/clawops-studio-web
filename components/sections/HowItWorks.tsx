@@ -13,21 +13,21 @@ type Step = {
 const steps: Step[] = [
   {
     number: "01",
-    title: "Pick Your Plan",
-    description: "Choose the VPS tier that matches your workload — Starter, Pro, or Business. Each comes with pre-configured AI infrastructure.",
-    detail: "Starting at $49/month with your own dedicated VPS",
+    title: "Install Your OS",
+    description: "Choose your VPS tier — Starter, Pro, or Business. Each is a pre-configured AI OS image. Ampere ARM hardware. No setup required.",
+    detail: "Your OS image boots in under 60 seconds",
   },
   {
     number: "02",
-    title: "Connect Your Stack",
-    description: "Connect your messaging apps, browser sessions, and tools. Our pre-built integrations handle authentication in minutes.",
-    detail: "Telegram, WhatsApp, Chrome, Slack, GHL, n8n — one-click setup",
+    title: "Connect Your Apps",
+    description: "Link your tools — Telegram, WhatsApp, Chrome, Slack, GHL, n8n, and 500+ more. Pre-built connectors, OAuth flows handled.",
+    detail: "Most integrations live in under 5 minutes",
   },
   {
     number: "03",
-    title: "Deploy in 3 Minutes",
-    description: "Your AI agents spin up on your VPS. No cloud configuration. No prompt engineering. They start working immediately.",
-    detail: "Yours in 3 minutes. Running 24/7 from day one.",
+    title: "Boot Your Agents",
+    description: "Deploy Sales, Support, Research, and Ops agents. They'll remember context, share memory, and start working immediately.",
+    detail: "Your AI workforce, live and running 24/7",
   },
 ];
 
@@ -92,13 +92,13 @@ export default function HowItWorks() {
           className="text-center"
         >
           <p className="font-mono text-xs uppercase tracking-[0.28em] text-[rgba(255,255,255,0.5)]">
-            How It Works
+            Boot Sequence
           </p>
           <h2 className="mt-3 text-[clamp(1.5rem,4vw,2rem)] font-bold tracking-[-0.03em] text-white md:text-5xl">
-            Live in 3 Minutes, Not 3 Months
+            From Zero to AI OS in 3 Minutes
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-[rgba(255,255,255,0.5)]">
-            No cloud setup. No DevOps. No prompt engineering. Just pick, connect, deploy.
+            Install once. Your AI workforce boots up and gets to work — every time you need it.
           </p>
         </motion.div>
 
@@ -145,7 +145,7 @@ export default function HowItWorks() {
         >
           <div className="text-4xl font-bold text-white">3 minutes</div>
           <p className="mt-2 text-sm text-[rgba(255,255,255,0.5)]">
-            From signup to your first AI worker live on your VPS
+            Your AI OS is installed, connected, and your first agent is working
           </p>
         </motion.div>
       </div>

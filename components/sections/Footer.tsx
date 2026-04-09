@@ -1,7 +1,7 @@
 "use client";
 
 const productLinks = [
-  { label: "What You Get", href: "/#capabilities" },
+  { label: "The OS", href: "/#capabilities" },
   { label: "How It Works", href: "/how-it-works" },
   { label: "Use Cases", href: "/use-cases" },
   { label: "Integrations", href: "/integrations" },
@@ -37,8 +37,7 @@ export default function Footer() {
               <span className="text-white font-bold text-lg group-hover:text-[#00D4FF] transition-colors">ClawOps</span>
             </a>
             <p className="text-[rgba(255,255,255,0.45)] text-sm leading-relaxed max-w-xs">
-              Preconfigured AI workers that run in your apps — support, research,
-              content, and ops — without prompt engineering or weeks of setup.
+              The AI Operating System for your VPS. Deploy unlimited agents. Pay once.
             </p>
             <div className="flex items-center gap-3 mt-6">
               {["Twitter/X", "LinkedIn"].map((label) => (

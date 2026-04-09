@@ -1,9 +1,6 @@
 'use client';
 
-"use client";
-
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 
 export default function FinalCTA() {
@@ -68,8 +65,7 @@ export default function FinalCTA() {
             </span>
           </h2>
           <p className="text-[rgba(255,255,255,0.55)] text-lg mb-10 max-w-lg mx-auto leading-relaxed">
-            Book a 30-minute strategy call. We&apos;ll map your workflows, identify the highest-impact
-            automation, and have a worker deployed and running in minutes.
+            The AI OS for your VPS is ready. Deploy your first agent today and stop paying per message.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -82,7 +78,7 @@ export default function FinalCTA() {
               }}
             >
               <span className="relative z-10 flex items-center gap-2">
-                Deploy Your Agent
+                Install the AI OS — Free
                 <svg
                   width="16"
                   height="16"

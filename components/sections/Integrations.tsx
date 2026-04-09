@@ -82,13 +82,13 @@ export default function Integrations() {
           className="text-center"
         >
           <p className="font-mono text-xs uppercase tracking-[0.28em] text-[rgba(255,255,255,0.5)]">
-            Integrations
+            App Store
           </p>
           <h2 className="mt-3 text-[clamp(1.5rem,4vw,2rem)] font-bold tracking-[-0.03em] text-white md:text-5xl">
-            Connects to Everything You Already Use
+            500+ Apps. One AI OS. Zero API Bills.
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-[rgba(255,255,255,0.5)]">
-            Pre-built connectors for 500+ tools. If it has an API or runs in a browser, your AI workers can use it.
+            Think of it as your AI OS's app store. Every tool your agents need — pre-connected, pre-authenticated, ready to use.
           </p>
         </motion.div>
 
