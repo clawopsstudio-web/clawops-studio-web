@@ -1,20 +1,26 @@
 # Product Positioning (ClawOps Studio Web)
 
 ## What We Are
-Pre-built AI agents for businesses — Sales Agent, Support Agent, Research Agent, Ops Agent — already configured and working from day one. Manage them from Telegram, WhatsApp, or Slack.
+The Agentic OS for businesses that want to scale without hiring. Powered by OpenClaw. Autonomous AI agents that plan, execute, and report — 24/7, without human prompting. Manage from Telegram, WhatsApp, or Slack.
 
 ## What We Are NOT
 - NOT managed OpenClaw hosting (that's MyClaw/Ampere)
-- NOT a personal assistant tool
+- NOT a reactive chatbot/assistant
 - NOT a server/VPS product
 - NOT a white-label solution
 
 ## Key Differentiators
-- Pre-built agents (not blank-canvas configuration)
-- Flat monthly pricing (no per-token, no credit system)
-- Works from messaging apps (not a web dashboard)
+- Autonomous execution (not reactive responses)
+- Built on OpenClaw (215K+ GitHub stars)
+- Scale without hiring (unlimited agents, flat price)
+- 24/7 operation — agents run on schedules, not prompts
+- Manage from messaging apps (Telegram/WhatsApp/Slack)
 - Multi-agent collaboration built in
-- Data stays on own infrastructure
+
+## Category: Agentic OS
+- AIOS (academic), Leah AI (enterprise), Xebia (orchestration) — all in this category
+- ClawOps = Agentic OS for SMBs and agencies
+- Competitors MyClaw/Ampere are NOT in this category — they're hosting providers
 
 ## Competitors
 - MyClaw.ai: managed hosting, personal AI assistant, $19-79/mo, setup speed

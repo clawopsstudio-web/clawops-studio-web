@@ -3,34 +3,26 @@
 import { useId, useRef } from "react";
 import { motion, useInView } from "framer-motion";
 
-type Step = {
-  number: string;
-  title: string;
-  description: string;
-  detail: string;
-  color: string;
-};
-
-const steps: Step[] = [
+const steps = [
   {
     number: "01",
-    title: "Pick Your AI Team",
-    description: "Choose the agents you need — Sales, Support, Research, Ops. Each comes pre-configured with the right prompts, tools, and workflows for real business tasks. Not a blank canvas. A ready workforce.",
-    detail: "4 agent types ready to deploy in minutes",
+    title: "Connect Your Infrastructure",
+    description: "We handle the OpenClaw setup on our optimized servers. You get enterprise-grade agent infrastructure without touching a terminal. Your agents are running before your coffee gets cold.",
+    detail: "OpenClaw-powered infrastructure, fully managed",
     color: "#00D4FF",
   },
   {
     number: "02",
-    title: "Connect Your Channels",
-    description: "Link Telegram, WhatsApp, or Slack — the apps your team already uses. Your agents become available on the messaging platforms where your business actually happens.",
-    detail: "Telegram, WhatsApp, Slack — your choice",
+    title: "Pick Your Autonomous Agents",
+    description: "Choose your agents — Sales, Support, Research, Ops. Each is pre-configured to run autonomously in your business context. They don't wait for instructions. They execute on their own schedules.",
+    detail: "Agents are pre-configured for autonomous execution",
     color: "#6600FF",
   },
   {
     number: "03",
-    title: "Talk to Your Agents. Watch Them Work.",
-    description: "Message your Sales Agent from your phone. 'Follow up with all leads from today.' It does it. Your Support Agent handles tickets while you sleep. Your Research Agent finds leads while you focus on closing.",
-    detail: "Agents work 24/7 — you manage from your phone",
+    title: "Let Them Run. You Manage from Your Phone.",
+    description: "Your agents work 24/7 — following up with leads, resolving support tickets, building reports, researching markets. You monitor from Telegram, WhatsApp, or Slack. Your business runs while you sleep.",
+    detail: "Autonomous 24/7 operation — you only step in when needed",
     color: "#00D4FF",
   },
 ];
@@ -47,17 +39,10 @@ function DesktopConnector({ isInView }: { isInView: boolean }) {
             <stop offset="100%" stopColor="#6600FF" stopOpacity="0.75" />
           </linearGradient>
         </defs>
-        <motion.path
-          d="M84 60 C 220 60, 200 60, 336 60 S 520 60, 656 60 S 840 60, 976 60 S 1040 60, 1116 60"
-          fill="none"
-          stroke={`url(#${pathId})`}
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeDasharray="8 10"
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={isInView ? { pathLength: 1, opacity: 1 } : {}}
-          transition={{ duration: 1.4, ease: "easeInOut", delay: 0.15 }}
-        />
+        <motion.path d="M84 60 C 220 60, 200 60, 336 60 S 520 60, 656 60 S 840 60, 976 60 S 1040 60, 1116 60"
+          fill="none" stroke={`url(#${pathId})`} strokeWidth="2" strokeLinecap="round" strokeDasharray="8 10"
+          initial={{ pathLength: 0, opacity: 0 }} animate={isInView ? { pathLength: 1, opacity: 1 } : {}}
+          transition={{ duration: 1.4, ease: "easeInOut", delay: 0.15 }} />
       </svg>
     </div>
   );
@@ -68,34 +53,22 @@ export default function HowItWorks() {
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section
-      ref={ref}
-      id="how-it-works"
-      className="relative bg-[#04040c] px-6 py-16 md:py-24"
-    >
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background: "radial-gradient(ellipse 60% 40% at 50% 100%, rgba(102,0,255,0.08), transparent 70%)",
-        }}
-      />
+    <section ref={ref} id="how-it-works" className="relative bg-[#04040c] px-6 py-16 md:py-24">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0" style={{
+        background: "radial-gradient(ellipse 60% 40% at 50% 100%, rgba(102,0,255,0.08), transparent 70%)",
+      }} />
 
       <div className="relative z-10 mx-auto max-w-6xl">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : undefined}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12 md:mb-16"
-        >
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={isInView ? { opacity: 1, y: 0 } : undefined}
+          transition={{ duration: 0.6 }} className="text-center mb-12 md:mb-16">
           <p className="font-mono text-xs uppercase tracking-[0.28em] text-[rgba(255,255,255,0.4)]">
             How It Works
           </p>
           <h2 className="mt-3 text-[clamp(1.75rem,4vw,2.5rem)] font-bold tracking-[-0.03em] text-white md:text-5xl">
-            Pick Roles. Deploy. Talk to Them<br className="hidden md:block" /> Like Teammates.
+            From Signup to Autonomous<br className="hidden md:block" /> AI Workforce in 3 Minutes
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-base md:text-lg text-[rgba(255,255,255,0.45)] leading-relaxed">
-            Your agents arrive pre-configured and ready to work. You don't build them from scratch — you pick roles, connect your channels, and start talking to your team.
+            No DevOps. No configuration. No technical knowledge required. We handle the OpenClaw layer — you get autonomous agents running your business from day one.
           </p>
         </motion.div>
 
@@ -103,31 +76,20 @@ export default function HowItWorks() {
 
         <div className="relative mt-14 grid gap-8 md:grid-cols-3 md:gap-6">
           {steps.map((step, index) => (
-            <motion.div
-              key={step.number}
-              initial={{ opacity: 0, y: 40 }}
-              animate={isInView ? { opacity: 1, y: 0 } : undefined}
+            <motion.div key={step.number}
+              initial={{ opacity: 0, y: 40 }} animate={isInView ? { opacity: 1, y: 0 } : undefined}
               transition={{ duration: 0.7, delay: 0.2 * (index + 1), ease: [0.22, 1, 0.36, 1] }}
-              className="relative flex flex-col items-center text-center"
-            >
-              {/* Step circle */}
-              <div
-                className="relative z-10 flex h-14 w-14 items-center justify-center rounded-full border-2 bg-[#04040c]"
-                style={{ borderColor: step.color, boxShadow: `0 0 24px ${step.color}33` }}
-              >
+              className="relative flex flex-col items-center text-center">
+              <div className="relative z-10 flex h-14 w-14 items-center justify-center rounded-full border-2 bg-[#04040c]"
+                style={{ borderColor: step.color, boxShadow: `0 0 24px ${step.color}33` }}>
                 <span className="font-mono text-base font-bold" style={{ color: step.color }}>{step.number}</span>
               </div>
-
-              {/* Mobile connector */}
               {index < steps.length - 1 && (
                 <div className="absolute top-7 left-1/2 h-8 w-px bg-gradient-to-b from-[rgba(255,255,255,0.15)] to-transparent md:hidden" />
               )}
-
               <div className="mt-5 w-full rounded-2xl border border-[rgba(255,255,255,0.07)] bg-[rgba(255,255,255,0.02)] p-6 text-left">
                 <h3 className="text-lg font-semibold text-white mb-2">{step.title}</h3>
-                <p className="text-sm leading-relaxed text-[rgba(255,255,255,0.45)]">
-                  {step.description}
-                </p>
+                <p className="text-sm leading-relaxed text-[rgba(255,255,255,0.45)]">{step.description}</p>
                 <div className="mt-4 rounded-lg bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.06)] px-3 py-2">
                   <p className="text-xs font-medium" style={{ color: step.color }}>{step.detail}</p>
                 </div>
@@ -136,16 +98,12 @@ export default function HowItWorks() {
           ))}
         </div>
 
-        {/* Timeline callout */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={isInView ? { opacity: 1, scale: 1 } : undefined}
+        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={isInView ? { opacity: 1, scale: 1 } : undefined}
           transition={{ duration: 0.5, delay: 0.8 }}
-          className="mx-auto mt-12 max-w-sm rounded-2xl border border-[rgba(0,212,255,0.15)] bg-[rgba(0,212,255,0.03)] p-6 text-center"
-        >
+          className="mx-auto mt-12 max-w-sm rounded-2xl border border-[rgba(0,212,255,0.15)] bg-[rgba(0,212,255,0.03)] p-6 text-center">
           <div className="text-3xl font-bold text-white">3 minutes</div>
           <p className="mt-2 text-sm text-[rgba(255,255,255,0.45)]">
-            From signup to your first AI agent working and messaging you
+            From signup to autonomous agents running your business
           </p>
         </motion.div>
       </div>

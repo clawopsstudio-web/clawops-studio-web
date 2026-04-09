@@ -5,12 +5,12 @@ import GlobalStarField from "@/components/ui/GlobalStarField";
 
 export const metadata: Metadata = {
   title: {
-    default: "ClawOps — AI Agents That Actually Work. No Setup.",
+    default: "ClawOps — The Agentic OS for Businesses That Scale",
     template: "%s | ClawOps",
   },
   description:
-    "Pre-built AI agents for Sales, Support, Research, and Ops — already configured and working from day one. Manage them from Telegram, WhatsApp, or Slack. No per-agent API bills. Flat monthly pricing from $49/mo.",
-  keywords: "AI agents that work, business AI agents, AI workforce, AI sales agent, AI support agent, AI research agent, pre-built AI agents, ClawOps, AI automation, multi-agent platform, Telegram AI, WhatsApp AI",
+    "The autonomous AI OS for businesses that want to scale without hiring. Powered by OpenClaw. Sales, Support, Research, and Ops agents that run 24/7 — autonomously. Manage from Telegram, WhatsApp, or Slack. Flat monthly pricing from $49/mo.",
+  keywords: "agentic OS, autonomous AI, AI workforce, scale without hiring, business AI automation, OpenClaw business, AI agents run 24/7, ClawOps, autonomous business, AI that runs itself",
   metadataBase: new URL('https://clawops-web.vercel.app'),
   alternates: {
     canonical: '/',
@@ -19,18 +19,18 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "ClawOps — AI Agents That Actually Work. No Setup.",
+    title: "ClawOps — The Agentic OS for Businesses That Scale",
     description:
-      "Pre-built AI agents for Sales, Support, Research, and Ops — already configured and working from day one. Manage from Telegram, WhatsApp, or Slack. Flat pricing from $49/mo.",
+      "The autonomous AI OS for businesses. Powered by OpenClaw. Agents run your Sales, Support, and Ops 24/7 — without you prompting them. Scale without hiring.",
     type: "website",
     locale: "en_US",
     siteName: "ClawOps",
   },
   twitter: {
     card: "summary_large_image",
-    title: "ClawOps — AI Agents That Actually Work. No Setup.",
+    title: "ClawOps — The Agentic OS for Businesses That Scale",
     description:
-      "Pre-built AI agents for Sales, Support, Research, and Ops. No configuration needed. Manage from Telegram or WhatsApp.",
+      "Autonomous AI agents that run your business 24/7. Powered by OpenClaw. Scale without hiring.",
     creator: "@ClawOps",
   },
   robots: {
@@ -53,7 +53,7 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
   name: 'ClawOps — AI Agent Platform',
-  description: 'Pre-built AI agents for Sales, Support, Research, and Ops — already configured and working. Manage from Telegram, WhatsApp, or Slack. Flat pricing from $49/mo.',
+  description: 'The Agentic OS for businesses that want to scale without hiring. Powered by OpenClaw. Autonomous agents running Sales, Support, and Ops 24/7. Flat pricing from $49/mo.',
   applicationCategory: 'BusinessApplication',
   operatingSystem: 'Self-hosted VPS (Ampere ARM)',
   offers: {
