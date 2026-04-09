@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 const PLANS = [
   {
@@ -76,20 +76,20 @@ const PLANS = [
 ]
 
 export default function AmpereStylePricing() {
-  const [selectedPlan, setSelectedPlan] = useState<string>('')
+  const router = useRouter()
 
   return (
     <div className="container mx-auto px-4 py-16">
       {/* Header */}
       <div className="text-center mb-16">
         <h1 className="text-4xl md:text-6xl font-bold mb-4">
-          The AI OS Your VPS<br />
+          The AI Agent Platform<br />
           <span className="bg-gradient-to-r from-[#00D4FF] to-[#6600FF] bg-clip-text text-transparent">
-            Has Been Waiting For
+            Your Team Has Been Waiting For
           </span>
         </h1>
         <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-          Flat VPS pricing. Unlimited agents. Zero per-token billing. Pick a plan, install the OS, ship your AI workforce.
+          Unlimited agents. Flat monthly pricing. Zero per-token billing. Pick a plan, connect your tools, deploy your AI workforce.
         </p>
       </div>
 
@@ -170,14 +170,14 @@ export default function AmpereStylePricing() {
               </ul>
 
               <button
-                onClick={() => setSelectedPlan(plan.name)}
+                onClick={() => router.push(`/auth/signup?plan=${plan.name.toLowerCase()}`)}
                 className={`w-full py-3 rounded-lg font-semibold transition-all ${
                   plan.highlight
                     ? 'bg-gradient-to-r from-[#00D4FF] to-[#6600FF] text-white hover:opacity-90'
                     : 'bg-[#2d2d44] text-white hover:bg-[#3d3d54]'
                 }`}
               >
-                {selectedPlan === plan.name ? 'Selected' : 'Select Plan'}
+                Get Started — ${plan.price}/mo
               </button>
             </div>
           </div>
