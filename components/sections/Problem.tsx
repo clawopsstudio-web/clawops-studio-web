@@ -6,27 +6,27 @@ import { useEffect, useRef, useState } from "react";
 const problems = [
   {
     number: "01",
-    title: "You're Paying Per Agent, Not Per Infrastructure",
+    title: "They Give You a Server. You're Still Building the Agent.",
     description:
-      "Most AI platforms charge per agent, per seat, per token. Add five clients? Your bill quintuples. Every agent you deploy is a new line item — forever.",
+      "Managed hosting platforms skip the hard part — configuration. You still get a terminal and a setup checklist. Building a useful agent — with the right prompts, tools, memory, and context — takes weeks of trial and error.",
     color: "#00D4FF",
-    stat: "3-5x bill growth per new client",
+    stat: "Avg 2-4 weeks to get a useful agent running",
   },
   {
     number: "02",
-    title: "Your Client Data Goes Through Third-Party Servers",
+    title: "You're Paying Twice: Hosting AND Per-Token",
     description:
-      "Every prompt, every response, every piece of client data passes through OpenAI, Anthropic, or Google. You're handing over confidential business data to AI vendors every single day.",
+      "Most platforms charge for server specs — then add AI credit systems on top. Your bill has a hosting line and a tokens line. Add a new client? Both lines grow. Every time.",
     color: "#6600FF",
-    stat: "100% of prompts routed externally",
+    stat: "2 billing layers: hosting + AI credits",
   },
   {
     number: "03",
-    title: "Agents Don't Share Memory or Context",
+    title: "Agents Are Siloed. Your Data Isn't.",
     description:
-      "Your AI stack is a collection of disconnected API calls. One agent handles support. Another handles sales. They don't share context, don't remember, don't learn. It's automation, not intelligence.",
+      "One agent for support. Another for sales. Another for research. They don't share context. Don't remember. Don't collaborate. It's a collection of chatbots, not a workforce.",
     color: "#00D4FF",
-    stat: "0 shared memory between agents",
+    stat: "0 shared memory between agents by default",
   },
 ];
 
@@ -79,10 +79,10 @@ export default function Problem() {
             The Problem
           </p>
           <h2 className="mt-3 text-[clamp(1.75rem,4vw,2.5rem)] font-bold tracking-[-0.03em] text-white md:text-5xl">
-            AI Agents Are Expensive.<br className="hidden md:block" /> Fragile. And Someone Else's.
+            Every AI Platform Sells You the<br className="hidden md:block" /> Infrastructure. Not the Outcome.
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-base md:text-lg text-[rgba(255,255,255,0.45)] leading-relaxed">
-            The promise of AI agents is real. But the current way to run them — API costs, token billing, no memory, no shared context — makes it unaffordable for most businesses.
+            You want AI agents that do real work. What you get is a server, a credit system, and a blank canvas — with weeks of configuration between you and an agent that actually works.
           </p>
         </motion.div>
 
@@ -119,10 +119,10 @@ export default function Problem() {
           className="mx-auto mt-12 grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4"
         >
           {[
-            { value: 2400, prefix: "$", suffix: "+", label: "avg monthly API bill for one client" },
+            { value: 2, prefix: "", suffix: "+ wks", label: "avg time to get a useful agent" },
             { value: 0, prefix: "$", suffix: "", label: "API costs with ClawOps — flat fee only" },
             { value: 80, prefix: "", suffix: "%", label: "tasks auto-resolved by agents" },
-            { value: 100, prefix: "", suffix: "%", label: "client data stays private" },
+            { value: 100, prefix: "", suffix: "%", label: "client data stays on your infra" },
           ].map((stat) => (
             <div key={stat.label} className="rounded-xl border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.02)] p-4 md:p-5 text-center">
               <div className="text-2xl md:text-3xl font-bold text-white">

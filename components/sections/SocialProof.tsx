@@ -22,10 +22,10 @@ function CountUp({ value, suffix = "" }: { value: number; suffix?: string }) {
 }
 
 const stats = [
-  { value: 2400, suffix: "$", label: "Avg. saved per client/month" },
-  { value: 3, suffix: " min", label: "Avg. time to first agent" },
-  { value: 98, suffix: "%", label: "Tickets auto-resolved" },
-  { value: 50, suffix: "+", label: "Active deployments" },
+  { value: 2400, suffix: "$", label: "Avg. saved vs hiring per client/mo" },
+  { value: 3, suffix: " min", label: "From signup to agent live" },
+  { value: 0, suffix: " wks", label: "Of agent configuration needed" },
+  { value: 80, suffix: "%", label: "Tasks auto-resolved by agents" },
 ];
 
 const testimonials = [
@@ -89,7 +89,7 @@ export default function SocialProof() {
           className="mt-16 text-center"
         >
           <p className="font-mono text-xs uppercase tracking-[0.28em] text-[rgba(255,255,255,0.5)]">
-            Trusted by Teams Running AI Agents
+            Real Results. No Configuration Required.
           </p>
 
           <div className="mt-8 grid gap-4 md:grid-cols-3">

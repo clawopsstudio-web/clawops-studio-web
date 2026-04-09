@@ -6,44 +6,44 @@ import { useRef } from "react";
 const capabilities = [
   {
     emoji: "🤖",
-    title: "Deploy Unlimited Agents",
-    description: "Run Sales, Support, Research, and Ops agents simultaneously. Each is independent. They share memory. They share context. One flat monthly fee covers them all.",
-    highlight: "Unlimited agents. One price.",
+    title: "Pre-Built Agents That Work Day One",
+    description: "You don't configure an agent from scratch. Sales Agent, Support Agent, Research Agent, Ops Agent — each comes pre-configured with prompts, tools, and workflows for real business tasks. Pick a role. Deploy. Done.",
+    highlight: "Agents are ready. You're not starting from scratch.",
     color: "#00D4FF",
   },
   {
     emoji: "💰",
-    title: "No API Bills. Ever.",
-    description: "Your queries run on your own infrastructure. No per-token billing. No token costs. No surprise invoices at the end of the month.",
-    highlight: "Flat pricing. No token math.",
+    title: "One Flat Price. No Token Bills.",
+    description: "Every plan covers unlimited agents. No per-token billing. No AI credit system. No surprise invoice at end of month. You know what you're paying on the 1st. It stays the same on the 30th.",
+    highlight: "Flat monthly. Predictable. No token math.",
     color: "#6600FF",
   },
   {
     emoji: "🔌",
-    title: "500+ Integrations Ready",
-    description: "Telegram, WhatsApp, Chrome, Slack, GHL, HubSpot, Notion, n8n, and 495 more. Pre-built connectors, OAuth handled, live in minutes.",
-    highlight: "Most integrations live in under 5 minutes.",
+    title: "500+ Integrations, Already Connected",
+    description: "Telegram, WhatsApp, Slack, Discord, HubSpot, GHL, Notion, n8n, Firecrawl — pre-built connectors, OAuth handled, live in minutes. Your agents connect to your tools the same day you sign up.",
+    highlight: "Most integrations live same day.",
     color: "#00D4FF",
-  },
-  {
-    emoji: "⚡",
-    title: "Instant Response Times",
-    description: "Every request processed on your own infrastructure. No API queues. No rate limits. Agents respond in under 50ms, every single time.",
-    highlight: "50ms response. Every request.",
-    color: "#6600FF",
   },
   {
     emoji: "🔒",
-    title: "Complete Data Privacy",
-    description: "Client data never touches a third-party API. Your prompts, your data, your responses — all on your own infrastructure. GDPR compliant by design.",
-    highlight: "Your data never leaves your server.",
-    color: "#00D4FF",
+    title: "Your Data Stays on Your Infrastructure",
+    description: "Agents run on your own server. Prompts, responses, client data — nothing routes through third-party AI APIs by default. Your data is yours. Privacy by architecture, not by policy.",
+    highlight: "No third-party AI data exposure by default.",
+    color: "#6600FF",
   },
   {
     emoji: "🌐",
-    title: "Works 24/7 — Auto-Retries",
-    description: "Agents recover from failures automatically. If a task fails, it retries. If a tool goes down, it adapts. No ops team required to babysit.",
-    highlight: "Self-healing. Self-recovering.",
+    title: "Manage Your Team From Your Phone",
+    description: "Your agents work on Telegram, WhatsApp, and Slack — the apps you already use. Message your Sales Agent from a coffee shop. Check your Support queue from bed. Your AI workforce goes where you go.",
+    highlight: "Work from wherever you already work.",
+    color: "#00D4FF",
+  },
+  {
+    emoji: "🔄",
+    title: "Agents That Collaborate",
+    description: "Your Support Agent flags an upsell — it hands to your Sales Agent automatically. Your Research Agent finds a lead — it passes to your Sales Agent with full context. One workflow, multiple agents, zero manual handoffs.",
+    highlight: "Multi-agent handoffs built in.",
     color: "#6600FF",
   },
 ];
@@ -62,10 +62,10 @@ const item = {
 };
 
 const trustItems = [
-  "Pre-configured in 3 minutes",
+  "Pre-configured agents from day one",
   "No credit card to start",
   "Cancel anytime",
-  "Runs 24/7",
+  "Works from Telegram / WhatsApp / Slack",
   "SSL encrypted",
 ];
 
@@ -95,13 +95,13 @@ export default function Capabilities() {
           className="text-center mb-12 md:mb-14"
         >
           <p className="font-mono text-xs uppercase tracking-[0.28em] text-[rgba(255,255,255,0.4)]">
-            What You Get
+            What ClawOps Gives You
           </p>
           <h2 className="mt-3 text-[clamp(1.75rem,4vw,2.5rem)] font-bold tracking-[-0.03em] text-white md:text-5xl">
-            Everything Your AI Workforce Needs.<br className="hidden md:block" /> Nothing You Don&apos;t.
+            Agents That Work.<br className="hidden md:block" /> Not Infrastructure to Configure.
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-base md:text-lg text-[rgba(255,255,255,0.45)] leading-relaxed">
-            ClawOps gives you a complete AI agent platform — deploy, connect, monitor, scale. One platform. One price. Every tool your agents need.
+            ClawOps gives you a team — not a server. Pre-built agents, pre-connected tools, and a workforce that starts delivering results on day one.
           </p>
         </motion.div>
 

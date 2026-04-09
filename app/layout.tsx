@@ -5,12 +5,12 @@ import GlobalStarField from "@/components/ui/GlobalStarField";
 
 export const metadata: Metadata = {
   title: {
-    default: "ClawOps — Deploy Unlimited AI Agents. Pay Once.",
+    default: "ClawOps — AI Agents That Actually Work. No Setup.",
     template: "%s | ClawOps",
   },
   description:
-    "Deploy unlimited AI agents on your own infrastructure. No per-token bills. No API costs. One flat monthly price. Starting at $49/month.",
-  keywords: "AI agents, deploy AI agents, no API costs, local AI, AI infrastructure, ClawOps, AI automation, multi-agent platform",
+    "Pre-built AI agents for Sales, Support, Research, and Ops — already configured and working from day one. Manage them from Telegram, WhatsApp, or Slack. No per-agent API bills. Flat monthly pricing from $49/mo.",
+  keywords: "AI agents that work, business AI agents, AI workforce, AI sales agent, AI support agent, AI research agent, pre-built AI agents, ClawOps, AI automation, multi-agent platform, Telegram AI, WhatsApp AI",
   metadataBase: new URL('https://clawops-web.vercel.app'),
   alternates: {
     canonical: '/',
@@ -19,18 +19,18 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "ClawOps — Deploy Unlimited AI Agents. Pay Once.",
+    title: "ClawOps — AI Agents That Actually Work. No Setup.",
     description:
-      "Deploy unlimited AI agents on your own infrastructure. No per-token bills. No API costs. One flat monthly price.",
+      "Pre-built AI agents for Sales, Support, Research, and Ops — already configured and working from day one. Manage from Telegram, WhatsApp, or Slack. Flat pricing from $49/mo.",
     type: "website",
     locale: "en_US",
     siteName: "ClawOps",
   },
   twitter: {
     card: "summary_large_image",
-    title: "ClawOps — Deploy Unlimited AI Agents. Pay Once.",
+    title: "ClawOps — AI Agents That Actually Work. No Setup.",
     description:
-      "Deploy unlimited AI agents on your own infrastructure. No per-token bills. No API costs.",
+      "Pre-built AI agents for Sales, Support, Research, and Ops. No configuration needed. Manage from Telegram or WhatsApp.",
     creator: "@ClawOps",
   },
   robots: {
@@ -53,7 +53,7 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
   name: 'ClawOps — AI Agent Platform',
-  description: 'Deploy unlimited AI agents on your own infrastructure. No per-token bills. No API costs. One flat monthly price.',
+  description: 'Pre-built AI agents for Sales, Support, Research, and Ops — already configured and working. Manage from Telegram, WhatsApp, or Slack. Flat pricing from $49/mo.',
   applicationCategory: 'BusinessApplication',
   operatingSystem: 'Self-hosted VPS (Ampere ARM)',
   offers: {

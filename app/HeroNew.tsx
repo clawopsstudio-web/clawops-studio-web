@@ -145,7 +145,7 @@ function FloatingCards() {
             <span className="text-xs text-[rgba(255,255,255,0.45)]">Agent live</span>
           </div>
           <div className="text-lg font-bold text-white">Sales Agent</div>
-          <div className="text-xs text-[rgba(255,255,255,0.3)] mt-1">Processing 47 leads</div>
+          <div className="text-xs text-[rgba(255,255,255,0.3)] mt-1">47 leads in pipeline</div>
           <div className="mt-3 flex gap-1.5">
             {[80, 65, 90, 45].map((w, i) => (
               <div key={i} className="h-1.5 rounded-full bg-[rgba(0,212,255,0.3)]" style={{ width: `${w}px` }} />
@@ -167,7 +167,7 @@ function FloatingCards() {
         >
           <div className="text-xs text-[rgba(255,255,255,0.4)] mb-1">API Costs This Month</div>
           <div className="text-2xl font-bold text-white">$0.00</div>
-          <div className="text-xs text-[#10b981] mt-1">-100% vs OpenAI</div>
+          <div className="text-xs text-[#10b981] mt-1">Flat monthly. No token math.</div>
         </div>
       </motion.div>
 
@@ -182,7 +182,7 @@ function FloatingCards() {
           className="w-38 h-28 rounded-2xl border border-[rgba(0,212,255,0.14)] bg-[rgba(6,6,15,0.9)] backdrop-blur-md p-4"
           style={{ boxShadow: '0 8px 40px rgba(0,0,0,0.6), 0 0 30px rgba(0,212,255,0.03)' }}
         >
-          <div className="text-xs text-[rgba(255,255,255,0.4)] mb-2">Integrations</div>
+          <div className="text-xs text-[rgba(255,255,255,0.4)] mb-2">Available on</div>
           <div className="flex -space-x-1.5">
             {['T', 'W', 'S', 'N', 'H'].map((l, i) => (
               <div
@@ -203,9 +203,9 @@ function FloatingCards() {
 }
 
 const QUICK_STATS = [
-  { value: '$2,400', label: 'Avg saved / month' },
-  { value: '3 min', label: 'Time to first agent' },
-  { value: '500+', label: 'Integrations ready' },
+  { value: "$2,400", label: "Avg saved vs hiring" },
+  { value: "3 min", label: "To first agent live" },
+  { value: "4 agents", label: "Sales, Support, Research, Ops" },
 ]
 
 export default function HeroNew() {
@@ -246,7 +246,7 @@ export default function HeroNew() {
                 className="inline-flex items-center gap-2 bg-[rgba(0,212,255,0.08)] border border-[rgba(0,212,255,0.2)] text-[#00D4FF] px-4 py-1.5 rounded-full text-xs font-medium mb-8"
               >
                 <span className="w-1.5 h-1.5 rounded-full bg-[#10b981] animate-pulse" />
-                Deploy Your First AI Agent in 3 Minutes — No Credit Card
+                Sales Agent. Support Agent. Research Agent. Already Configured. — From $49/mo
               </motion.div>
 
               {/* Headline */}
@@ -256,13 +256,13 @@ export default function HeroNew() {
                 transition={{ duration: 0.7, delay: 0.1 }}
                 className="text-[clamp(2.5rem,7vw,5rem)] font-black leading-[1.05] tracking-[-0.03em] mb-6"
               >
-                <span className="text-white">Deploy Unlimited</span>
+                <span className="text-white">AI Agents That</span>
                 <br />
                 <span className="bg-gradient-to-r from-[#00D4FF] via-[#9966FF] to-[#00D4FF] bg-clip-text text-transparent">
-                  AI Agents.
+                  Actually Work.
                 </span>
                 <br />
-                <span className="text-white">Pay Once.</span>
+                <span className="text-white">No Setup.</span>
               </motion.h1>
 
               {/* Sub */}
@@ -272,9 +272,8 @@ export default function HeroNew() {
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="text-lg md:text-xl text-[rgba(255,255,255,0.5)] mb-10 max-w-xl leading-relaxed"
               >
-                ClawOps runs your entire AI workforce — Sales, Support, Research, Ops — on{' '}
-                <span className="text-white">your own infrastructure</span>. No per-agent API bills.
-                No token costs. Just flat, predictable pricing from day one.
+                ClawOps gives you a team of AI agents — Sales, Support, Research, Ops —{" "}
+                <span className="text-white">already configured to do real business work</span>. Message them on Telegram, WhatsApp, or Slack. No API bills. No configuration. Just results.
               </motion.p>
 
               {/* CTAs */}
@@ -288,7 +287,7 @@ export default function HeroNew() {
                   href="/auth/signup"
                   className="inline-flex items-center gap-2 bg-gradient-to-r from-[#00D4FF] to-[#6600FF] hover:opacity-90 text-white font-semibold px-8 py-4 rounded-xl transition-opacity text-base"
                 >
-                  Start Free — No Credit Card
+                  Deploy Your AI Team — Free
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>

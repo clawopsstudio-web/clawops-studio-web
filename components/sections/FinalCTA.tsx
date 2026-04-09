@@ -1,10 +1,10 @@
 'use client';
 
-import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 
 export default function FinalCTA() {
-  const ref = useRef(null);
+  const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
@@ -29,7 +29,7 @@ export default function FinalCTA() {
       <div className="max-w-4xl mx-auto px-6 relative text-center">
         <motion.div
           initial={{ opacity: 0, y: 32 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
+          animate={inView ? { opacity: 1, y: 0 } : {} }
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         >
           {/* Glowing orb */}
@@ -52,7 +52,7 @@ export default function FinalCTA() {
 
           <p className="pre-label mb-4">START TODAY</p>
           <h2 className="text-5xl md:text-6xl font-black text-white mb-6 leading-tight">
-            Your Workers.
+            Your AI Team.
             <br />
             <span
               style={{
@@ -61,16 +61,16 @@ export default function FinalCTA() {
                 WebkitTextFillColor: "transparent",
               }}
             >
-              Ready to Deploy.
+              Ready to Work.
             </span>
           </h2>
           <p className="text-[rgba(255,255,255,0.55)] text-lg mb-10 max-w-lg mx-auto leading-relaxed">
-            The AI OS for your VPS is ready. Deploy your first agent today and stop paying per message.
+            Deploy your Sales Agent, Support Agent, Research Agent, and Ops Agent today. They arrive pre-configured. They start working immediately. You manage them from your phone.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <a
-              href="/signup"
+              href="/auth/signup"
               className="group relative px-8 py-4 rounded-xl font-semibold text-white overflow-hidden"
               style={{
                 background: "linear-gradient(135deg, #00D4FF, #6600FF)",
@@ -78,7 +78,7 @@ export default function FinalCTA() {
               }}
             >
               <span className="relative z-10 flex items-center gap-2">
-                Install the AI OS — Free
+                Deploy Your AI Team — Free
                 <svg
                   width="16"
                   height="16"
@@ -103,7 +103,7 @@ export default function FinalCTA() {
           </div>
 
           <p className="mt-6 text-[rgba(255,255,255,0.25)] text-xs font-mono">
-            No credit card required &middot; Deployed in minutes &middot; Cancel anytime
+            No credit card required &middot; Agents live in 3 minutes &middot; Cancel anytime
           </p>
         </motion.div>
       </div>

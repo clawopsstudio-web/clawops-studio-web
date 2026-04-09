@@ -6,7 +6,7 @@ import { useRef } from "react";
 const useCases = [
   {
     title: "Support Automation",
-    description: "Your Support Agent handles inbound tickets, answers FAQs, and routes complex issues to your team. 24/7 coverage. Zero burnout.",
+    description: "Your Support Agent answers tickets 24/7 — from WhatsApp, Slack, or Telegram. It handles FAQs, routes complex issues to your team, and follows up automatically. Your phone lights up with a message only when human judgment is actually needed.",
     badge: "SUPPORT",
     badgeColor: "#00D4FF",
     icon: (
@@ -14,12 +14,12 @@ const useCases = [
         <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
-    metrics: "80% tickets auto-resolved",
+    metrics: "80% tickets resolved automatically",
     color: "#00D4FF",
   },
   {
-    title: "Lead Research",
-    description: "Your Research Agent finds qualified prospects, pulls tech stacks, builds contact lists, and enriches data — automatically, around the clock.",
+    title: "Sales & Lead Intelligence",
+    description: "Your Sales Agent finds leads, researches prospects, pulls tech stacks, and enriches CRM data — all from Telegram. You wake up to a prioritized lead list, not a blank spreadsheet. Follow up from your phone.",
     badge: "SALES",
     badgeColor: "#6600FF",
     icon: (
@@ -28,12 +28,12 @@ const useCases = [
         <path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
       </svg>
     ),
-    metrics: "340 qualified leads / week",
+    metrics: "340 qualified leads enriched / week",
     color: "#6600FF",
   },
   {
-    title: "Client Reporting",
-    description: "Your Ops Agent pulls data every morning, builds reports, and delivers them — before your first coffee. Zero manual data entry.",
+    title: "Operations & Reporting",
+    description: "Your Ops Agent pulls data every morning, builds reports, and delivers them to your phone before your first coffee. No more manual exports. No more 'I'll send that report later.' The data flows to you automatically.",
     badge: "OPS",
     badgeColor: "#00D4FF",
     icon: (
@@ -41,20 +41,20 @@ const useCases = [
         <path d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
       </svg>
     ),
-    metrics: "Zero manual data entry",
+    metrics: "Daily reports delivered to your phone",
     color: "#00D4FF",
   },
   {
-    title: "Content Operations",
-    description: "Your Content Agent researches topics, drafts posts, schedules them, and tracks performance — without you touching it.",
-    badge: "CONTENT",
+    title: "Research & Market Intelligence",
+    description: "Your Research Agent monitors competitors, tracks pricing, scrapes market data, and sends you summaries — on Telegram, while you sleep. You get intelligence updates before your day starts. Make decisions from your phone.",
+    badge: "RESEARCH",
     badgeColor: "#6600FF",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6" aria-hidden="true">
         <path d="M12 20h9M12 12h9M12 4h9M5 12H4a2 2 0 00-2 2v4a2 2 0 002 2h1M8 8H6a2 2 0 00-2 2v6a2 2 0 002 2h2M16 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
       </svg>
     ),
-    metrics: "14 pieces / week",
+    metrics: "Market updates delivered before 9 AM",
     color: "#6600FF",
   },
 ];
@@ -101,10 +101,10 @@ export default function UseCases() {
             Use Cases
           </p>
           <h2 className="mt-3 text-[clamp(1.5rem,4vw,2rem)] font-bold tracking-[-0.03em] text-white md:text-5xl">
-            Your AI Workers. Every Department.
+            Your AI Team. Every Role.<br className="hidden md:block" /> Everywhere You Chat.
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-[rgba(255,255,255,0.5)]">
-            One platform. Multiple agents. Doing the work that used to cost you thousands in human hours every month.
+            Agents that work where you work — on Telegram, WhatsApp, Slack. Managing them from your phone is the default, not a feature.
           </p>
         </motion.div>
 
@@ -153,8 +153,8 @@ export default function UseCases() {
                   </svg>
                   <span className="text-xs font-medium text-[#10b981]">{uc.metrics}</span>
                 </div>
-                <a href="/signup" className="text-xs font-medium text-[rgba(255,255,255,0.3)] hover:text-white transition-colors">
-                  Learn more &rarr;
+                <a href="/auth/signup" className="text-xs font-medium text-[rgba(255,255,255,0.3)] hover:text-white transition-colors">
+                  Deploy this agent &rarr;
                 </a>
               </div>
             </motion.div>
