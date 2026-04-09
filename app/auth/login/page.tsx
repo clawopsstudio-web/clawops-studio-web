@@ -111,6 +111,13 @@ function LoginContent() {
             ) : null}
             {loading ? 'Signing in...' : 'Sign In'}
           </button>
+
+          <Link
+            href="/auth/signup"
+            className="block w-full text-center py-3 text-sm font-medium rounded-xl border border-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.05)] text-[rgba(255,255,255,0.6)] hover:text-white transition-all"
+          >
+            Don&apos;t have an account? Sign up free
+          </Link>
         </form>
 
         <div className="my-5 flex items-center gap-3">
