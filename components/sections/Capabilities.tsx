@@ -6,39 +6,39 @@ import { useRef } from "react";
 const capabilities = [
   {
     emoji: "🖥️",
-    title: "Your AI Infrastructure",
-    description: "Pre-configured VPS with GPU-ready specs. 2-6 vCPUs, 4-12GB RAM, 50-200GB NVMe SSD. Yours exclusively.",
-    highlight: "No shared resources. No noisy neighbors.",
+    title: "Your Own VPS — Not Shared Cloud",
+    description: "2-6 dedicated vCPUs, 4-12GB RAM, 50-200GB NVMe SSD. No noisy neighbors. Your agents never wait in someone else's queue.",
+    highlight: "Fully dedicated resources. Always.",
   },
   {
     emoji: "🔒",
-    title: "Local, Private AI",
-    description: "Run Gemma 4 2B, 7B, or any open model completely on your VPS. Zero API calls to OpenAI or Anthropic. Your data never leaves.",
-    highlight: "100% data sovereignty. Zero API costs.",
+    title: "Local AI — Zero API Costs",
+    description: "Run Gemma 4, Llama, or any open model on your VPS. Your prompts never leave your server. No API bills. No per-token math.",
+    highlight: "Predictable cost. Every single month.",
   },
   {
     emoji: "🤖",
-    title: "Multi-Agent Ecosystem",
-    description: "Deploy specialized agents — Sales, Support, Research, Ops — all running on the same VPS. Each agent handles what it does best.",
-    highlight: "Unlimited agents on Business plan.",
+    title: "Multiple Agents, One VPS",
+    description: "Deploy Sales, Support, Research, and Ops agents — all running simultaneously. Each handles its domain. You manage the team.",
+    highlight: "Scale agents without scaling costs.",
   },
   {
     emoji: "🔌",
-    title: "500+ Integrations",
-    description: "Chrome browser automation, WhatsApp, Telegram, Slack, GHL, n8n, webhooks, MCP protocol. If it has an API, we connect it.",
-    highlight: "Playwright + native integrations built in.",
+    title: "500+ Tools Connected",
+    description: "Telegram, WhatsApp, Chrome, Slack, GHL, n8n, HubSpot, Notion, MCP. If it has an API or runs in a browser — your agents can use it.",
+    highlight: "Most connected AI stack in its class.",
   },
   {
     emoji: "⚡",
-    title: "Zero Latency",
-    description: "Your agents run on your VPS. No API queues. No rate limits. No per-token billing. Instant responses, always.",
-    highlight: "<50ms response time. Guaranteed.",
+    title: "Instant Responses — No Queues",
+    description: "Your VPS processes every request. No API rate limits. No 429 errors. No waiting. Your agents respond in under 50ms, every time.",
+    highlight: "50ms response time. Guaranteed.",
   },
   {
     emoji: "🔐",
-    title: "Complete Privacy",
-    description: "Your client data, strategies, and workflows stay on your infrastructure. GDPR compliant. Enterprise-grade encryption.",
-    highlight: "HIPAA-ready configuration available.",
+    title: "Your Data Never Leaves Your Server",
+    description: "Client data, strategies, pipelines — all on YOUR infrastructure. GDPR compliant. HIPAA-ready config available. You control everything.",
+    highlight: "Complete data sovereignty. No exceptions.",
   },
 ];
 
@@ -91,10 +91,10 @@ export default function Capabilities() {
             What You Get
           </p>
           <h2 className="mt-3 text-[clamp(1.5rem,4vw,2rem)] font-bold tracking-[-0.03em] text-white md:text-5xl">
-            Everything Your AI Workers Need to Work
+            One Stack. Everything Your AI Workers Need.
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-[rgba(255,255,255,0.5)]">
-            One subscription. Full infrastructure. No per-user fees. No API bills.
+            Stop paying per message. Pay for infrastructure once — and run unlimited agents on it.
           </p>
         </motion.div>
 

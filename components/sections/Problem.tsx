@@ -50,21 +50,21 @@ function CountUpNumber({ value, prefix = "", suffix = "" }: { value: number; pre
 const problems = [
   {
     icon: DollarIcon,
-    title: "You're Paying Twice",
+    title: "API Bills That Scale With Growth",
     description:
-      "Every AI tool you use charges per token. GPT calls, Claude API, Gemini searches. The bills stack up fast — and they scale against your growth.",
+      "Every AI tool charges per token. The more your agents work, the more you pay. GPT calls, Claude requests, Gemini searches — they all add up. And when you add 10 more clients, your bill doubles.",
   },
   {
     icon: CpuIcon,
-    title: "Your Data Leaves Your Control",
+    title: "Your Data Ships to Someone Else's Server",
     description:
-      "Every prompt sent to OpenAI or Anthropic goes through their servers. Confidential client data. Internal strategies. Sales pipelines. You're handing it over.",
+      "Every prompt goes through OpenAI, Anthropic, or Google's infrastructure. Client data. Sales strategies. Internal workflows. You're handing over the keys to your business.",
   },
   {
     icon: ScaleIcon,
-    title: "Latency Kills the Experience",
+    title: "Rate Limits and Queue Times",
     description:
-      "API queues. Rate limits. Expensive context windows. Your AI worker is waiting in line when it should be working.",
+      "API queues. Context window limits. Per-message costs that make you ration every call. Your AI worker is standing in line when it should be working.",
   },
 ];
 
@@ -106,10 +106,10 @@ export default function Problem() {
             The Problem
           </p>
           <h2 className="mt-3 text-[clamp(1.5rem,4vw,2rem)] font-bold tracking-[-0.03em] text-white md:text-5xl">
-            You&apos;re Paying for AI the Wrong Way
+            You&apos;re Paying for AI Twice — And Still Getting Half
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-[rgba(255,255,255,0.5)]">
-            Most businesses pay for AI twice — once in API bills, once in the limitations that come with it.
+            Every time your AI agent responds, it costs you money. And the bill only goes up as you grow.
           </p>
         </motion.div>
 
@@ -147,10 +147,10 @@ export default function Problem() {
           className="mx-auto mt-14 grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6"
         >
           {[
-            { value: 3000, prefix: "$", suffix: "+", label: "avg AI API spend/month" },
-            { value: 40, prefix: "", suffix: "%", label: "data privacy risk" },
-            { value: 500, prefix: "+", suffix: "ms", label: "avg API latency" },
-            { value: 100, prefix: "", suffix: "%", label: "predictable cost model" },
+            { value: 2400, prefix: "$", suffix: "+", label: "avg API spend cut per client" },
+            { value: 40, prefix: "", suffix: "%", label: "data stays on your VPS" },
+            { value: 50, prefix: "<", suffix: "ms", label: "response time vs 2000ms+ API" },
+            { value: 100, prefix: "", suffix: "%", label: "predictable monthly cost" },
           ].map((stat) => (
             <div key={stat.label} className="rounded-xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.03)] p-5 text-center">
               <div className="text-2xl font-bold text-[#00D4FF] md:text-3xl">

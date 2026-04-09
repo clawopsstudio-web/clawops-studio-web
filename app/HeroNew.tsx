@@ -147,23 +147,23 @@ export default function HeroNew() {
             {/* Badge */}
             <div className="inline-flex items-center gap-2 bg-[#2d2d44] hover:bg-[#3d3d54] text-gray-300 px-4 py-2 rounded-full text-sm mb-8 transition-colors">
               <span className="w-2 h-2 bg-[#10b981] rounded-full animate-pulse" />
-              Now with Multi-Agent Support
+              Built on Ampere ARM VPS — GPU-Ready Infrastructure
             </div>
 
             {/* Headline */}
             <h1 className="text-5xl md:text-7xl font-bold leading-tight mb-6">
-              Build Your AI<br />
+              Stop Paying Per Message.<br />
               <span className="bg-gradient-to-r from-[#00D4FF] via-[#6600FF] to-[#00D4FF] bg-clip-text text-transparent">
-                Infrastructure,
+                Own Your AI
               </span>
               <br />
-              Not Your AI Costs
+              Infrastructure.
             </h1>
 
             {/* Subheadline */}
             <p className="text-xl text-gray-400 mb-10 max-w-2xl">
-              Deploy pre-configured AI agents on your own VPS. No per-user fees, no API costs. 
-              <span className="text-white"> Just powerful, private AI infrastructure.</span>
+              Deploy AI agents on your own VPS. No API bills. No per-token charges. No surprise invoices at month-end.
+              <span className="text-white"> Just flat, predictable infrastructure costs.</span>
             </p>
 
             {/* CTA Buttons */}
@@ -185,8 +185,8 @@ export default function HeroNew() {
             {/* Stats */}
             <div className="grid grid-cols-3 gap-8 border-t border-[#2d2d44] pt-8">
               <div>
-                <div className="text-3xl font-bold text-white mb-1">$3,000</div>
-                <div className="text-gray-500 text-sm">Saved / month</div>
+                <div className="text-3xl font-bold text-white mb-1">$2,400</div>
+                <div className="text-gray-500 text-sm">Avg. saved/month</div>
               </div>
               <div>
                 <div className="text-3xl font-bold text-white mb-1">3 min</div>

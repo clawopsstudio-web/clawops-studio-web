@@ -22,29 +22,29 @@ function CountUp({ value, suffix = "" }: { value: number; suffix?: string }) {
 }
 
 const stats = [
-  { value: 500, suffix: "+", label: "Integrations" },
-  { value: 3, suffix: " min", label: "Avg. deployment" },
-  { value: 98, suffix: "%", label: "Uptime SLA" },
-  { value: 50, suffix: "+", label: "Happy customers" },
+  { value: 2400, suffix: "$", label: "Avg. saved per client/month" },
+  { value: 3, suffix: " min", label: "Avg. time to first agent" },
+  { value: 98, suffix: "%", label: "Tickets auto-resolved" },
+  { value: 50, suffix: "+", label: "Active deployments" },
 ];
 
 const testimonials = [
   {
-    quote: "I was paying $800/month in OpenAI API calls alone. Switched to ClawOps — now I pay $99/month total and my agents are faster.",
+    quote: "We cut our OpenAI bill from $2,400/mo to $149/mo for the same client workload. The agents are faster because there's no API queue. Billing is predictable now — that's the part my CFO loves most.",
     name: "Rahul M.",
     role: "Agency Founder, Mumbai",
     initials: "RM",
     color: "#00D4FF",
   },
   {
-    quote: "Our support team handles 3x the volume now. The AI agent resolves 80% of tickets before a human even sees them.",
+    quote: "Before ClawOps: 3 support staff, 200 tickets/month, 80% manual. After: same volume, 1 person, 80% auto-resolved. The AI handles the FAQs. My team handles the edge cases. Natural division of labor.",
     name: "Sarah K.",
     role: "CEO, E-commerce Brand",
     initials: "SK",
     color: "#6600FF",
   },
   {
-    quote: "Setup was genuinely 3 minutes. I thought it would take weeks. The VPS was configured and my first agent was live before my coffee got cold.",
+    quote: "I seriously thought '3 minute setup' was marketing fluff. It wasn't. Signed up, connected Telegram, had my first research agent pulling lead data before I finished my coffee. First time any tech product has delivered what it promised.",
     name: "James L.",
     role: "Solo Consultant, UK",
     initials: "JL",

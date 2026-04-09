@@ -111,7 +111,7 @@ export default function UseCases() {
             Your AI Workers. Every Department.
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-[rgba(255,255,255,0.5)]">
-            One VPS. Multiple agents. Running the work humans shouldn&apos;t be doing anyway.
+            One VPS. Multiple agents. Doing the work that used to cost you thousands in human hours every month.
           </p>
         </motion.div>
 
