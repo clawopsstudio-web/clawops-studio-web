@@ -30,5 +30,6 @@
 - Verified local audio generation to Ogg Opus
 
 ## Browser Automation
-- PinchTab HTTP API: http://localhost:9867
-- Neko stream: http://100.x.x.x:8080 (watch mode)
+- Chrome VNC: https://vmi3094584-1.tailec7a72.ts.net/chrome/ (port 5800, Docker)
+- Neko stream: https://vmi3094584-1.tailec7a72.ts.net/chrome/ (watch mode via VNC)
+- PinchTab: DEPRECATED — no longer in use

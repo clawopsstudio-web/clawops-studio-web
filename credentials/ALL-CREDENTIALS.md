@@ -17,7 +17,7 @@
 - service_role key: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...`
 
 **Personal Access Token:** `sbp_70302bceb8edaefcc6b4c75c195efe115aca1351`
-**MCP URL:** `https://mcp.supabase.com/mcp?project_ref=dyzkfmdjusdyjmytgeah`
+**MCP URL:** `https://mcp.supabase.com/mcp?project_ref=dyzkfmdjusdyjmytgeah` ⚠️ verify project ref — last chars may be swapped (`geha` vs `geah`)
 
 **CLI Commands:**
 ```bash

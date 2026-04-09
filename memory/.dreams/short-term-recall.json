@@ -1,0 +1,419 @@
+{
+  "version": 1,
+  "updatedAt": "2026-04-09T20:35:22.866Z",
+  "entries": {
+    "memory:memory/2026-03-20.md:1:9": {
+      "key": "memory:memory/2026-03-20.md:1:9",
+      "path": "memory/2026-03-20.md",
+      "startLine": 1,
+      "endLine": 9,
+      "source": "memory",
+      "snippet": "# 2026-03-20 - User established a required working method for technical changes: plan, verify, identify root cause, check alternatives, conclude, execute, and re-verify before making changes. - Verified live service/access state on VPS: Tailscale healthy; OpenClaw gateway process up; Telegram outbound text works; n8n reachable on tailnet at http://100.78.128.98:5678; Firecrawl reachable on tailnet at http://100.78.128.98:3002; OpenClaw Control UI reachable at https://vmi3094584-1.tailec7a72.ts.net. - OpenClaw routing remained locally bound during this session: gateway.bind=loopback, gateway.tailscale.mode=off, gateway.remote.url unset; proper OpenClaw tailnet/node route not yet configured.",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "totalScore": 0.42850160896778106,
+      "maxScore": 0.42850160896778106,
+      "firstRecalledAt": "2026-04-07T06:47:39.934Z",
+      "lastRecalledAt": "2026-04-07T06:47:39.934Z",
+      "queryHashes": [
+        "291a21c83cb0"
+      ],
+      "recallDays": [
+        "2026-04-07"
+      ],
+      "conceptTags": [
+        "gateway",
+        "re-verify",
+        "service/access",
+        "100.78.128.98",
+        "vmi3094584-1.tailec7a72.ts.net",
+        "gateway.bind",
+        "gateway.tailscale.mode",
+        "gateway.remote.url"
+      ]
+    },
+    "memory:memory/2026-03-18.md:1:13": {
+      "key": "memory:memory/2026-03-18.md:1:13",
+      "path": "memory/2026-03-18.md",
+      "startLine": 1,
+      "endLine": 13,
+      "source": "memory",
+      "snippet": "# 2026-03-18 - Verified VPS live state read-only: Ubuntu 24.04.4 LTS, OpenClaw gateway running under systemd, Telegram healthy, Lossless Claw loaded, Docker running, n8n running, Firecrawl stack running, and Tailscale daemon running. - Verified UFW firewall is installed and active through nftables rules; SSH is allowed publicly, and Tailscale-specific allows exist for OpenClaw (`18789`) and n8n (`5678`). - Verified Paperclip is installed and running as `paperclip.service` via `npx paperclipai run`. - Verified Paperclip listens on `127.0.0.1:3100`, serves the UI successfully, and reports local-trusted/private deploy mode. - Verified Paperclip logs show health/API endpoints at `http://127.0.0",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "totalScore": 0.4275155425071716,
+      "maxScore": 0.4275155425071716,
+      "firstRecalledAt": "2026-04-07T06:47:39.934Z",
+      "lastRecalledAt": "2026-04-07T06:47:39.934Z",
+      "queryHashes": [
+        "291a21c83cb0"
+      ],
+      "recallDays": [
+        "2026-04-07"
+      ],
+      "conceptTags": [
+        "gateway",
+        "read-only",
+        "24.04.4",
+        "tailscale-specific",
+        "paperclip.service",
+        "127.0.0.1",
+        "local-trusted/private",
+        "health/api"
+      ]
+    },
+    "memory:memory/2026-03-20.md:7:13": {
+      "key": "memory:memory/2026-03-20.md:7:13",
+      "path": "memory/2026-03-20.md",
+      "startLine": 7,
+      "endLine": 13,
+      "source": "memory",
+      "snippet": "- User clarified intended VPS access architecture: Tailscale Serve fronts services on vmi3094584-1.tailec7a72.ts.net with Paperclip at /, n8n at /n8n/, Chrome at /chrome/, while OpenClaw stays local on 127.0.0.1:18789. - Chrome remote access/logins were restored and no password is currently used for the Chrome surface; user wants PinchTab to automate against that existing logged-in Chrome session. - PinchTab was found already installed and its server running on 127.0.0.1:9867; Chrome DevTools was live on 127.0.0.1:9222. - PinchTab diagnosis: server health OK but default/started instances stayed in error with journal lines showing \"instance exited before ready\". Attempts to start/attach profi",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "totalScore": 0.42668721079826355,
+      "maxScore": 0.42668721079826355,
+      "firstRecalledAt": "2026-04-07T06:47:39.934Z",
+      "lastRecalledAt": "2026-04-07T06:47:39.934Z",
+      "queryHashes": [
+        "291a21c83cb0"
+      ],
+      "recallDays": [
+        "2026-04-07"
+      ],
+      "conceptTags": [
+        "vmi3094584-1.tailec7a72.ts.net",
+        "127.0.0.1",
+        "access/logins",
+        "logged-in",
+        "default/started",
+        "start/attach",
+        "user",
+        "clarified"
+      ]
+    },
+    "memory:memory/2026-03-27.md:230:256": {
+      "key": "memory:memory/2026-03-27.md:230:256",
+      "path": "memory/2026-03-27.md",
+      "startLine": 230,
+      "endLine": 256,
+      "source": "memory",
+      "snippet": "**Note:** marketingskills has a HIGH flag (pip install -e in validate script) — acceptable for local use, not a runtime risk. **Additional skills already pre-installed:** himalaya (email), notion, weather, github, healthcheck, tmux, paperclip, mcporter, clawhub, nano-pdf, openai-whisper-api *Phase 3 complete — 2026-03-27 10:30 IST* ## Tailscale Routes Update (11:45) - Successfully updated Tailscale serve config to include: - /dashboard/ → LobsterBoard (port 8082) - /lobster-agent/ → LobsterBoard Agent (port 9090) - All routes verified working - LobsterBoard Agent API Key: sk_xtd8uxcSSYGgHYKMjHXk8ugmJESzREgx ## Complete Service URLs (Tailscale) | Service | URL | |---------|-----| | Op",
+      "recallCount": 2,
+      "dailyCount": 0,
+      "totalScore": 0.868343076109886,
+      "maxScore": 0.47845322787761685,
+      "firstRecalledAt": "2026-04-07T06:47:47.915Z",
+      "lastRecalledAt": "2026-04-07T06:47:47.930Z",
+      "queryHashes": [
+        "04da784a0f5a",
+        "2ef5e4f733a8"
+      ],
+      "recallDays": [
+        "2026-04-07"
+      ],
+      "conceptTags": [
+        "openai",
+        "pre-installed",
+        "nano-pdf",
+        "openai-whisper-api",
+        "lobster-agent",
+        "marketingskills",
+        "has",
+        "high"
+      ]
+    },
+    "memory:memory/2026-03-27.md:152:184": {
+      "key": "memory:memory/2026-03-27.md:152:184",
+      "path": "memory/2026-03-27.md",
+      "startLine": 152,
+      "endLine": 184,
+      "source": "memory",
+      "snippet": "- Real fix would need exact node command names from OpenClaw's command registry 14. **Updated docs with marketingskills integration** - DEPLOYMENT-SEQUENCE.md: Added marketingskills to Tyler agent's stack - REPO-ANALYSIS.md: Added marketingskills as repo #25 (priority HIGH) - MEMORY.md: Added marketingskills to INSTALL NOW table and VISION & GOALS - Committed all changes: \"Update deployment docs and marketing skills analysis\" 15. **Notion page still pending Pulkit sharing** - Page ID: 330be54579ac800ca99cd7a92a79c478 - Need Pulkit to share with \"ClawOps Studio Bot\" integration - Link: https://www.notion.so/Clawops-Studio-330be54579ac800ca99cd7a92a79c478 1",
+      "recallCount": 4,
+      "dailyCount": 0,
+      "totalScore": 1.8199570208787916,
+      "maxScore": 0.48649252653121944,
+      "firstRecalledAt": "2026-04-07T06:47:47.915Z",
+      "lastRecalledAt": "2026-04-09T20:35:22.866Z",
+      "queryHashes": [
+        "04da784a0f5a",
+        "2ef5e4f733a8",
+        "f4fd9edda60b",
+        "d3cf282a2c7d"
+      ],
+      "recallDays": [
+        "2026-04-07",
+        "2026-04-09",
+        "2026-04-10"
+      ],
+      "conceptTags": [
+        "deployment-sequence.md",
+        "repo-analysis.md",
+        "memory.md",
+        "real",
+        "fix",
+        "would",
+        "need",
+        "exact"
+      ]
+    },
+    "memory:memory/2026-03-27.md:178:206": {
+      "key": "memory:memory/2026-03-27.md:178:206",
+      "path": "memory/2026-03-27.md",
+      "startLine": 178,
+      "endLine": 206,
+      "source": "memory",
+      "snippet": "- Config: `gateway.tailscale.mode: \"serve\"`, `gateway.bind: \"loopback\"` - Gateway now live at: `https://vmi3094584-1.tailec7a72.ts.net` - Full Tailscale HTTPS endpoint for secure access 18. **5 Team agents fully created and registered ✅** - **Dave** (DevOps/Backend) → `/root/.openclaw/workspaces/dev` - SOUL.md: Automation-first, security-focused, CI/CD pipelines - Reports to Henry, supports Arjun with tech questions - **Kyle** (Frontend/Web) → `/root/.openclaw/workspaces/kyle` - SOUL.md: Performance-focused, WCAG 2.1 AA accessibility - Ships dashboards, landing pages, client UIs - **Marcus** (Mobile App) → `/root/.openclaw/workspaces/marcus`",
+      "recallCount": 3,
+      "dailyCount": 0,
+      "totalScore": 1.42593896985054,
+      "maxScore": 0.4893662571907043,
+      "firstRecalledAt": "2026-04-07T06:47:47.915Z",
+      "lastRecalledAt": "2026-04-09T20:35:22.866Z",
+      "queryHashes": [
+        "04da784a0f5a",
+        "f4fd9edda60b",
+        "d3cf282a2c7d"
+      ],
+      "recallDays": [
+        "2026-04-07",
+        "2026-04-09",
+        "2026-04-10"
+      ],
+      "conceptTags": [
+        "gateway",
+        "gateway.tailscale.mode",
+        "gateway.bind",
+        "vmi3094584-1.tailec7a72.ts.net",
+        "devops/backend",
+        "openclaw/workspaces/dev",
+        "soul.md",
+        "automation-first"
+      ]
+    },
+    "memory:memory/2026-03-29.md:34:49": {
+      "key": "memory:memory/2026-03-29.md:34:49",
+      "path": "memory/2026-03-29.md",
+      "startLine": 34,
+      "endLine": 49,
+      "source": "memory",
+      "snippet": "| LobsterBoard | ✅ Installed | | Vercel | ❌ Not connected | | Telegram lanes | 🔄 HQ validated, rest not verified | ### Next Session Priority 1. Read `docs/SYSTEM-OVERVIEW.md` 2. Check actual agent configs 3. Build Agent Tooling Matrix 4. Run Telegram lane sweep 5. Test tool access per agent ## Notes - Timezone: IST (Asia/Kolkata) - Pulkit will clear this conversation after new session starts - New session should focus on tooling matrix and agent assignments",
+      "recallCount": 3,
+      "dailyCount": 0,
+      "totalScore": 1.3533383011817932,
+      "maxScore": 0.49525392949581143,
+      "firstRecalledAt": "2026-04-07T06:47:47.915Z",
+      "lastRecalledAt": "2026-04-09T20:35:22.866Z",
+      "queryHashes": [
+        "04da784a0f5a",
+        "2ef5e4f733a8",
+        "d3cf282a2c7d"
+      ],
+      "recallDays": [
+        "2026-04-07",
+        "2026-04-10"
+      ],
+      "conceptTags": [
+        "docs/system-overview.md",
+        "asia/kolkata",
+        "lobsterboard",
+        "installed",
+        "vercel",
+        "not",
+        "connected",
+        "telegram"
+      ]
+    },
+    "memory:memory/2026-03-27.md:123:157": {
+      "key": "memory:memory/2026-03-27.md:123:157",
+      "path": "memory/2026-03-27.md",
+      "startLine": 123,
+      "endLine": 157,
+      "source": "memory",
+      "snippet": "- Gateway healthy and reachable - Telegram channel OK - Agent count reached 55 locally - Tailscale still OFF and needs activation/config later 12. **Notion access still pending** - Pulkit shared a page URL - Integration still needs explicit page sharing to `ClawOps Studio Bot` ## 🔜 Updated Next Steps 1. Get Notion page shared with `ClawOps Studio Bot` 2. Continue deployment sequence from docs 3. Enable/configure Tailscale networking 4. ~~Review remaining gateway security warnings~~ → FIXED BOTH 5. Start packaging agent roles (Dave, Kyle, Marcus, Tyler, Ryan) *Notes by Henry — End of day 2026-03-27* --- ### Post-Compaction Session (2026-03-27 ~12:26 IST) 13. **Fixed",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "totalScore": 0.46576977670192715,
+      "maxScore": 0.46576977670192715,
+      "firstRecalledAt": "2026-04-07T06:47:47.915Z",
+      "lastRecalledAt": "2026-04-07T06:47:47.915Z",
+      "queryHashes": [
+        "04da784a0f5a"
+      ],
+      "recallDays": [
+        "2026-04-07"
+      ],
+      "conceptTags": [
+        "gateway",
+        "network",
+        "activation/config",
+        "enable/configure",
+        "post-compaction",
+        "healthy",
+        "reachable",
+        "telegram"
+      ]
+    },
+    "memory:memory/2026-03-27.md:199:236": {
+      "key": "memory:memory/2026-03-27.md:199:236",
+      "path": "memory/2026-03-27.md",
+      "startLine": 199,
+      "endLine": 236,
+      "source": "memory",
+      "snippet": "- All: SOUL.md + AGENTS.md + IDENTITY.md + HEARTBEAT.md + memory/ created - All registered in openclaw.json (agent count: 60) 19. **Security audit clean ✅** - 0 critical · 0 warn · 1 info (attack surface summary - info only) - Both prior warnings fixed and stay fixed 20. **Notion integration — STILL PENDING** - Page ID: 330be54579ac800ca99cd7a92a79c478 - Pulkit needs to share page with \"ClawOps Studio Bot\" in Notion *Notes by Henry — 2026-03-27 10:30 IST* --- ### Phase 3: Skills Installation — COMPLETED (~10:30 IST) **Security auditor:** skill-security-auditor ✅ (0 critical, 0 warn on newly installed skills) **Skills installed per agent:** | Agent | Skills Ins",
+      "recallCount": 3,
+      "dailyCount": 0,
+      "totalScore": 1.6776917945854803,
+      "maxScore": 0.7251172554009101,
+      "firstRecalledAt": "2026-04-07T06:47:47.915Z",
+      "lastRecalledAt": "2026-04-09T20:35:22.866Z",
+      "queryHashes": [
+        "04da784a0f5a",
+        "f4fd9edda60b",
+        "d3cf282a2c7d"
+      ],
+      "recallDays": [
+        "2026-04-07",
+        "2026-04-09",
+        "2026-04-10"
+      ],
+      "conceptTags": [
+        "soul.md",
+        "agents.md",
+        "identity.md",
+        "heartbeat.md",
+        "openclaw.json",
+        "skill-security-auditor",
+        "all",
+        "created"
+      ]
+    },
+    "memory:memory/2026-03-27.md:1:55": {
+      "key": "memory:memory/2026-03-27.md:1:55",
+      "path": "memory/2026-03-27.md",
+      "startLine": 1,
+      "endLine": 55,
+      "source": "memory",
+      "snippet": "# 2026-03-27 — Daily Notes **Day:** Friday **Agent:** Henry (CEO) **Context:** ClawOps Studio planning session with Pulkit --- ## 📋 What Happened Today ### Morning Session 1. **Analyzed 24 GitHub repos** for ClawOps Studio infrastructure - Full web scraping and detailed analysis - Documented in `docs/REPO-ANALYSIS.md` 2. **Clarified deployment architecture** with Pulkit - VPS on Contabo - OpenClaw + Paperclip + Tailscale + Docker - Playwright + Chrome for browser automation - n8n for workflows 3. **Discussed NemoClaw** (NVIDIA sandbox security) - Pulkit correct: NemoClaw DOES provide sandbox security - But: Still ALPHA (not production ready) - Decision:",
+      "recallCount": 2,
+      "dailyCount": 0,
+      "totalScore": 0.8687304764986037,
+      "maxScore": 0.4684786587953567,
+      "firstRecalledAt": "2026-04-07T06:47:47.930Z",
+      "lastRecalledAt": "2026-04-09T07:05:22.032Z",
+      "queryHashes": [
+        "2ef5e4f733a8",
+        "f4fd9edda60b"
+      ],
+      "recallDays": [
+        "2026-04-07",
+        "2026-04-09"
+      ],
+      "conceptTags": [
+        "docs/repo-analysis.md",
+        "day",
+        "friday",
+        "henry",
+        "ceo",
+        "context",
+        "clawops",
+        "studio"
+      ]
+    },
+    "memory:memory/2026-03-29.md:1:46": {
+      "key": "memory:memory/2026-03-29.md:1:46",
+      "path": "memory/2026-03-29.md",
+      "startLine": 1,
+      "endLine": 46,
+      "source": "memory",
+      "snippet": "# 2026-03-29 — ClawOps Daily Memory ## Session Summary ### Key Discussion with Pulkit 1. Pulkit wants comprehensive system overview before new session 2. Pulkit clarified: ALL TOOLS ARE ALREADY CONNECTED - GHL connected ✅ - GitHub connected ✅ - n8n installed ✅ - Browser automation ready ✅ 3. The remaining work is ASSIGNING tools to agents (tooling matrix) ### Important Instruction from Pulkit **\"Whenever I say anything like this, always check doc system overview, the config files, every single thing. Check, verify and then tell me. Don't hallucinate and tell me nonsense!\"** ### Action Taken - Created `docs/SYSTEM-OVERVIEW.md` with full system overview - Initially got several",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "totalScore": 0.39634660482406614,
+      "maxScore": 0.39634660482406614,
+      "firstRecalledAt": "2026-04-07T06:47:47.930Z",
+      "lastRecalledAt": "2026-04-07T06:47:47.930Z",
+      "queryHashes": [
+        "2ef5e4f733a8"
+      ],
+      "recallDays": [
+        "2026-04-07"
+      ],
+      "conceptTags": [
+        "docs/system-overview.md",
+        "clawops",
+        "summary",
+        "key",
+        "discussion",
+        "pulkit",
+        "wants",
+        "comprehensive"
+      ]
+    },
+    "memory:memory/2026-03-27.md:41:92": {
+      "key": "memory:memory/2026-03-27.md:41:92",
+      "path": "memory/2026-03-27.md",
+      "startLine": 41,
+      "endLine": 92,
+      "source": "memory",
+      "snippet": "6. **Updated MEMORY.md** with full ClawOps Studio context - Agent roster - Deployment sequence - Key repos - Security notes - Next actions 7. **Notion setup attempted** but blocked - Need parent page ID from Pulkit - Error: \"Provide a parent.page_id or parent.database_id parameter\" --- ## 🎯 Pulkit's Key Points 1. **\"Make sure repos don't conflict with current infrastructure\"** - Verified: All recommended repos are compatible - OpenClaw-native, MCP compatible, Docker/Linux friendly 2. **\"Want GoHighLevel integration\"** - CONFIRMED: Available via ghl-crm skill 3. **\"Want everything documented for client deployment\"** - DEPLOYMENT-SEQUENCE.md created -",
+      "recallCount": 3,
+      "dailyCount": 0,
+      "totalScore": 1.4277795493602752,
+      "maxScore": 0.49551874697208403,
+      "firstRecalledAt": "2026-04-09T07:05:08.653Z",
+      "lastRecalledAt": "2026-04-09T20:35:22.866Z",
+      "queryHashes": [
+        "2196cc1c6821",
+        "f4fd9edda60b",
+        "d3cf282a2c7d"
+      ],
+      "recallDays": [
+        "2026-04-09",
+        "2026-04-10"
+      ],
+      "conceptTags": [
+        "memory.md",
+        "parent.page-id",
+        "parent.database-id",
+        "openclaw-native",
+        "docker/linux",
+        "ghl-crm",
+        "deployment-sequence.md",
+        "updated"
+      ]
+    },
+    "memory:memory/2026-03-27.md:87:133": {
+      "key": "memory:memory/2026-03-27.md:87:133",
+      "path": "memory/2026-03-27.md",
+      "startLine": 87,
+      "endLine": 133,
+      "source": "memory",
+      "snippet": "| Decision | Rationale | |----------|-----------| | Skip NemoClaw (for now) | Alpha status - not production ready | | Include GoHighLevel integration | Client CRM need confirmed | | Focus on MetaClaw + agency-agents | Core infrastructure for 95% automation | | LobsterBoard for dashboard | Native OpenClaw support, 60+ widgets | | geo-seo-claude for Tyler | GEO market growing, client marketing need | --- ## 🧠 Lessons Learned 1. Always verify \"alpha\" vs \"production\" status before recommending 2. NVIDIA NemoClaw is different from MetaClaw - separate projects 3. GoHighLevel integration is well-established in OpenClaw ecosystem 4. Pulkit wants thorough analysis BEFORE implementation (smart) -",
+      "recallCount": 2,
+      "dailyCount": 0,
+      "totalScore": 0.9442638725042343,
+      "maxScore": 0.4856446474790573,
+      "firstRecalledAt": "2026-04-09T07:05:08.653Z",
+      "lastRecalledAt": "2026-04-09T07:05:22.032Z",
+      "queryHashes": [
+        "2196cc1c6821",
+        "f4fd9edda60b"
+      ],
+      "recallDays": [
+        "2026-04-09"
+      ],
+      "conceptTags": [
+        "agency-agents",
+        "geo-seo-claude",
+        "well-established",
+        "decision",
+        "rationale",
+        "skip",
+        "nemoclaw",
+        "now"
+      ]
+    }
+  }
+}

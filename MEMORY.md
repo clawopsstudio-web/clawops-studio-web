@@ -26,6 +26,13 @@
 - Write important things down.
 - Telegram is home base.
 
+## Contabo Rules (non-negotiable)
+- vmi3211554 = test VPS (already exists, don't recreate)
+- vmi3094584 = production VPS (where I am hosted)
+- **ZERO new VPS provisioning without Pulkit's explicit approval** — every API test that creates an instance = charges him
+- **Never do any testing on vmi3094584** — no risky scripts, no destructive commands, nothing that could destabilize the host where OpenClaw is running
+- Never use numeric secret IDs that trigger provisioning without approval
+
 ## Pulkit Preferences
 - Pulkit prefers straight talk and no hand-holding.
 - Pulkit prefers step-by-step guidance for technical work.
@@ -36,9 +43,18 @@
 - Pulkit wants to avoid getting bogged down in infra and expects me to take that on.
 - Pulkit is building a real company, not a side project.
 
+## Frontend Delegation
+- Pulkit talks to **Kyle** (frontend agent) directly for all website changes
+- Kyle's workspace: `/root/.openclaw/workspaces/kyle/`
+- Kyle has: CLAWOPS-WEBSITE.md (full site context), SOUL.md, USER.md
+- I (Henry) handle backend, infra, strategy, and product decisions
+- Repo: `/root/.openclaw/workspaces/clawops-studio-web/`
+- Live: https://clawops-web.vercel.app
+
 ## Current Business Context
 - Current stage: infrastructure setup (Phase 3 of 10).
-- Active stack: OpenClaw, Paperclip, PinchTab, Firecrawl, n8n, DeerFlow.
+- Active stack: OpenClaw, Paperclip, Firecrawl, n8n, DeerFlow.
+- Browser automation: Chrome VNC (Docker, port 5800) + Neko. PinchTab is DEPRECATED.
 - First product target: Agency AI Employee priced at $299-499/month per client.
 - Distribution strategy: agency channels + white-label reseller.
 
