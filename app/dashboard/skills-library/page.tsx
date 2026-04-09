@@ -175,7 +175,7 @@ export default function SkillsLibrary() {
                 </div>
               </div>
               <button
-                onClick={() => handleEnableSkill(skill.id)}
+                onClick={() => skill.id && handleEnableSkill(skill.id)}
                 className={`px-3 py-1 rounded-full text-sm font-medium ${
                   skill.enabled
                     ? 'bg-[#10b981]/20 text-[#10b981]'

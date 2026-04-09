@@ -133,7 +133,7 @@ export default function MCPLibrary() {
           } ${loading ? 'opacity-50' : ''}`}
         >
           {connected ? '✅ Connected' : loading ? 'Connecting...' : '🔗 Connect Smithery.ai'}
-        </ MCP Button>
+        </button>
       </div>
 
       {/* Connected Indicator */}

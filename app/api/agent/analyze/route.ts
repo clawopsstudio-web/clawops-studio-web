@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
-import fetch from 'node-fetch'
 
 export async function POST(request: NextRequest) {
   try {
@@ -114,4 +113,21 @@ ${websiteUrl || 'No website provided.'}
 ${tools || 'Not specified'}
 
 ## Notes
-This file contains the core business identity for ${name}. The AI agent uses this information to provide personalized assistance.`
+This file contains the core business identity for ${name}. The AI agent uses this information to provide personalized assistance.
+    `
+    
+    // Return the analysis results
+    return NextResponse.json({
+      success: true,
+      personality,
+      purpose,
+      memory,
+      identity,
+      websiteTitle,
+      websiteDescription
+    })
+  } catch (error) {
+    console.error('Agent analyze error:', error)
+    return NextResponse.json({ error: 'Analysis failed' }, { status: 500 })
+  }
+}

@@ -6,7 +6,7 @@ export default function PricingPage() {
   return (
     <>
       <Navbar />
-      <PricingPageClient />
+      <AmpereStylePricing />
       <Footer />
     </>
   );
