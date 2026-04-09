@@ -39,6 +39,8 @@ const FEATURES = [
 
 export default function HeroNew() {
   const [animatedFeatures, setAnimatedFeatures] = useState(0)
+  const [videoPlaying, setVideoPlaying] = useState(false)
+  const [videoUrl, setVideoUrl] = useState<string | null>(null)
 
   useEffect(() => {
     let current = 0
@@ -209,30 +211,52 @@ export default function HeroNew() {
               <p className="text-gray-400">Watch your AI workforce boot up, connect apps, and execute tasks — all from your own VPS.</p>
             </div>
             <div className="relative rounded-2xl overflow-hidden border border-[#2d2d44] shadow-2xl shadow-[#00D4FF]/10">
-              {/* Video placeholder - replace with <video> once video is ready */}
               <div className="relative aspect-video bg-[#0a0a1a]">
-                <Image
-                  src="/clawops-ai-os-hero.jpg"
-                  alt="ClawOps AI OS Demo"
-                  fill
-                  className="object-cover opacity-90"
-                  priority
-                />
-                {/* Play button overlay */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-20 h-20 rounded-full bg-[#00D4FF]/20 backdrop-blur-sm flex items-center justify-center border border-[#00D4FF]/40">
-                    <div className="w-14 h-14 rounded-full bg-[#00D4FF] flex items-center justify-center">
-                      <svg className="w-6 h-6 text-[#0a0a1a] ml-1" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M8 5v14l11-7z"/>
-                      </svg>
+                {/* Video — shown once playing */}
+                {videoPlaying && videoUrl ? (
+                  <video
+                    src={videoUrl}
+                    controls
+                    autoPlay
+                    className="absolute inset-0 w-full h-full object-cover"
+                    onEnded={() => setVideoPlaying(false)}
+                  />
+                ) : (
+                  <>
+                    <Image
+                      src="/clawops-ai-os-hero.jpg"
+                      alt="ClawOps AI OS Demo"
+                      fill
+                      className="object-cover opacity-90"
+                      priority
+                    />
+                    {/* Play button overlay */}
+                    <button
+                      onClick={() => {
+                        if (videoUrl) setVideoPlaying(true)
+                      }}
+                      className="absolute inset-0 flex items-center justify-center group cursor-pointer"
+                      aria-label="Play demo video"
+                    >
+                      <div className="w-20 h-20 rounded-full bg-[#00D4FF]/20 backdrop-blur-sm flex items-center justify-center border border-[#00D4FF]/40 group-hover:bg-[#00D4FF]/30 transition-all duration-300 group-hover:scale-110">
+                        <div className="w-14 h-14 rounded-full bg-[#00D4FF] flex items-center justify-center shadow-lg shadow-[#00D4FF]/30 group-hover:shadow-[#00D4FF]/50 transition-shadow">
+                          <svg className="w-6 h-6 text-[#0a0a1a] ml-1" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z"/>
+                          </svg>
+                        </div>
+                      </div>
+                    </button>
+                    {/* Gradient overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a1a] via-transparent to-transparent opacity-40" />
+                    {/* "Demo" badge */}
+                    <div className="absolute bottom-4 left-4 bg-[#00D4FF]/10 backdrop-blur-sm border border-[#00D4FF]/20 text-[#00D4FF] text-xs px-3 py-1 rounded-full">
+                      12s demo
                     </div>
-                  </div>
-                </div>
-                {/* Gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a1a] via-transparent to-transparent opacity-40" />
+                  </>
+                )}
               </div>
             </div>
-            <p className="text-center text-gray-500 text-sm mt-4">Demo shows ClawOps managing real tasks — no staged screenshots.</p>
+            <p className="text-center text-gray-500 text-sm mt-4">Click to watch — no staged screenshots, real agent workflows.</p>
           </div>
         </div>
 
