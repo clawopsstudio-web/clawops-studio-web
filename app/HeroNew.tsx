@@ -4,55 +4,153 @@ import { useRef } from 'react'
 import Link from 'next/link'
 import { motion, useScroll, useTransform } from 'framer-motion'
 
-/* ─── 3D floating shapes — fixed layer, always visible, parallax on scroll ─── */
+/* ─── Animated background — visible floating elements ─── */
 function FloatingShapes() {
   const { scrollYProgress } = useScroll()
-
   const orb1Y = useTransform(scrollYProgress, [0, 0.3], ['0px', '-120px'])
   const orb2Y = useTransform(scrollYProgress, [0, 0.3], ['0px', '-60px'])
   const ringRotate = useTransform(scrollYProgress, [0, 1], ['0deg', '180deg'])
+  const ring2Rotate = useTransform(scrollYProgress, [0, 1], ['0deg', '-120deg'])
   const particleOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
+
+  // 24 animated particles scattered across the hero
+  const particles = [
+    { x: 8, y: 15, size: 3, delay: 0, color: '#00D4FF' },
+    { x: 22, y: 25, size: 2, delay: 0.3, color: '#6600FF' },
+    { x: 35, y: 10, size: 3, delay: 0.6, color: '#00D4FF' },
+    { x: 48, y: 35, size: 2, delay: 0.9, color: '#a78bff' },
+    { x: 60, y: 20, size: 3, delay: 1.2, color: '#6600FF' },
+    { x: 72, y: 40, size: 2, delay: 0.2, color: '#00D4FF' },
+    { x: 85, y: 15, size: 3, delay: 0.5, color: '#a78bff' },
+    { x: 92, y: 30, size: 2, delay: 0.8, color: '#00D4FF' },
+    { x: 15, y: 55, size: 3, delay: 1.1, color: '#6600FF' },
+    { x: 30, y: 70, size: 2, delay: 1.4, color: '#00D4FF' },
+    { x: 45, y: 60, size: 3, delay: 0.1, color: '#a78bff' },
+    { x: 58, y: 75, size: 2, delay: 0.4, color: '#6600FF' },
+    { x: 70, y: 55, size: 3, delay: 0.7, color: '#00D4FF' },
+    { x: 82, y: 68, size: 2, delay: 1.0, color: '#a78bff' },
+    { x: 95, y: 50, size: 3, delay: 1.3, color: '#00D4FF' },
+    { x: 5, y: 80, size: 2, delay: 0.2, color: '#6600FF' },
+    { x: 20, y: 88, size: 3, delay: 0.5, color: '#a78bff' },
+    { x: 38, y: 82, size: 2, delay: 0.8, color: '#00D4FF' },
+    { x: 55, y: 90, size: 3, delay: 1.1, color: '#6600FF' },
+    { x: 67, y: 85, size: 2, delay: 1.4, color: '#00D4FF' },
+    { x: 78, y: 92, size: 3, delay: 0.3, color: '#a78bff' },
+    { x: 88, y: 78, size: 2, delay: 0.6, color: '#6600FF' },
+    { x: 96, y: 85, size: 3, delay: 0.9, color: '#00D4FF' },
+    { x: 50, y: 45, size: 4, delay: 0, color: '#00D4FF' },
+  ]
+
+  // Constellation lines connecting nearby particles
+  const lines = [
+    { x1: 8, y1: 15, x2: 22, y2: 25 },
+    { x1: 22, y1: 25, x2: 35, y2: 10 },
+    { x1: 48, y1: 35, x2: 60, y2: 20 },
+    { x1: 60, y1: 20, x2: 72, y2: 40 },
+    { x1: 72, y1: 40, x2: 85, y2: 15 },
+    { x1: 15, y1: 55, x2: 30, y2: 70 },
+    { x1: 30, y1: 70, x2: 45, y2: 60 },
+    { x1: 58, y1: 75, x2: 70, y2: 55 },
+    { x1: 70, y1: 55, x2: 82, y2: 68 },
+  ]
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
-      <motion.div style={{ y: orb1Y }} className="absolute -top-32 -left-32 w-[600px] h-[600px]">
+
+      {/* Large glowing orbs — more visible */}
+      <motion.div style={{ y: orb1Y }}
+        className="absolute -top-16 -left-16 w-[500px] h-[500px]">
         <div className="w-full h-full rounded-full"
-          style={{ background: 'radial-gradient(circle, rgba(0,212,255,0.18) 0%, rgba(0,212,255,0.06) 35%, transparent 65%)' }} />
+          style={{ background: 'radial-gradient(circle, rgba(0,212,255,0.25) 0%, rgba(0,212,255,0.12) 30%, transparent 65%)' }} />
       </motion.div>
-      <motion.div style={{ y: orb2Y }} className="absolute -bottom-40 right-0 w-[700px] h-[700px]">
+      <motion.div style={{ y: orb2Y }}
+        className="absolute -bottom-20 right-0 w-[600px] h-[600px]">
         <div className="w-full h-full rounded-full"
-          style={{ background: 'radial-gradient(circle, rgba(102,0,255,0.22) 0%, rgba(102,0,255,0.06) 35%, transparent 65%)' }} />
+          style={{ background: 'radial-gradient(circle, rgba(102,0,255,0.28) 0%, rgba(102,0,255,0.12) 30%, transparent 65%)' }} />
       </motion.div>
-      <motion.div style={{ rotate: ringRotate }} className="absolute top-[15%] right-[8%] w-72 h-72 md:w-80 md:h-80">
-        <svg viewBox="0 0 256 256" className="w-full h-full opacity-[0.15]">
-          <circle cx="128" cy="128" r="100" fill="none" stroke="#00D4FF" strokeWidth="1" strokeDasharray="8 12" />
-          <circle cx="128" cy="128" r="78" fill="none" stroke="#6600FF" strokeWidth="0.75" strokeDasharray="4 16" />
-          <circle cx="128" cy="128" r="55" fill="none" stroke="#00D4FF" strokeWidth="0.5" strokeDasharray="2 8" />
+      {/* Third orb — bottom left */}
+      <motion.div
+        animate={{ y: [0, 30, 0], opacity: [0.4, 0.7, 0.4] }}
+        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute bottom-20 left-10 w-[300px] h-[300px]">
+        <div className="w-full h-full rounded-full"
+          style={{ background: 'radial-gradient(circle, rgba(0,212,255,0.15) 0%, transparent 65%)' }} />
+      </motion.div>
+
+      {/* Rotating ring set — outer */}
+      <motion.div style={{ rotate: ringRotate }}
+        className="absolute top-[10%] right-[5%] w-64 h-64 md:w-80 md:h-80">
+        <svg viewBox="0 0 256 256" className="w-full h-full opacity-25">
+          <circle cx="128" cy="128" r="110" fill="none" stroke="#00D4FF" strokeWidth="1" strokeDasharray="6 8" />
+          <circle cx="128" cy="128" r="88" fill="none" stroke="#6600FF" strokeWidth="0.75" strokeDasharray="3 12" />
+          <circle cx="128" cy="128" r="65" fill="none" stroke="#00D4FF" strokeWidth="0.5" strokeDasharray="2 6" />
         </svg>
       </motion.div>
-      <motion.div style={{ opacity: particleOpacity }} className="absolute inset-0">
-        {[...Array(14)].map((_, i) => (
-          <motion.div key={i} className="absolute w-1 h-1 rounded-full"
-            style={{ left: `${6 + (i * 7) % 88}%`, top: `${10 + (i * 13) % 80}%`, backgroundColor: i % 3 === 0 ? '#a78bff' : '#00D4FF' }}
-            animate={{ y: [0, -14 + (i % 5) * -3, 0], opacity: [0.15, 0.45, 0.15] }}
-            transition={{ duration: 3 + (i % 4), repeat: Infinity, delay: i * 0.25, ease: 'easeInOut' }} />
-        ))}
+      {/* Second ring set — bottom left, counter-rotating */}
+      <motion.div style={{ rotate: ring2Rotate }}
+        className="absolute bottom-[20%] left-[2%] w-48 h-48 opacity-20">
+        <svg viewBox="0 0 256 256" className="w-full h-full">
+          <circle cx="128" cy="128" r="110" fill="none" stroke="#a78bff" strokeWidth="1" strokeDasharray="8 10" />
+          <circle cx="128" cy="128" r="75" fill="none" stroke="#6600FF" strokeWidth="0.75" strokeDasharray="4 14" />
+        </svg>
       </motion.div>
+
+      {/* Animated particles */}
+      <motion.div style={{ opacity: particleOpacity }} className="absolute inset-0">
+        {particles.map((p, i) => (
+          <motion.div key={i}
+            className="absolute rounded-full"
+            style={{
+              left: `${p.x}%`, top: `${p.y}%`,
+              width: p.size, height: p.size,
+              backgroundColor: p.color,
+              boxShadow: `0 0 ${p.size * 3}px ${p.color}`,
+            }}
+            animate={{
+              y: [0, -18 + (i % 7) * -3, 0],
+              opacity: [0.3, 0.9, 0.3],
+              scale: [1, 1.3, 1],
+            }}
+            transition={{ duration: 3 + (i % 5) * 0.8, repeat: Infinity, delay: p.delay, ease: 'easeInOut' }}
+          />
+        ))}
+
+        {/* Constellation lines — connecting particles */}
+        <svg className="absolute inset-0 w-full h-full">
+          {lines.map((l, i) => (
+            <motion.line key={i}
+              x1={`${l.x1}%`} y1={`${l.y1}%`} x2={`${l.x2}%`} y2={`${l.y2}%`}
+              stroke="#00D4FF" strokeWidth="0.5" opacity="0.15"
+              animate={{ opacity: [0.08, 0.2, 0.08] }}
+              transition={{ duration: 4 + i * 0.3, repeat: Infinity, delay: i * 0.4 }}
+            />
+          ))}
+        </svg>
+      </motion.div>
+
+      {/* Floating grid — perspective floor */}
       <PerspectiveGrid />
+
+      {/* Animated horizontal scan line */}
+      <motion.div
+        animate={{ y: ['-10%', '110%'], opacity: [0, 0.06, 0] }}
+        transition={{ duration: 6, repeat: Infinity, ease: 'linear' }}
+        className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00D4FF] to-transparent"
+      />
     </div>
   )
 }
 
 function PerspectiveGrid() {
   const { scrollYProgress } = useScroll()
-  const gridOpacity = useTransform(scrollYProgress, [0, 0.15], [0.5, 0])
+  const gridOpacity = useTransform(scrollYProgress, [0, 0.15], [0.6, 0])
   const gridScale = useTransform(scrollYProgress, [0, 0.2], [1, 0.7])
   return (
     <motion.div style={{ opacity: gridOpacity, scale: gridScale }}
-      className="absolute bottom-0 left-0 right-0 h-[45vh] pointer-events-none" aria-hidden="true">
+      className="absolute bottom-0 left-0 right-0 h-[50vh] pointer-events-none">
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[140%]" style={{
         height: '100%',
-        backgroundImage: `linear-gradient(to right, rgba(0,212,255,0.07) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,212,255,0.07) 1px, transparent 1px)`,
+        backgroundImage: `linear-gradient(to right, rgba(0,212,255,0.12) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,212,255,0.12) 1px, transparent 1px)`,
         backgroundSize: '60px 40px',
         transform: 'perspective(400px) rotateX(65deg)',
         transformOrigin: 'bottom center',
