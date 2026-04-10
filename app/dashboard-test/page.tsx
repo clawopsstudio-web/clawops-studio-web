@@ -3,8 +3,10 @@ import DashboardClient from '@/components/dashboard/DashboardClient'
 // Test data to display the dashboard without auth
 const testData = {
   profile: {
-    name: 'Pulkit Rawal',
+    full_name: 'Pulkit Rawal',
     email: 'pulkit@clawops.studio',
+    avatar_url: '',
+    phone: '',
     company: 'ClawOps Studio',
     role: 'Founder'
   },
@@ -48,7 +50,7 @@ export default function TestDashboardPage() {
             🔧 Test Mode - No Auth Required
           </div>
         </div>
-        
+
         <DashboardClient data={testData} />
       </div>
     </div>
