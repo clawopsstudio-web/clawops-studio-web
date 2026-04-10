@@ -11,8 +11,14 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(`${origin}/auth/login?error=no_code`)
   }
 
-  const response = NextResponse.redirect(new URL(`${origin}${next}?plan=${plan}`, origin))
+  // Create redirect URL
+  const redirectUrl = new URL(`${origin}${next}`, origin)
+  if (plan) redirectUrl.searchParams.set('plan', plan)
 
+  // Create the response object we'll return
+  let response = NextResponse.redirect(redirectUrl)
+
+  // Create SSR client with cookies linked to our response
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -24,17 +30,38 @@ export async function GET(request: NextRequest) {
         setAll(cookiesToSet) {
           cookiesToSet.forEach(({ name, value, options }) => {
             request.cookies.set(name, value)
-            response.cookies.set(name, value, options)
+            response.cookies.set(name, value, {
+              httpOnly: options.httpOnly ?? true,
+              secure: options.secure ?? true,
+              sameSite: (options.sameSite as 'lax' | 'strict' | 'none') ?? 'lax',
+              path: options.path ?? '/',
+              maxAge: options.maxAge,
+              domain: options.domain,
+            })
           })
         },
       },
     }
   )
 
-  const { error } = await supabase.auth.exchangeCodeForSession(code)
+  // Wait for SIGNED_IN event before returning - this ensures cookies are set
+  await new Promise<void>((resolve) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
+      if (event === 'SIGNED_IN') {
+        subscription.unsubscribe()
+        resolve()
+      }
+    })
 
-  if (error) {
-    console.error('Callback error:', error)
+    // Also timeout after 5 seconds to prevent infinite waiting
+    setTimeout(resolve, 5000)
+  })
+
+  // Now exchange the code - cookies will be set by onAuthStateChange handler
+  const { data, error } = await supabase.auth.exchangeCodeForSession(code)
+
+  if (error || !data.session) {
+    console.error('Auth callback error:', error?.message)
     return NextResponse.redirect(`${origin}/auth/login?error=callback_error`)
   }
 
