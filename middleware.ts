@@ -34,15 +34,15 @@ export async function middleware(request: NextRequest) {
 
   const { pathname } = request.nextUrl
 
-  // Protected routes
+  // Protected routes - redirect to /auth/login if not authenticated
   if (pathname.startsWith('/dashboard') && !user) {
     const url = request.nextUrl.clone()
-    url.pathname = '/login'
+    url.pathname = '/auth/login'
     return NextResponse.redirect(url)
   }
 
-  // Redirect logged-in users away from auth pages
-  if ((pathname.startsWith('/login') || pathname.startsWith('/signup')) && user) {
+  // Redirect logged-in users away from auth pages to dashboard
+  if ((pathname.startsWith('/auth/login') || pathname.startsWith('/auth/signup') || pathname === '/login' || pathname === '/signup') && user) {
     const url = request.nextUrl.clone()
     url.pathname = '/dashboard'
     return NextResponse.redirect(url)
@@ -52,5 +52,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/login', '/signup'],
+  matcher: ['/dashboard/:path*', '/auth/login', '/auth/signup', '/login', '/signup'],
 }
