@@ -42,17 +42,20 @@ function LoginContent() {
   const handleGoogleSignIn = async () => {
     setLoadingGoogle(true)
     setError('')
-    const { error } = await supabase.auth.signInWithOAuth({
+    
+    // Use a simpler approach without skipBrowserRedirect
+    const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
         redirectTo: `${window.location.origin}/auth/callback?next=/dashboard`,
-        skipBrowserRedirect: false,
       },
     })
+    
     if (error) {
       setError(error.message)
       setLoadingGoogle(false)
     }
+    // Let Supabase handle the redirect automatically
   }
 
   return (
