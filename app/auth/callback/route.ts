@@ -1,9 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
 
-// Use the vercel domain explicitly to avoid custom domain issues
-const VERCEL_DOMAIN = 'https://clawops-studio-web.vercel.app'
-
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url)
   const code = searchParams.get('code')
@@ -13,11 +10,11 @@ export async function GET(request: NextRequest) {
   console.log('[AUTH] Callback - request origin:', origin, 'code:', !!code, 'next:', next, 'plan:', plan)
 
   if (!code) {
-    return NextResponse.redirect(`${VERCEL_DOMAIN}/auth/login?error=no_code`)
+    return NextResponse.redirect(`${origin}/auth/login?error=no_code`)
   }
 
-  // Use the vercel domain for redirect to avoid custom domain issues
-  const redirectUrl = `${VERCEL_DOMAIN}${next}?plan=${plan}`
+  // Use the actual origin from request (supports custom domains)
+  const redirectUrl = `${origin}${next}?plan=${plan}`
   
   const html = `
 <!DOCTYPE html>
@@ -73,7 +70,7 @@ export async function GET(request: NextRequest) {
 
   if (error || !data.session) {
     console.error('[AUTH] Error:', error?.message)
-    return NextResponse.redirect(`${VERCEL_DOMAIN}/auth/login?error=callback_error`)
+    return NextResponse.redirect(`${origin}/auth/login?error=callback_error`)
   }
 
   console.log('[AUTH] Success - user:', data.user?.email)
