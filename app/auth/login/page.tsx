@@ -19,22 +19,31 @@ function LoginContent() {
     e.preventDefault()
     setLoading(true)
     setError('')
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password })
-    if (error) {
-      setError(error.message)
+    
+    // Add timeout fallback
+    const timeoutId = setTimeout(() => {
+      setError('Request timed out. Please try again.')
       setLoading(false)
-    } else if (data.user) {
-      // Wait a tick for cookie to be set, then verify session before redirect
-      const { data: { user: verifiedUser } } = await supabase.auth.getUser()
-      if (verifiedUser) {
-        // Use window.location for full page reload to ensure cookies propagate
+    }, 15000)
+    
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password })
+      clearTimeout(timeoutId)
+      
+      if (error) {
+        setError(error.message)
+        setLoading(false)
+      } else if (data.user) {
+        console.log('Login success:', data.user.email)
         window.location.href = '/dashboard'
       } else {
-        setError('Session verification failed. Please try again.')
+        setError('Login failed. No user returned.')
         setLoading(false)
       }
-    } else {
-      setError('Login failed. Please try again.')
+    } catch (err: any) {
+      clearTimeout(timeoutId)
+      console.error('Login error:', err)
+      setError(err.message || 'Login failed')
       setLoading(false)
     }
   }
