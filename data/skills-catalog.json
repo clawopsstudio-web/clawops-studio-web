@@ -1,0 +1,186 @@
+{
+  "version": "1.0.0",
+  "updated_at": "2026-04-11",
+  "skills": [
+    {
+      "id": "ghl-crm",
+      "name": "GoHighLevel CRM",
+      "slug": "ghl",
+      "tagline": "Manage leads, pipelines, and SMS from chat",
+      "description": "Full GoHighLevel CRM integration via MCP. Search contacts, move pipeline stages, add/remove tags, send SMS messages, monitor pipeline health — all through natural language. Built on the official GHL MCP protocol.",
+      "category": "CRM",
+      "icon": "🔗",
+      "color": "#FF6B35",
+      "platforms": ["GHL", "MCP"],
+      "install_method": "file_copy",
+      "install_path": "/root/.openclaw/skills/ghl/",
+      "install_command": "curl -fsSL https://raw.githubusercontent.com/clawops/studio/main/skills/ghl/install.sh | bash",
+      "prerequisites": [
+        "GoHighLevel account",
+        "Private Integration Token (PIT) from GHL Settings → Integrations → API Keys",
+        "Location ID from GHL"
+      ],
+      "skills_required": [],
+      "mcp_server": null,
+      "tools": ["Search contacts", "Upsert contact", "Add/remove tags", "Send SMS", "Get pipelines", "Search opportunities", "Update opportunity stage", "Pipeline overview", "Stale lead monitor"],
+      "config_fields": [
+        { "name": "GHL_PIT_TOKEN", "label": "GHL Private Integration Token", "type": "password", "required": true },
+        { "name": "GHL_LOCATION_ID", "label": "GHL Location ID", "type": "text", "required": true }
+      ],
+      "docs_url": "https://docs.clawops.ai/skills/ghl",
+      "status": "stable",
+      "featured": true
+    },
+    {
+      "id": "google-workspace-mcp",
+      "name": "Google Workspace",
+      "slug": "google-workspace-mcp",
+      "tagline": "Gmail, Drive, Docs, Sheets, Calendar, Tasks — all in one",
+      "description": "Complete Google Workspace integration via n8n MCP server. 44 tools covering Gmail, Google Drive, Docs, Sheets, Calendar, Tasks, and YouTube. Uses n8n's stored OAuth tokens — no additional Google API setup required.",
+      "category": "Productivity",
+      "icon": "📧",
+      "color": "#4285F4",
+      "platforms": ["Google", "Gmail", "Drive", "Docs", "Sheets", "Calendar", "Tasks", "YouTube", "n8n", "MCP"],
+      "install_method": "mcporter",
+      "install_path": "/root/.openclaw/skills/google-workspace-mcp/",
+      "install_command": "echo 'n8n-google MCP already configured in mcporter. Ensure n8n MCP server is enabled.'",
+      "prerequisites": [
+        "n8n instance with Google Workspace OAuth configured",
+        "MCP server enabled in n8n (Settings → MCP)"
+      ],
+      "skills_required": ["n8n"],
+      "mcp_server": "n8n-google",
+      "tools": [
+        "Gmail: list, send, reply, mark read/unread, delete",
+        "Drive: search, upload, download, share, move, copy, delete, create folder",
+        "Docs: create, read, update, share",
+        "Sheets: create, append row, read rows, update row, delete rows",
+        "Calendar: list, get, create, update, delete events",
+        "Tasks: list, get, create, update, delete tasks",
+        "YouTube: video and channel management"
+      ],
+      "config_fields": [
+        { "name": "n8n_mcp_endpoint", "label": "n8n MCP Endpoint URL", "type": "text", "required": true, "default": "https://your-vps/n8n/mcp/{id}" }
+      ],
+      "docs_url": "https://docs.clawops.ai/skills/google-workspace",
+      "status": "stable",
+      "featured": true
+    },
+    {
+      "id": "n8n-workflows",
+      "name": "n8n Workflow Monitor",
+      "slug": "n8n",
+      "tagline": "Monitor workflows and executions from chat",
+      "description": "Direct n8n workflow and execution monitoring via SQLite database access. View all workflows, check execution history, monitor success/failure rates, identify bottlenecks. No API key needed — reads directly from n8n's database.",
+      "category": "Automation",
+      "icon": "⚙️",
+      "color": "#EA4B71",
+      "platforms": ["n8n"],
+      "install_method": "file_copy",
+      "install_path": "/root/.openclaw/skills/n8n/",
+      "install_command": "curl -fsSL https://raw.githubusercontent.com/clawops/studio/main/skills/n8n/install.sh | bash",
+      "prerequisites": [
+        "n8n instance (Docker or npm)",
+        "SSH or filesystem access to n8n's SQLite database"
+      ],
+      "skills_required": [],
+      "mcp_server": null,
+      "tools": ["List workflows", "Get workflow details", "List executions", "Get execution details", "Monitor health", "Check success/failure rates"],
+      "config_fields": [
+        { "name": "N8N_DB_PATH", "label": "n8n SQLite DB Path", "type": "text", "required": true, "default": "/var/lib/docker/volumes/n8n_data/_data/database.sqlite" },
+        { "name": "N8N_ENCRYPTION_KEY", "label": "n8n Encryption Key", "type": "password", "required": true }
+      ],
+      "docs_url": "https://docs.clawops.ai/skills/n8n",
+      "status": "stable",
+      "featured": false
+    },
+    {
+      "id": "google-docs",
+      "name": "Google Docs & Drive",
+      "slug": "google-docs",
+      "tagline": "Create, read, and share Google Docs automatically",
+      "description": "Direct Google Drive and Docs integration using n8n's OAuth tokens. Create documents, share them with specific people, upload files to Drive. Works alongside the Google Workspace MCP skill — this is a lighter, document-focused alternative.",
+      "category": "Productivity",
+      "icon": "📄",
+      "color": "#0F9D58",
+      "platforms": ["Google", "Drive", "Docs", "n8n"],
+      "install_method": "file_copy",
+      "install_path": "/root/.openclaw/skills/google-docs/",
+      "install_command": "curl -fsSL https://raw.githubusercontent.com/clawops/studio/main/skills/google-docs/install.sh | bash",
+      "prerequisites": [
+        "n8n with Google Drive OAuth configured",
+        "Python 3 with requests library"
+      ],
+      "skills_required": [],
+      "mcp_server": null,
+      "tools": ["List documents", "Create document", "Share document", "Delete document", "Upload to Drive", "Download from Drive"],
+      "config_fields": [
+        { "name": "N8N_DB_PATH", "label": "n8n SQLite DB Path", "type": "text", "required": true }
+      ],
+      "docs_url": "https://docs.clawops.ai/skills/google-docs",
+      "status": "stable",
+      "featured": false
+    },
+    {
+      "id": "google-ai-studio",
+      "name": "Google AI Studio",
+      "slug": "google-ai-studio",
+      "tagline": "Access Gemini models and AI Studio directly",
+      "description": "Use Google AI Studio for embeddings, text generation, and model management. Authenticate once via browser, then use AI Studio models from any automation. Useful for building custom AI-powered workflows.",
+      "category": "AI",
+      "icon": "🤖",
+      "color": "#9B59B6",
+      "platforms": ["Google", "AI Studio", "Gemini"],
+      "install_method": "file_copy",
+      "install_path": "/root/.openclaw/skills/google-ai-studio/",
+      "install_command": "curl -fsSL https://raw.githubusercontent.com/clawops/studio/main/skills/google-ai-studio/install.sh | bash",
+      "prerequisites": [
+        "Google AI Studio account",
+        "API key from aistudio.google.com"
+      ],
+      "skills_required": [],
+      "mcp_server": null,
+      "tools": ["List models", "Generate text", "Get embeddings", "Manage API keys"],
+      "config_fields": [
+        { "name": "GOOGLE_AI_STUDIO_KEY", "label": "Google AI Studio API Key", "type": "password", "required": true }
+      ],
+      "docs_url": "https://docs.clawops.ai/skills/google-ai-studio",
+      "status": "beta",
+      "featured": false
+    },
+    {
+      "id": "social-media-nango",
+      "name": "Social Media (OAuth)",
+      "slug": "social-media-nango",
+      "tagline": "Connect any social platform via OAuth — no API keys needed",
+      "description": "Connect Twitter/X, LinkedIn, Facebook, Instagram via Nango OAuth proxy. Nango handles the OAuth flow — you just call the API through the proxy. Perfect for posting, scheduling, and social listening.",
+      "category": "Marketing",
+      "icon": "📱",
+      "color": "#1DA1F2",
+      "platforms": ["Twitter", "LinkedIn", "Facebook", "Instagram", "Nango"],
+      "install_method": "docker",
+      "install_path": "/root/.openclaw/skills/social-media-nango/",
+      "install_command": "docker run -d -p 3003:3003 -p 3009:3009 -v nango-db:/var/lib/postgresql/data nangohq/nango",
+      "prerequisites": [
+        "OAuth app credentials from each platform (Twitter, LinkedIn, etc.)",
+        "Docker installed on VPS"
+      ],
+      "skills_required": [],
+      "mcp_server": null,
+      "tools": ["OAuth connect", "Post to Twitter", "Post to LinkedIn", "Schedule post", "Get analytics"],
+      "config_fields": [
+        { "name": "NANGO_SECRET_KEY", "label": "Nango Secret Key", "type": "password", "required": true }
+      ],
+      "docs_url": "https://docs.clawops.ai/skills/social-media",
+      "status": "beta",
+      "featured": true
+    }
+  ],
+  "categories": [
+    { "id": "crm", "name": "CRM", "icon": "🔗", "color": "#FF6B35" },
+    { "id": "productivity", "name": "Productivity", "icon": "📧", "color": "#4285F4" },
+    { "id": "automation", "name": "Automation", "icon": "⚙️", "color": "#EA4B71" },
+    { "id": "marketing", "name": "Marketing", "icon": "📱", "color": "#1DA1F2" },
+    { "id": "ai", "name": "AI", "icon": "🤖", "color": "#9B59B6" }
+  ]
+}

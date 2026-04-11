@@ -2,249 +2,325 @@
 
 import { useState, useEffect } from 'react'
 
-interface MCP {
-  id: string
+interface MCPServer {
+  name: string
+  base_url: string
+  tools: number
+  status: 'healthy' | 'error' | 'unknown'
+  last_checked?: string
+}
+
+interface MCPTool {
   name: string
   description: string
-  version: string
-  enabled: boolean
-  icon?: string
+  inputSchema?: any
 }
 
 export default function MCPLibrary() {
-  const [mpcs, setMCPCs] = useState<MCP[]>([])
-  const [searchQuery, setSearchQuery] = useState('')
-  const [message, setMessage] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [connected, setConnected] = useState(false)
+  const [servers, setServers] = useState<MCPServer[]>([])
+  const [selectedServer, setSelectedServer] = useState<MCPServer | null>(null)
+  const [tools, setTools] = useState<MCPTool[]>([])
+  const [loading, setLoading] = useState(true)
+  const [toolsLoading, setToolsLoading] = useState(false)
+  const [addUrl, setAddUrl] = useState('')
+  const [addName, setAddName] = useState('')
+  const [addError, setAddError] = useState('')
+  const [activeTab, setActiveTab] = useState<'servers' | 'add'>('servers')
 
-  const handleConnectSmithery = async () => {
-    setLoading(true)
-    setMessage('🔗 Connecting to Smithery.ai...')
-    // In production, integrate with Smithery.ai API
-    await new Promise(resolve => setTimeout(resolve, 1500))
-    setConnected(true)
-    setMessage('✅ Connected to Smithery.ai!')
-    fetchMCPCs()
-    setLoading(false)
-  }
+  // Load servers from mcporter config
+  useEffect(() => {
+    loadServers()
+  }, [])
 
-  const fetchMCPCs = async () => {
+  const loadServers = async () => {
     setLoading(true)
-    // In production, fetch from Smithery.ai API
-    // const response = await fetch('https://api.smithery.ai/mcps')
-    // const data = await response.json()
-    await new Promise(resolve => setTimeout(resolve, 500))
-    setMCPCs([
-      {
-        id: '1',
-        name: 'File System',
-        description: 'Read, write, and manipulate files',
-        version: '1.0.0',
-        enabled: false,
-        icon: '📁'
-      },
-      {
-        id: '2',
-        name: 'Web Browser',
-        description: 'Automate browser actions',
-        version: '1.0.0',
-        enabled: false,
-        icon: '🌐'
-      },
-      {
-        id: '3',
-        name: 'Database Query',
-        description: 'Query SQL databases',
-        version: '1.0.0',
-        enabled: false,
-        icon: '📊'
-      },
-      {
-        id: '4',
-        name: 'API Client',
-        description: 'Make HTTP requests to APIs',
-        version: '1.0.0',
-        enabled: false,
-        icon: '🔌'
-      },
-      {
-        id: '5',
-        name: 'GitHub',
-        description: 'Interact with GitHub repositories',
-        version: '1.0.0',
-        enabled: false,
-        icon: '🐙'
-      },
-      {
-        id: '6',
-        name: 'Slack',
-        description: 'Post messages to Slack channels',
-        version: '1.0.0',
-        enabled: false,
-        icon: '💬'
+    try {
+      const res = await fetch('/api/mcp/servers')
+      if (res.ok) {
+        const data = await res.json()
+        setServers(data.servers || [])
+      } else {
+        // Fallback: load from local config
+        const configRes = await fetch('/api/mcp/config')
+        if (configRes.ok) {
+          const config = await configRes.json()
+          const serversList: MCPServer[] = Object.entries(config.servers || {}).map(([name, srv]: [string, any]) => ({
+            name,
+            base_url: (srv as any).baseUrl || '',
+            tools: 0,
+            status: 'unknown',
+          }))
+          setServers(serversList)
+        }
       }
-    ])
-    setLoading(false)
+    } catch {
+      // graceful degradation
+      setServers([])
+    } finally {
+      setLoading(false)
+    }
   }
 
-  const toggleMCP = async (id: string) => {
-    setMCPCs(mpcs.map(mcp =>
-      mcp.id === id ? { ...mcp, enabled: !mcp.enabled } : mcp
-    ))
-    // In production, save to Supabase
-    setMessage('✅ MCP state saved')
-    await new Promise(resolve => setTimeout(resolve, 500))
+  const loadTools = async (server: MCPServer) => {
+    setSelectedServer(server)
+    setToolsLoading(true)
+    setTools([])
+    try {
+      const res = await fetch(`/api/mcp/servers/${server.name}/tools`)
+      if (res.ok) {
+        const data = await res.json()
+        setTools(data.tools || [])
+      }
+    } catch {
+      setTools([])
+    } finally {
+      setToolsLoading(false)
+    }
   }
 
-  const filteredMCPCs = mpcs.filter(mcp =>
-    mcp.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    mcp.description.toLowerCase().includes(searchQuery.toLowerCase())
-  )
+  const handleAddServer = async () => {
+    setAddError('')
+    if (!addName.trim() || !addUrl.trim()) {
+      setAddError('Name and URL are required')
+      return
+    }
+    try {
+      const res = await fetch('/api/mcp/servers', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: addName.trim(), base_url: addUrl.trim() }),
+      })
+      if (!res.ok) {
+        const data = await res.json()
+        setAddError(data.error || 'Failed to add server')
+        return
+      }
+      setAddName('')
+      setAddUrl('')
+      setActiveTab('servers')
+      loadServers()
+    } catch {
+      setAddError('Failed to add server')
+    }
+  }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-2">MCP Library</h1>
-      <p className="text-gray-400 mb-8">Model Context Protocol integrations</p>
-
+    <div className="container mx-auto px-4 py-8 max-w-7xl">
       {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
-        <div className="flex-1 max-w-md">
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Search MCPs..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-[#1a1a2e] border border-[#2d2d44] rounded-lg pl-10 pr-4 py-2 text-white focus:outline-none focus:border-[#00D4FF]"
-            />
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-              🔍
-            </span>
-          </div>
-        </div>
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold mb-1">MCP Library</h1>
+        <p className="text-gray-400 text-sm">
+          Model Context Protocol servers — connect AI agents to external tools and APIs
+        </p>
+      </div>
+
+      {/* Tabs */}
+      <div className="flex gap-1 mb-6 bg-[#1a1a2e] p-1 rounded-xl w-fit">
         <button
-          onClick={handleConnectSmithery}
-          disabled={connected || loading}
-          className={`px-6 py-2 rounded-lg font-semibold ${
-            connected
-              ? 'bg-[#10b981] text-white cursor-default'
-              : 'bg-gradient-to-r from-[#00D4FF] to-[#6600FF] text-white hover:opacity-90 transition-opacity'
-          } ${loading ? 'opacity-50' : ''}`}
+          onClick={() => setActiveTab('servers')}
+          className={`px-5 py-2 rounded-lg text-sm font-medium transition-colors ${
+            activeTab === 'servers' ? 'bg-[#00D4FF] text-black' : 'text-gray-400 hover:text-white'
+          }`}
         >
-          {connected ? '✅ Connected' : loading ? 'Connecting...' : '🔗 Connect Smithery.ai'}
+          Servers ({servers.length})
+        </button>
+        <button
+          onClick={() => setActiveTab('add')}
+          className={`px-5 py-2 rounded-lg text-sm font-medium transition-colors ${
+            activeTab === 'add' ? 'bg-[#00D4FF] text-black' : 'text-gray-400 hover:text-white'
+          }`}
+        >
+          + Add Server
         </button>
       </div>
 
-      {/* Connected Indicator */}
-      {connected && (
-        <div className="bg-[#1a1a2e] border border-[#10b981] rounded-lg p-4 mb-8">
-          <div className="flex items-center gap-2">
-            <span className="text-2xl">✅</span>
+      {activeTab === 'add' && (
+        <div className="bg-[#1a1a2e] border border-[#2d2d44] rounded-xl p-6 max-w-lg">
+          <h2 className="text-lg font-semibold mb-4">Add MCP Server</h2>
+          <p className="text-gray-400 text-sm mb-6">
+            Add any MCP server by providing its URL. The server will be registered with mcporter and made available to your AI agents.
+          </p>
+
+          <div className="space-y-4">
             <div>
-              <p className="font-semibold">Connected to Smithery.ai</p>
-              <p className="text-sm text-gray-400">You can now browse and enable MCPs</p>
+              <label className="text-xs text-gray-400 mb-1 block">Server Name</label>
+              <input
+                type="text"
+                value={addName}
+                onChange={e => setAddName(e.target.value)}
+                placeholder="e.g. notion, github, slack"
+                className="w-full bg-[#0f0f1a] border border-[#2d2d44] rounded-lg px-3 py-2.5 text-sm text-gray-200 placeholder-gray-600 focus:border-[#00D4FF] focus:outline-none"
+              />
             </div>
+            <div>
+              <label className="text-xs text-gray-400 mb-1 block">MCP Server URL</label>
+              <input
+                type="url"
+                value={addUrl}
+                onChange={e => setAddUrl(e.target.value)}
+                placeholder="https://your-server.com/mcp or /n8n/mcp/{id}"
+                className="w-full bg-[#0f0f1a] border border-[#2d2d44] rounded-lg px-3 py-2.5 text-sm text-gray-200 placeholder-gray-600 focus:border-[#00D4FF] focus:outline-none"
+              />
+            </div>
+            {addError && <p className="text-red-400 text-sm">❌ {addError}</p>}
+            <button
+              onClick={handleAddServer}
+              className="w-full bg-[#00D4FF] hover:bg-[#00b8e6] text-black font-semibold py-2.5 rounded-lg transition-colors"
+            >
+              Add Server
+            </button>
+          </div>
+
+          <div className="mt-6 bg-[#0f0f1a] rounded-lg p-3">
+            <p className="text-xs text-gray-400">
+              💡 Your OpenClaw VPS must be able to reach the MCP server URL. For internal services, use the Tailscale domain (e.g. <code className="text-emerald-400">https://vmi3094584-1.tailec7a72.ts.net/n8n/mcp/...</code>)
+            </p>
           </div>
         </div>
       )}
 
-      {message && (
-        <div className="bg-[#1a1a2e] border border-[#2d2d44] rounded-lg p-4 mb-8">
-          <p className="text-sm">{message}</p>
-        </div>
-      )}
-
-      {/* MCP Grid */}
-      {loading && !mpcs.length ? (
-        <div className="text-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#00D4FF] mx-auto mb-4"></div>
-          <p className="text-gray-400">Loading MCPs...</p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredMCPCs.map((mcp) => (
-            <div
-              key={mcp.id}
-              className={`bg-[#1a1a2e] rounded-xl p-6 border transition-all ${
-                mcp.enabled
-                  ? 'border-[#10b981] bg-[#0a1a0f]'
-                  : 'border-[#2d2d44] hover:border-[#00D4FF]'
-              }`}
-            >
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <span className="text-3xl">{mcp.icon || '🧩'}</span>
-                  <div>
-                    <h3 className="text-lg font-semibold">{mcp.name}</h3>
-                    <span className="text-xs text-gray-400">v{mcp.version}</span>
+      {activeTab === 'servers' && (
+        <>
+          {loading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[1,2].map(i => (
+                <div key={i} className="bg-[#1a1a2e] border border-[#2d2d44] rounded-xl h-40 animate-pulse" />
+              ))}
+            </div>
+          ) : servers.length === 0 ? (
+            <div className="text-center py-16">
+              <span className="text-5xl mb-4 block">🔌</span>
+              <p className="text-gray-400 mb-2">No MCP servers configured.</p>
+              <p className="text-gray-600 text-sm mb-6">Add an MCP server to connect your AI agents to external tools.</p>
+              <button
+                onClick={() => setActiveTab('add')}
+                className="bg-[#00D4FF] text-black font-medium px-6 py-2.5 rounded-lg hover:bg-[#00b8e6] transition-colors"
+              >
+                + Add Your First Server
+              </button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {servers.map(server => (
+                <div
+                  key={server.name}
+                  className="bg-[#1a1a2e] border border-[#2d2d44] rounded-xl p-5 hover:border-[#00D4FF]/50 transition-colors cursor-pointer"
+                  onClick={() => loadTools(server)}
+                >
+                  <div className="flex items-start justify-between mb-3">
+                    <div className="flex items-center gap-3">
+                      <span className="text-2xl">🔌</span>
+                      <div>
+                        <h3 className="font-semibold">{server.name}</h3>
+                        <span className={`text-xs px-2 py-0.5 rounded ${
+                          server.status === 'healthy' ? 'bg-emerald-500/20 text-emerald-400' :
+                          server.status === 'error' ? 'bg-red-500/20 text-red-400' :
+                          'bg-gray-500/20 text-gray-400'
+                        }`}>
+                          {server.status === 'healthy' ? '● Healthy' :
+                           server.status === 'error' ? '✕ Error' : '○ Unknown'}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <p className="text-xs text-gray-500 mb-3 break-all">{server.base_url}</p>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-gray-400">
+                      {server.tools > 0 ? `${server.tools} tools` : 'Click to load tools'}
+                    </span>
+                    <span className="text-[#00D4FF] text-sm">View →</span>
                   </div>
                 </div>
-                <button
-                  onClick={() => toggleMCP(mcp.id)}
-                  className={`px-3 py-1 rounded-full text-sm font-medium ${
-                    mcp.enabled
-                      ? 'bg-[#10b981]/20 text-[#10b981]'
-                      : 'bg-[#2d2d44] text-gray-300 hover:bg-[#3d3d54]'
-                  }`}
-                >
-                  {mcp.enabled ? 'Active' : 'Enable'}
-                </button>
-              </div>
-              <p className="text-gray-400 text-sm mb-4">{mcp.description}</p>
+              ))}
+            </div>
+          )}
+        </>
+      )}
 
-              {mcp.enabled && (
-                <div className="bg-[#0f0f1a] rounded-lg p-3 mb-4">
-                  <p className="text-xs text-[#10b981]">
-                    ✅ MCP is active and ready to use
-                  </p>
+      {/* Tool detail sidebar */}
+      {selectedServer && (
+        <div className="fixed inset-0 z-50 flex justify-end" onClick={() => setSelectedServer(null)}>
+          <div
+            className="w-full max-w-xl bg-[#1a1a2e] border-l border-[#2d2d44] h-full overflow-y-auto"
+            onClick={e => e.stopPropagation()}
+          >
+            <div className="sticky top-0 bg-[#1a1a2e] border-b border-[#2d2d44] p-6 flex items-center justify-between">
+              <div>
+                <h2 className="text-xl font-semibold">{selectedServer.name}</h2>
+                <p className="text-xs text-gray-500 break-all">{selectedServer.base_url}</p>
+              </div>
+              <button
+                onClick={() => setSelectedServer(null)}
+                className="text-gray-400 hover:text-white text-2xl ml-4"
+              >
+                ×
+              </button>
+            </div>
+
+            <div className="p-6">
+              <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wider mb-4">
+                {toolsLoading ? 'Loading tools...' : `${tools.length} Tools`}
+              </h3>
+
+              {toolsLoading && (
+                <div className="space-y-3">
+                  {[1,2,3,4,5].map(i => (
+                    <div key={i} className="bg-[#0f0f1a] rounded-lg h-20 animate-pulse" />
+                  ))}
                 </div>
               )}
 
-              <div className="flex gap-2">
-                <button className="flex-1 bg-[#2d2d44] hover:bg-[#3d3d54] text-white font-medium py-2 rounded-lg transition-colors text-sm">
-                  Documentation
-                </button>
-                <button
-                  onClick={() => setMessage('⚙️ Configuring...')}
-                  className="flex-1 bg-[#2d2d44] hover:bg-[#3d3d54] text-white font-medium py-2 rounded-lg transition-colors text-sm"
-                >
-                  Configure
-                </button>
-              </div>
+              {!toolsLoading && tools.length === 0 && (
+                <p className="text-gray-500 text-sm">No tools found or server unavailable.</p>
+              )}
+
+              {!toolsLoading && tools.map(tool => (
+                <div key={tool.name} className="bg-[#0f0f1a] rounded-lg p-4 mb-3 border border-[#2d2d44]">
+                  <div className="flex items-start gap-3">
+                    <span className="text-lg mt-0.5">⚙️</span>
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-medium text-sm text-white break-all">{tool.name}</h4>
+                      {tool.description && (
+                        <p className="text-xs text-gray-400 mt-1">{tool.description}</p>
+                      )}
+                      {tool.inputSchema?.properties && (
+                        <div className="mt-2 flex flex-wrap gap-1">
+                          {Object.keys(tool.inputSchema.properties).map(param => (
+                            <span key={param} className="text-[10px] bg-[#1a1a2e] text-[#00D4FF] px-1.5 py-0.5 rounded">
+                              {param}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
       )}
 
-      {filteredMCPCs.length === 0 && !loading && (
-        <div className="text-center py-12">
-          <p className="text-gray-400 mb-4">No MCPs found</p>
-          <button
-            onClick={fetchMCPCs}
-            className="px-6 py-2 bg-[#2d2d44] hover:bg-[#3d3d54] text-white rounded-lg transition-colors"
-          >
-            Refresh
-          </button>
-        </div>
-      )}
-
-      {/* Info Section */}
+      {/* Info */}
       <div className="mt-12 bg-[#1a1a2e] rounded-xl p-6 border border-[#2d2d44]">
-        <h2 className="text-xl font-semibold mb-4">About MCP Library</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <h2 className="text-lg font-semibold mb-4">What Are MCP Servers?</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
-            <h3 className="font-medium mb-2">📦 What are MCPs?</h3>
+            <h3 className="font-medium mb-2 flex items-center gap-2">🔌 Model Context Protocol</h3>
             <p className="text-gray-400 text-sm">
-              Model Context Protocol allows AI agents to connect with external tools
-              and services through a standardized interface.
+              MCP is a standard protocol for connecting AI agents to external tools. Add any MCP-compatible server to extend your AI's capabilities.
             </p>
           </div>
           <div>
-            <h3 className="font-medium mb-2">🛠️ How to use</h3>
+            <h3 className="font-medium mb-2 flex items-center gap-2">🌐 mcporter</h3>
             <p className="text-gray-400 text-sm">
-              Connect to Smithery.ai to browse available MCPs, then enable the ones
-              you need for your workspace.
+              ClawOps uses mcporter to manage MCP servers. Servers are registered in the mcporter config and automatically available to all AI agents.
+            </p>
+          </div>
+          <div>
+            <h3 className="font-medium mb-2 flex items-center gap-2">⚡ Built-in servers</h3>
+            <p className="text-gray-400 text-sm">
+              Your Google Workspace (n8n MCP), Notion, and other integrations are already configured as MCP servers. Browse the Skills Library to install more.
             </p>
           </div>
         </div>

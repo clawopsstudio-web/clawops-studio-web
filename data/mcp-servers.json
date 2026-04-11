@@ -1,0 +1,14 @@
+{
+  "version": "1.0.0",
+  "servers": {
+    "n8n-google": {
+      "name": "n8n-google",
+      "baseUrl": "https://vmi3094584-1.tailec7a72.ts.net/n8n/mcp/89a55f12-1823-4f0d-9568-980732c57a89",
+      "description": "Google Workspace via n8n MCP — Gmail, Drive, Docs, Sheets, Calendar, Tasks, YouTube",
+      "platforms": ["Google", "Gmail", "Drive", "Docs", "Sheets", "Calendar", "Tasks", "YouTube", "n8n"],
+      "tools": 44,
+      "status": "healthy",
+      "added_at": "2026-04-11T00:00:00Z"
+    }
+  }
+}

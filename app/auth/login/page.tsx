@@ -20,16 +20,14 @@ function LoginContent() {
     setLoading(true)
     setError('')
     
-    // MOCK AUTH FOR NOW - Quick fix to get working
-    // Will revert to Supabase later
-    await new Promise(r => setTimeout(r, 800))
-    
-    if (email && password) {
-      // Accept any login for now
-      window.location.href = '/dashboard'
-    } else {
-      setError('Please enter email and password')
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password })
+    if (error) {
+      setError(error.message)
       setLoading(false)
+      return
+    }
+    if (data.user) {
+      window.location.href = '/dashboard'
     }
   }
 

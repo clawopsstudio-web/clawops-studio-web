@@ -7,6 +7,8 @@ import { motion, AnimatePresence } from "framer-motion";
 const navLinks = [
   { label: "How It Works", href: "/how-it-works" },
   { label: "Use Cases", href: "/use-cases" },
+  { label: "Guides", href: "/guides" },
+  { label: "Quick Start", href: "/quick-start" },
   { label: "Integrations", href: "/integrations" },
   { label: "Pricing", href: "/pricing" },
 ];
@@ -84,13 +86,13 @@ export default function Navbar() {
           {/* Desktop Auth Buttons */}
           <div className="hidden items-center gap-3 md:flex">
             <Link
-              href="/dashboard"
+              href="/login"
               className="rounded-lg px-4 py-2 text-sm font-medium text-white/70 transition-all hover:bg-white/5 hover:text-white"
             >
               Log In
             </Link>
             <Link
-              href="/dashboard"
+              href="/signup"
               className="rounded-lg px-4 py-2 text-sm font-semibold text-white transition-all duration-300 hover:scale-105 hover:shadow-[0_0_25px_rgba(0,212,255,0.35)]"
               style={{
                 background: "linear-gradient(135deg, #00D4FF, #6600FF)",
