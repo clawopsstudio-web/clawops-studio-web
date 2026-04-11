@@ -20,30 +20,33 @@ function LoginContent() {
     setLoading(true)
     setError('')
     
-    // Add timeout fallback
-    const timeoutId = setTimeout(() => {
-      setError('Request timed out. Please try again.')
+    // Debug: check if supabase client exists
+    if (!supabase) {
+      setError('Supabase client not initialized. Check environment variables.')
       setLoading(false)
-    }, 15000)
+      return
+    }
     
     try {
+      console.log('Attempting login with:', email)
       const { data, error } = await supabase.auth.signInWithPassword({ email, password })
-      clearTimeout(timeoutId)
+      console.log('Login response:', { data, error })
       
       if (error) {
         setError(error.message)
         setLoading(false)
-      } else if (data.user) {
-        console.log('Login success:', data.user.email)
+        return
+      }
+      
+      if (data?.session) {
         window.location.href = '/dashboard'
       } else {
-        setError('Login failed. No user returned.')
+        setError('Login failed. Please try again.')
         setLoading(false)
       }
     } catch (err: any) {
-      clearTimeout(timeoutId)
-      console.error('Login error:', err)
-      setError(err.message || 'Login failed')
+      console.error('Login exception:', err)
+      setError(err.message || 'An unexpected error occurred')
       setLoading(false)
     }
   }
