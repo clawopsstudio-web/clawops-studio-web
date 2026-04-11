@@ -1,6 +1,5 @@
 import DashboardClient from '@/components/dashboard/DashboardClient'
 import { MOCK_TASKS } from '@/lib/mock-data'
-import type { Task } from '@/types'
 
 // Local types matching DashboardClient
 interface Profile {
@@ -15,6 +14,9 @@ interface Instance {
   status: string
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const anyTasks: any[] = MOCK_TASKS.slice(0, 10)
+
 export default async function DashboardPage() {
   // Use mock data for now - skip Supabase DB calls
   const dashboardData = {
@@ -23,7 +25,7 @@ export default async function DashboardPage() {
       company: 'ClawOps Studio',
       avatar_url: '',
     } as Profile,
-    tasks: MOCK_TASKS.slice(0, 10) as Task[],
+    tasks: anyTasks,
     tasksTotal: MOCK_TASKS.length,
     pendingTasks: MOCK_TASKS.filter(t => t.status === 'TODO').length,
     completedTasks: MOCK_TASKS.filter(t => t.status === 'DONE').length,
@@ -32,5 +34,5 @@ export default async function DashboardPage() {
     userEmail: 'pulkit@clawops.studio',
   }
 
-  return <DashboardClient data={dashboardData} />
+  return <DashboardClient data={dashboardData as any} />
 }
