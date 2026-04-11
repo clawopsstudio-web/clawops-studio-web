@@ -1,29 +1,38 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
 
+// Use the vercel domain explicitly to avoid custom domain issues
+const VERCEL_DOMAIN = 'https://clawops-studio-web.vercel.app'
+
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url)
   const code = searchParams.get('code')
   const plan = searchParams.get('plan') || 'pro'
   const next = searchParams.get('next') || '/dashboard'
 
-  console.log('[AUTH] Callback - origin:', origin, 'code:', !!code, 'next:', next)
+  console.log('[AUTH] Callback - request origin:', origin, 'code:', !!code, 'next:', next, 'plan:', plan)
 
   if (!code) {
-    return NextResponse.redirect(`${origin}/auth/login?error=no_code`)
+    return NextResponse.redirect(`${VERCEL_DOMAIN}/auth/login?error=no_code`)
   }
 
-  // Create HTML redirect page
+  // Use the vercel domain for redirect to avoid custom domain issues
+  const redirectUrl = `${VERCEL_DOMAIN}${next}?plan=${plan}`
+  
   const html = `
 <!DOCTYPE html>
 <html>
 <head>
-  <meta http-equiv="refresh" content="0;url=${next}?plan=${plan}">
+  <meta http-equiv="refresh" content="0;url=${redirectUrl}">
   <title>Logging in...</title>
 </head>
 <body>
   <p>Logging you in...</p>
-  <script>setTimeout(() => window.location.href = '${next}?plan=${plan}', 50)</script>
+  <script>
+    setTimeout(() => {
+      window.location.href = '${redirectUrl}';
+    }, 50);
+  </script>
 </body>
 </html>`
 
@@ -50,7 +59,7 @@ export async function GET(request: NextRequest) {
               secure: true,
               sameSite: 'lax',
               path: '/',
-              domain: undefined, // Let browser determine domain
+              domain: undefined,
               maxAge: options.maxAge,
             })
           })
@@ -64,7 +73,7 @@ export async function GET(request: NextRequest) {
 
   if (error || !data.session) {
     console.error('[AUTH] Error:', error?.message)
-    return NextResponse.redirect(`${origin}/auth/login?error=callback_error`)
+    return NextResponse.redirect(`${VERCEL_DOMAIN}/auth/login?error=callback_error`)
   }
 
   console.log('[AUTH] Success - user:', data.user?.email)
