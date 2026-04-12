@@ -1,8 +1,8 @@
 'use client'
 
-import { useState, Suspense, useEffect } from 'react'
+import { useState, Suspense } from 'react'
 import { supabase } from '@/lib/supabase/client'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 
@@ -13,26 +13,17 @@ const PLANS: Record<string, { name: string; price: number; color: string }> = {
 }
 
 function SignUpContent() {
-  const router = useRouter()
   const searchParams = useSearchParams()
   const [mode, setMode] = useState<'google' | 'email'>('google')
-
-  // If already logged in, go to dashboard
-  useEffect(() => {
-    const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession()
-      if (session) {
-        window.location.href = '/dashboard'
-      }
-    }
-    checkSession()
-  }, [])
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+
   const planKey = searchParams.get('plan') || 'pro'
   const plan = PLANS[planKey] || PLANS.pro
+
+  // Auth redirect handled by proxy (server-side) — no client-side redirect needed
 
   const handleGoogleSignIn = async () => {
     setLoading(true)
@@ -120,7 +111,7 @@ function SignUpContent() {
             onClick={() => { setMode('email'); setError('') }}
             className={`flex-1 rounded-lg py-2 text-xs font-medium transition-all ${mode === 'email' ? 'bg-[rgba(0,212,255,0.15)] text-white' : 'text-[rgba(255,255,255,0.4)] hover:text-white'}`}
           >
-            Email & Password
+            Email &amp; Password
           </button>
         </div>
 

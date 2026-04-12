@@ -1,30 +1,16 @@
 'use client'
 
-import { useState, Suspense, useEffect } from 'react'
+import { useState, Suspense } from 'react'
 import { supabase } from '@/lib/supabase/client'
-import { useRouter, useSearchParams } from 'next/navigation'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 
 function LoginContent() {
-  const router = useRouter()
-  const searchParams = useSearchParams()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [loadingGoogle, setLoadingGoogle] = useState(false)
   const [error, setError] = useState('')
-
-  // If user already has a session, redirect to dashboard
-  useEffect(() => {
-    const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession()
-      if (session) {
-        window.location.href = '/dashboard'
-      }
-    }
-    checkSession()
-  }, [])
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault()
