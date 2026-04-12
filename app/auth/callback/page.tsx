@@ -1,59 +1,57 @@
 'use client'
 
-import { Suspense, useEffect, useState } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabase/client'
 
-function CallbackContent() {
-  const searchParams = useSearchParams()
+export default function CallbackPage() {
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading')
-  const [errorMsg, setErrorMsg] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
 
   useEffect(() => {
-    const code = searchParams.get('code')
-    const next = searchParams.get('next') || '/dashboard'
-    const errorParam = searchParams.get('error')
-
     const handleCallback = async () => {
-      if (errorParam) {
+      // Read 'next' directly from window.location — avoids stale React state closure
+      const params = new URLSearchParams(window.location.search)
+      const next = params.get('next') || '/dashboard'
+
+      console.log('[AUTH CALLBACK] URL:', window.location.href)
+      console.log('[AUTH CALLBACK] next param:', next)
+
+      const { data, error } = await supabase.auth.exchangeCodeForSession(
+        params.get('code') || ''
+      )
+
+      if (error) {
+        console.error('[AUTH CALLBACK] Error:', error.message)
         setStatus('error')
-        setErrorMsg(errorParam)
+        setErrorMessage(error.message)
         return
       }
 
-      if (!code) {
-        setStatus('error')
-        setErrorMsg('no_code')
-        return
-      }
+      console.log('[AUTH CALLBACK] Session established for:', data.user?.email)
+      setStatus('success')
 
-      // Exchange OAuth code for session (client-side PKCE — safe)
-      const { data, error } = await supabase.auth.exchangeCodeForSession(code)
+      // Clean URL and redirect to destination
+      const destination = next.startsWith('/')
+        ? `${window.location.origin}${next}`
+        : next
 
-      if (error || !data.session) {
-        console.error('[AUTH] Code exchange error:', error?.message)
-        setStatus('error')
-        setErrorMsg(error?.message || 'callback_error')
-        return
-      }
-
-      console.log('[AUTH] Session established for:', data.session.user?.email)
-      // Supabase client auto-persists session via cookies (persistSession: true)
-      window.location.href = next
+      console.log('[AUTH CALLBACK] Redirecting to:', destination)
+      window.location.href = destination
     }
 
     handleCallback()
-  }, [searchParams])
+  }, []) // Empty deps — no stale closure issues
 
   if (status === 'error') {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#04040c] text-white">
-        <div className="text-center max-w-md">
-          <div className="text-red-400 text-xl mb-3">Authentication failed</div>
-          <p className="text-gray-400 text-sm mb-6">{errorMsg}</p>
+      <div className="min-h-screen bg-[#04040c] flex items-center justify-center text-white">
+        <div className="text-center">
+          <div className="text-4xl mb-4">⚠️</div>
+          <h1 className="text-xl font-bold mb-2">Authentication Failed</h1>
+          <p className="text-white/60 text-sm mb-4">{errorMessage}</p>
           <a
             href="/auth/login"
-            className="inline-block px-6 py-3 rounded-xl text-white text-sm font-semibold"
+            className="inline-block px-6 py-2 rounded-xl text-sm font-semibold text-white"
             style={{ background: 'linear-gradient(135deg, #00D4FF, #6600FF)' }}
           >
             Back to Login
@@ -64,23 +62,15 @@ function CallbackContent() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#04040c] text-white">
-      <div className="text-center">
-        <div className="w-12 h-12 mx-auto mb-4 rounded-full border-2 border-[#00D4FF] border-t-transparent animate-spin" />
-        <p className="text-gray-400 text-sm">Signing you in...</p>
+    <div className="min-h-screen bg-[#04040c] flex items-center justify-center text-white">
+      <div className="flex flex-col items-center gap-4">
+        <div className="w-10 h-10 rounded-xl bg-[#00D4FF]/10 border border-[#00D4FF]/30 flex items-center justify-center">
+          <div className="w-5 h-5 rounded-full border-2 border-[#00D4FF] border-t-transparent animate-spin" />
+        </div>
+        <p className="text-sm text-white/40">
+          {status === 'success' ? 'Authenticated! Redirecting...' : 'Completing sign in...'}
+        </p>
       </div>
     </div>
-  )
-}
-
-export default function AuthCallback() {
-  return (
-    <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center bg-[#04040c] text-white">
-        <div className="w-12 h-12 rounded-full border-2 border-[#00D4FF] border-t-transparent animate-spin" />
-      </div>
-    }>
-      <CallbackContent />
-    </Suspense>
   )
 }
