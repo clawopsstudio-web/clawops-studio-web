@@ -22,9 +22,15 @@ function OsIcon() {
   );
 }
 
-const VERTICALS = [
-  "Agencies", "Real Estate", "Healthcare", "E-commerce",
-  "Legal", "Dental", "Auto", "Financial Services",
+const MESSAGES = [
+  "Leads falling through the cracks?",
+  "Slow follow-ups killing your conversions?",
+  "Reports taking hours every week?",
+  "Missed calls, missed revenue?",
+  "Staff stretched too thin?",
+  "Same tasks, different day?",
+  "Manual work eating your margins?",
+  "Scale without hiring?",
 ];
 
 export default function Hero() {
@@ -37,7 +43,7 @@ export default function Hero() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setVerticalIdx((i) => (i + 1) % VERTICALS.length);
+      setVerticalIdx((i) => (i + 1) % MESSAGES.length);
     }, 2500);
     return () => clearInterval(interval);
   }, []);
@@ -61,7 +67,7 @@ export default function Hero() {
       <motion.div style={{ y, opacity }} className="relative z-10 mx-auto w-full max-w-6xl px-6 pb-28">
         <div className="flex flex-col items-center text-center">
 
-          {/* Agentic OS badge */}
+          {/* Animated pain-point ticker badge */}
           <motion.div
             initial={{ opacity: 0, y: 16, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -74,9 +80,14 @@ export default function Hero() {
                 <span className="dot-breathe relative inline-flex h-2 w-2 rounded-full bg-[#00D4FF]" />
               </span>
               <span className="font-mono text-xs font-medium tracking-wide text-[rgba(0,212,255,0.9)]">
-                The Agentic OS for Your Business
+                <span key={verticalIdx} className="inline-block">
+                  {MESSAGES[verticalIdx]}
+                </span>
               </span>
-              <span className="text-[rgba(255,255,255,0.2)] text-xs">— Deployed in 5 Minutes</span>
+              <span className="text-[rgba(255,255,255,0.2)] text-xs"> — </span>
+              <span className="font-mono text-xs font-medium tracking-wide text-[rgba(0,212,255,0.9)]">
+                ClawOps fixes it.
+              </span>
               <span className="pill-shimmer absolute inset-0 rounded-full" />
             </div>
           </motion.div>
@@ -106,7 +117,7 @@ export default function Hero() {
             transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             className="mt-5 max-w-2xl text-base leading-relaxed text-[rgba(255,255,255,0.48)] sm:text-lg md:text-xl"
           >
-            Deploy autonomous AI agents. GHL agents. n8n agents. Google Workspace agents. One platform.
+            Your leads don't follow themselves up. Your reports don't write themselves. Your calendar doesn't manage itself. Deploy AI agents that do all of this — and more — 24/7.
           </motion.p>
 
           {/* CTAs */}

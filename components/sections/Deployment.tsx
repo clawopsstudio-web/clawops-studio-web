@@ -118,26 +118,61 @@ export default function Deployment() {
           ))}
         </div>
 
-        {/* Browser automation callout */}
+        {/* Browser automation + CLI Anything callout */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={isInView ? { opacity: 1, y: 0 } : undefined}
           transition={{ duration: 0.7, delay: 0.5 }}
-          className="mt-10 rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.025)] p-6 text-center md:mt-16 md:p-8"
+          className="mt-10 rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.025)] p-6 md:mt-16 md:p-8"
         >
-          <div className="flex items-center justify-center gap-3 mb-4">
+          {/* Header */}
+          <div className="flex items-center justify-center gap-3 mb-6">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[rgba(0,212,255,0.1)] border border-[rgba(0,212,255,0.2)] text-[#00D4FF]">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="h-5 w-5" aria-hidden="true">
                 <rect x="3" y="4" width="18" height="16" rx="2"/>
                 <path d="M3 9h18"/>
               </svg>
             </div>
-            <span className="text-lg font-semibold text-white">Also works in any browser</span>
+            <div className="text-left">
+              <span className="text-lg font-semibold text-white">Browser Automation</span>
+              <p className="text-xs text-[rgba(255,255,255,0.4)] font-mono">Works with any web app — even without APIs</p>
+            </div>
           </div>
-          <p className="text-[rgba(255,255,255,0.5)] text-sm leading-relaxed max-w-xl mx-auto">
-            Workers run in a Virtual Chrome session — authenticated into your apps, with full session
-            memory. Works with any web app, even ones without APIs.
-          </p>
+
+          {/* The Problem */}
+          <div className="mb-6 rounded-xl border border-[rgba(255,100,100,0.15)] bg-[rgba(255,100,100,0.04)] p-4">
+            <p className="text-xs font-semibold text-[rgba(255,100,100,0.7)] uppercase tracking-wider mb-2">The Problem</p>
+            <p className="text-sm text-[rgba(255,255,255,0.5)] leading-relaxed">
+              Most CRMs and business tools don't have APIs. And even when they do — most business owners aren't technical enough to integrate them. Apps in 2026 still work the same way as 2010: built for humans, not AI agents. AI agents have to parse the entire UI to understand where to click — wasting tokens and hallucinating paths constantly.
+            </p>
+          </div>
+
+          {/* The Fix */}
+          <div className="mb-6 rounded-xl border border-[rgba(0,212,255,0.15)] bg-[rgba(0,212,255,0.04)] p-4">
+            <p className="text-xs font-semibold text-[rgba(0,212,255,0.7)] uppercase tracking-wider mb-2">The Fix</p>
+            <p className="text-sm text-[rgba(255,255,255,0.5)] leading-relaxed">
+              ClawOps runs AI agents in a virtual Chrome browser — authenticated into your apps, with full session memory. The agent sees the same interface you do. It clicks, types, reads, and acts. No API key needed. Works with any web app.
+            </p>
+          </div>
+
+          {/* Three ways to connect */}
+          <div className="grid gap-3 sm:grid-cols-3">
+            <div className="rounded-xl border border-[rgba(255,255,255,0.07)] bg-[rgba(255,255,255,0.02)] p-3 text-center">
+              <div className="mb-2 text-lg">🌐</div>
+              <p className="text-xs font-semibold text-white mb-1">Browser Control</p>
+              <p className="text-[10px] text-[rgba(255,255,255,0.38)]">AI controls Chrome directly. Works with any app, even without APIs.</p>
+            </div>
+            <div className="rounded-xl border border-[rgba(255,255,255,0.07)] bg-[rgba(255,255,255,0.02)] p-3 text-center">
+              <div className="mb-2 text-lg">🔌</div>
+              <p className="text-xs font-semibold text-white mb-1">API / MCP Server</p>
+              <p className="text-[10px] text-[rgba(255,255,255,0.38)]">Connect via API or MCP for apps that support it. Advanced users.</p>
+            </div>
+            <div className="rounded-xl border border-[rgba(255,255,255,0.07)] bg-[rgba(255,255,255,0.02)] p-3 text-center">
+              <div className="mb-2 text-lg">⚡</div>
+              <p className="text-xs font-semibold text-white mb-1">n8n Automation</p>
+              <p className="text-[10px] text-[rgba(255,255,255,0.38)]">Pre-built n8n workflows connect your tools without code.</p>
+            </div>
+          </div>
         </motion.div>
       </div>
     </section>
