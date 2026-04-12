@@ -9,16 +9,27 @@ export default function CallbackPage() {
 
   useEffect(() => {
     const handleCallback = async () => {
-      // Read 'next' directly from window.location — avoids stale React state closure
       const params = new URLSearchParams(window.location.search)
       const next = params.get('next') || '/dashboard'
+      const code = params.get('code')
 
-      console.log('[AUTH CALLBACK] URL:', window.location.href)
-      console.log('[AUTH CALLBACK] next param:', next)
+      // No code? Might be a fragment redirect — Supabase SDK handles this automatically
+      if (!code) {
+        console.log('[AUTH CALLBACK] No code in URL, letting Supabase SDK handle it')
+        // Supabase SDK listens for the auth code from the URL fragment
+        const { data, error } = await supabase.auth.getSession()
+        if (error || !data.session) {
+          console.log('[AUTH CALLBACK] No session from SDK, redirecting to login')
+          window.location.href = '/auth/login'
+          return
+        }
+        console.log('[AUTH CALLBACK] Session found via SDK for:', data.session.user?.email)
+        window.location.href = `${window.location.origin}${next}`
+        return
+      }
 
-      const { data, error } = await supabase.auth.exchangeCodeForSession(
-        params.get('code') || ''
-      )
+      console.log('[AUTH CALLBACK] Code found, exchanging...')
+      const { data, error } = await supabase.auth.exchangeCodeForSession(code)
 
       if (error) {
         console.error('[AUTH CALLBACK] Error:', error.message)
@@ -30,7 +41,6 @@ export default function CallbackPage() {
       console.log('[AUTH CALLBACK] Session established for:', data.user?.email)
       setStatus('success')
 
-      // Clean URL and redirect to destination
       const destination = next.startsWith('/')
         ? `${window.location.origin}${next}`
         : next
@@ -40,7 +50,7 @@ export default function CallbackPage() {
     }
 
     handleCallback()
-  }, []) // Empty deps — no stale closure issues
+  }, [])
 
   if (status === 'error') {
     return (

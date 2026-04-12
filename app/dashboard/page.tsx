@@ -1,13 +1,14 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { Suspense, useEffect, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { supabase } from '@/lib/supabase/client'
 import DashboardShell from '@/components/dashboard/DashboardShell'
 import DashboardClient from '@/components/dashboard/DashboardClient'
 
-export default function DashboardPage() {
+function DashboardContent() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [loading, setLoading] = useState(true)
   const [userEmail, setUserEmail] = useState('')
   const [userName, setUserName] = useState('')
@@ -15,6 +16,21 @@ export default function DashboardPage() {
 
   useEffect(() => {
     const checkAuth = async () => {
+      const code = searchParams.get('code')
+
+      if (code) {
+        console.log('[DASHBOARD] OAuth code detected, exchanging...')
+        window.history.replaceState({}, '', '/dashboard')
+
+        const { data, error } = await supabase.auth.exchangeCodeForSession(code)
+        if (error) {
+          console.error('[DASHBOARD] Code exchange failed:', error.message)
+          router.replace('/auth/login')
+          return
+        }
+        console.log('[DASHBOARD] Session established for:', data.user?.email)
+      }
+
       const { data: { session }, error } = await supabase.auth.getSession()
 
       if (error || !session) {
@@ -26,7 +42,6 @@ export default function DashboardPage() {
       const user = session.user
       console.log('[DASHBOARD] Session found for:', user.email)
 
-      // Fetch profile + tasks from Supabase in parallel
       const [profileRes, tasksRes] = await Promise.all([
         supabase
           .from('profiles')
@@ -44,9 +59,6 @@ export default function DashboardPage() {
       const profile = profileRes.data
       const tasks = tasksRes.data || []
 
-      console.log('[DASHBOARD] Profile:', profile)
-      console.log('[DASHBOARD] Tasks:', tasks.length)
-
       setUserEmail(user.email || '')
       setUserName(
         profile?.full_name ||
@@ -61,7 +73,6 @@ export default function DashboardPage() {
           company: profile?.company || user.user_metadata?.company || '',
           avatar_url: profile?.avatar_url || user.user_metadata?.avatar_url || '',
         },
-        // Use real tasks if any, else fall back to showing empty state
         tasks: tasks.map((t: any) => ({
           id: t.id,
           title: t.title,
@@ -91,7 +102,7 @@ export default function DashboardPage() {
     })
 
     return () => subscription.unsubscribe()
-  }, [router])
+  }, [router, searchParams])
 
   if (loading) {
     return (
@@ -110,5 +121,22 @@ export default function DashboardPage() {
     <DashboardShell>
       <DashboardClient data={dashboardData} />
     </DashboardShell>
+  )
+}
+
+export default function DashboardPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-[#04040c] flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-10 h-10 rounded-xl bg-[#00D4FF]/10 border border-[#00D4FF]/30 flex items-center justify-center">
+            <div className="w-5 h-5 rounded-full border-2 border-[#00D4FF] border-t-transparent animate-spin" />
+          </div>
+          <p className="text-sm text-white/40">Loading dashboard...</p>
+        </div>
+      </div>
+    }>
+      <DashboardContent />
+    </Suspense>
   )
 }
