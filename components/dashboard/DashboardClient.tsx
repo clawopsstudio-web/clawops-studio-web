@@ -27,6 +27,15 @@ interface Profile {
   avatar_url: string
 }
 
+interface OpenClawData {
+  agents: { name: string; sessionCount: number; lastSeen: string; model: string }[]
+  totalAgents: number
+  activeAgents: number
+  system: { cpuUsage?: number; memory?: { used_mb?: number; total_mb?: number }; diskUsage?: string; uptime?: string }
+  cronJobs: any[]
+  openclawVersion: string
+}
+
 interface DashboardData {
   profile: Profile | null
   tasks: Task[]
@@ -35,6 +44,7 @@ interface DashboardData {
   completedTasks: number
   instances: Instance[]
   activeAgents: number
+  openclaw: OpenClawData | null
   userEmail?: string
 }
 
@@ -192,7 +202,7 @@ export default function DashboardClient({ data }: { data: DashboardData }) {
           {/* Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { label: 'Agent Teams', value: data.activeAgents, icon: '🤖', color: '#00D4FF' },
+              { label: 'Agent Teams', value: data.openclaw?.activeAgents ?? data.activeAgents, icon: '🤖', color: '#00D4FF' },
               { label: 'Pending Tasks', value: pendingTasks, icon: '📋', color: '#FFB800' },
               { label: 'Completed', value: data.completedTasks, icon: '✅', color: '#00FF88' },
               { label: 'Skills Installed', value: 0, icon: '🧠', color: '#10b981' },
@@ -245,6 +255,96 @@ export default function DashboardClient({ data }: { data: DashboardData }) {
               ))}
             </div>
           </motion.div>
+
+          {/* OpenClaw Agent Status — real data from VPS */}
+          {data.openclaw && (
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.25 }}
+              className="overflow-hidden rounded-xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.03)]"
+            >
+              <div className="border-b border-[rgba(255,255,255,0.06)] px-5 py-4 flex items-center justify-between">
+                <div>
+                  <h2 className="text-sm font-semibold text-white">OpenClaw Agents</h2>
+                  <p className="text-xs text-[rgba(255,255,255,0.35)]">
+                    v{data.openclaw.openclawVersion} · {data.openclaw.system.uptime || '—'}
+                  </p>
+                </div>
+                <div className="flex items-center gap-3 text-xs">
+                  <span className="flex items-center gap-1.5">
+                    <span className="h-1.5 w-1.5 rounded-full bg-green-400" />
+                    {data.openclaw.activeAgents} active
+                  </span>
+                  <span className="text-white/20">·</span>
+                  <span className="text-white/40">{data.openclaw.totalAgents} total</span>
+                </div>
+              </div>
+              <div className="p-4 space-y-2">
+                {/* System stats row */}
+                <div className="grid grid-cols-3 gap-3 mb-3">
+                  <div className="rounded-lg bg-white/3 px-3 py-2 text-center">
+                    <p className="text-xs text-white/40 mb-0.5">CPU</p>
+                    <p className="text-sm font-semibold" style={{ color: (data.openclaw.system.cpuUsage || 0) > 80 ? '#ef4444' : '#00D4FF' }}>
+                      {data.openclaw.system.cpuUsage?.toFixed(1) || '—'}%
+                    </p>
+                  </div>
+                  <div className="rounded-lg bg-white/3 px-3 py-2 text-center">
+                    <p className="text-xs text-white/40 mb-0.5">Memory</p>
+                    <p className="text-sm font-semibold text-[#10b981]">
+                      {data.openclaw.system.memory ? `${data.openclaw.system.memory.used_mb}/${data.openclaw.system.memory.total_mb}MB` : '—'}
+                    </p>
+                  </div>
+                  <div className="rounded-lg bg-white/3 px-3 py-2 text-center">
+                    <p className="text-xs text-white/40 mb-0.5">Disk</p>
+                    <p className="text-sm font-semibold text-[#FFB800]">
+                      {data.openclaw.system.diskUsage || '—'}
+                    </p>
+                  </div>
+                </div>
+                {/* Agent list */}
+                {data.openclaw.agents.length === 0 ? (
+                  <p className="text-xs text-white/30 text-center py-4">No active agents</p>
+                ) : (
+                  <div className="space-y-1.5">
+                    {data.openclaw.agents.map((agent) => (
+                      <div
+                        key={agent.name}
+                        className="flex items-center justify-between rounded-lg border border-[rgba(255,255,255,0.05)] bg-[rgba(255,255,255,0.02)] px-3 py-2"
+                      >
+                        <div className="flex items-center gap-2.5">
+                          <span className="h-1.5 w-1.5 rounded-full bg-green-400 flex-shrink-0" />
+                          <span className="text-xs font-medium text-white capitalize">
+                            {agent.name.replace(/-/g, ' ')}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-3 text-[10px] text-white/30">
+                          <span>{agent.sessionCount} sessions</span>
+                          {agent.model !== 'default' && (
+                            <span className="px-1.5 py-0.5 rounded bg-[#00D4FF]/10 text-[#00D4FF]/70">
+                              {agent.model}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {/* Cron jobs summary */}
+                {data.openclaw.cronJobs.length > 0 && (
+                  <div className="mt-3 pt-3 border-t border-[rgba(255,255,255,0.05)]">
+                    <p className="text-[10px] text-white/30 mb-1.5">Active Cron Jobs</p>
+                    {data.openclaw.cronJobs.filter((j: any) => j.enabled).slice(0, 3).map((job: any) => (
+                      <div key={job.id} className="flex items-center gap-2 text-[10px] text-white/40 py-0.5">
+                        <span className="h-1 w-1 rounded-full bg-[#FFB800]" />
+                        {job.name} · {job.schedule?.expr || '—'}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          )}
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Tasks */}

@@ -42,7 +42,7 @@ function DashboardContent() {
       const user = session.user
       console.log('[DASHBOARD] Session found for:', user.email)
 
-      const [profileRes, tasksRes] = await Promise.all([
+      const [profileRes, tasksRes, ocStatusRes] = await Promise.all([
         supabase
           .from('profiles')
           .select('*')
@@ -54,6 +54,7 @@ function DashboardContent() {
           .eq('user_id', user.id)
           .order('created_at', { ascending: false })
           .limit(20),
+        fetch('/api/openclaw-status').then(r => r.ok ? r.json() : null).catch(() => null),
       ])
 
       const profile = profileRes.data
@@ -85,8 +86,21 @@ function DashboardContent() {
         tasksTotal: tasks.length,
         pendingTasks: tasks.filter((t: any) => t.status === 'TODO' || t.status === 'todo').length,
         completedTasks: tasks.filter((t: any) => t.status === 'DONE' || t.status === 'done').length,
+        // OpenClaw real-time data
+        openclaw: ocStatusRes ? {
+          agents: (ocStatusRes.agents || []).filter((a: any) => a.isActive).map((a: any) => ({
+            name: a.name,
+            sessionCount: a.sessionCount,
+            lastSeen: a.lastSeen,
+            model: a.latestSession?.modelOverride || 'default',
+          })),
+          totalAgents: (ocStatusRes.agents || []).length,
+          activeAgents: (ocStatusRes.agents || []).filter((a: any) => a.isActive).length,
+          system: ocStatusRes.system || {},
+          cronJobs: (ocStatusRes.cron || {}).jobs || [],
+          openclawVersion: (ocStatusRes.openclaw || {}).version || 'unknown',
+        } : null,
         instances: [],
-        activeAgents: 1,
         userEmail: user.email || '',
       })
 
