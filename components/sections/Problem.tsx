@@ -6,27 +6,27 @@ import { useEffect, useRef, useState } from "react";
 const problems = [
   {
     number: "01",
-    title: "To Scale, You Have to Hire. To Hire, You Have to Wait.",
+    title: "You're Renting Hardware That Costs Twice.",
     description:
-      "Every time your business grows, you need more people. More interviews, onboarding, salaries, management overhead. By the time you've hired and trained someone, the opportunity has passed. Growth is capped by your headcount.",
+      "Every month you pay cloud providers to run AI models — and then pay again every time your agents make API calls. It's renting an apartment and paying per light switch. You're locked into two recurring costs for the same thing.",
     color: "#00D4FF",
-    stat: "Avg 47 days to hire one employee in India",
+    stat: "Cloud AI costs 10-30x more than running local models",
   },
   {
     number: "02",
-    title: "AI Assistants Respond. They Don't Run.",
+    title: "Your Data Goes Through Someone Else's Servers.",
     description:
-      "ChatGPT, Claude, Gemini — they answer questions. They don't plan your day, follow up with leads, resolve support tickets, or build reports on their own. They wait for you. That's an assistant. Not a workforce.",
+      "Every prompt, every client conversation, every business insight — routed through third-party AI APIs. Your data is their training fuel. Their downtime is your downtime. Their price hike is your problem.",
     color: "#6600FF",
-    stat: "0 autonomous tasks completed without human prompting",
+    stat: "Third-party AI APIs = third-party data access",
   },
   {
     number: "03",
-    title: "Real Agentic AI Exists. It's Built for Developers.",
+    title: "Your AI Stack Has No Operating System.",
     description:
-      "The AI agents that actually run autonomously — like OpenClaw — require Linux, Docker, API keys, and weeks of configuration. Powerful technology locked behind a technical barrier. Businesses need agents. Not DevOps.",
+      "You have a model, a prompt library, a few scripts, and a Slack channel. That's not a stack — that's glue. Every new agent, every new tool, every new integration adds another fragile API connection. One update breaks everything.",
     color: "#00D4FF",
-    stat: "2-4 weeks of technical setup for a working agent",
+    stat: "Average business has 14 disconnected AI tools",
   },
 ];
 
@@ -59,26 +59,33 @@ export default function Problem() {
       }} />
 
       <div className="relative z-10 mx-auto max-w-6xl">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={isInView ? { opacity: 1, y: 0 } : undefined}
-          transition={{ duration: 0.6 }} className="text-center mb-12 md:mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : undefined}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-12 md:mb-16"
+        >
           <p className="font-mono text-xs uppercase tracking-[0.28em] text-[rgba(255,255,255,0.4)]">
             The Problem
           </p>
           <h2 className="mt-3 text-[clamp(1.75rem,4vw,2.5rem)] font-bold tracking-[-0.03em] text-white md:text-5xl">
-            Your Business Can't Scale<br className="hidden md:block" /> Faster Than Your Team.
+            Your AI Stack Has<br className="hidden md:block" /> No Operating System.
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-base md:text-lg text-[rgba(255,255,255,0.45)] leading-relaxed">
-            Hiring is slow and expensive. Current AI just assists — it doesn't run autonomously. And real autonomous AI is built for developers, not business owners. There's a gap. ClawOps fills it.
+            Renting hardware. Routing data through别人的 servers. No OS, no kernel, no app store — just fragile API glue holding it all together.
           </p>
         </motion.div>
 
         <div className="grid gap-5 md:grid-cols-3">
           {problems.map((problem, index) => (
-            <motion.article key={problem.number}
-              initial={{ opacity: 0, y: 40 }} animate={isInView ? { opacity: 1, y: 0 } : undefined}
+            <motion.article
+              key={problem.number}
+              initial={{ opacity: 0, y: 40 }}
+              animate={isInView ? { opacity: 1, y: 0 } : undefined}
               transition={{ duration: 0.7, delay: 0.1 * (index + 1), ease: [0.22, 1, 0.36, 1] }}
               className="group rounded-2xl border border-[rgba(255,255,255,0.07)] bg-[rgba(255,255,255,0.02)] p-6 md:p-7 transition-all duration-300 hover:-translate-y-1"
-              style={{ borderTopColor: problem.color, borderTopWidth: '2px' }}>
+              style={{ borderTopColor: problem.color, borderTopWidth: '2px' }}
+            >
               <div className="font-mono text-xs font-bold text-[rgba(255,255,255,0.25)] mb-4">{problem.number}</div>
               <h3 className="text-lg md:text-xl font-semibold text-white leading-snug mb-3">{problem.title}</h3>
               <p className="text-sm leading-relaxed text-[rgba(255,255,255,0.45)]">{problem.description}</p>
@@ -89,18 +96,21 @@ export default function Problem() {
           ))}
         </div>
 
-        <motion.div initial={{ opacity: 0, y: 24 }} animate={isInView ? { opacity: 1, y: 0 } : undefined}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={isInView ? { opacity: 1, y: 0 } : undefined}
           transition={{ duration: 0.7, delay: 0.5 }}
-          className="mx-auto mt-12 grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+          className="mx-auto mt-12 grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4"
+        >
           {[
-            { value: 47, suffix: " days", label: "avg time to hire one employee" },
-            { value: 0, prefix: "$", suffix: "", label: "extra salary costs with AI agents" },
-            { value: 3, suffix: " min", label: "from signup to agent running" },
-            { value: 0, suffix: " hrs", label: "of DevOps needed — we handle it" },
+            { value: 10, suffix: "x", label: "more expensive than local AI" },
+            { value: 14, suffix: "+", label: "disconnected AI tools on average" },
+            { value: 0, suffix: "", label: "data sovereignty with cloud AI" },
+            { value: 100, suffix: "%", label: "API dependency on third parties" },
           ].map((stat) => (
             <div key={stat.label} className="rounded-xl border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.02)] p-4 md:p-5 text-center">
               <div className="text-2xl md:text-3xl font-bold text-white">
-                <CountUpNumber value={stat.value} prefix={stat.prefix} suffix={stat.suffix} />
+                <CountUpNumber value={stat.value} suffix={stat.suffix} />
               </div>
               <p className="mt-1 text-[10px] md:text-xs text-[rgba(255,255,255,0.35)] leading-snug">{stat.label}</p>
             </div>

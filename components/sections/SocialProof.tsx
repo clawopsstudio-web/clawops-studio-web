@@ -89,7 +89,7 @@ export default function SocialProof() {
           className="mt-16 text-center"
         >
           <p className="font-mono text-xs uppercase tracking-[0.28em] text-[rgba(255,255,255,0.5)]">
-            Businesses Running on ClawOps — Scale Without Hiring
+            Already Running on the AI OS
           </p>
 
           <div className="mt-8 grid gap-4 md:grid-cols-3">

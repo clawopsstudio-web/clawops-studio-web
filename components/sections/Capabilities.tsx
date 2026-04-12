@@ -5,45 +5,85 @@ import { useRef } from "react";
 
 const capabilities = [
   {
-    emoji: "🧠",
-    title: "Autonomous Execution, Not Just Chat",
-    description: "Our agents don't wait for instructions. They plan their day, execute tasks across your tools, and report back when done. Your Sales Agent prospectively reaches out. Your Support Agent resolves tickets. Your Ops Agent builds your morning report. It happens without you prompting it.",
-    highlight: "Agents run autonomously. You manage outcomes.",
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00D4FF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="2" width="20" height="8" rx="2"/>
+        <rect x="2" y="14" width="20" height="8" rx="2"/>
+        <line x1="6" y1="6" x2="6.01" y2="6"/>
+        <line x1="6" y1="18" x2="6.01" y2="18"/>
+      </svg>
+    ),
+    label: "HARDWARE",
+    title: "Bare Metal VPS",
+    description: "Run your AI agents on your own Contabo VPS — no cloud rental markup, no API per-call fees. Pure hardware, fully owned.",
+    highlight: "One-time VPS cost. Unlimited agent hours.",
     color: "#00D4FF",
   },
   {
-    emoji: "🔗",
-    title: "Built on OpenClaw — The Fastest-Growing AI OS",
-    description: "We run on OpenClaw — the open-source agentic OS with 215K+ GitHub stars. That's the infrastructure. We add the business layer: pre-configured agents, one-click deployment, and the management UI so you never touch a terminal.",
-    highlight: "Powered by OpenClaw. Refined for business.",
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#6600FF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
+      </svg>
+    ),
+    label: "KERNEL",
+    title: "Local Models",
+    description: "Gemma 4 2B, Qwen, DeepSeek — running locally on your VPS. No data leaves your server. No API bills per request.",
+    highlight: "Private by architecture. Zero per-call costs.",
     color: "#6600FF",
   },
   {
-    emoji: "💰",
-    title: "Scale Without Hiring",
-    description: "Adding a new AI agent costs nothing extra. One more Sales Agent for a new market? Deploy it in 3 minutes. You're limited by ambition, not headcount. Every agent runs on the same flat monthly plan.",
-    highlight: "Unlimited agents. Same flat price.",
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00D4FF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="3" width="7" height="7" rx="1"/>
+        <rect x="14" y="3" width="7" height="7" rx="1"/>
+        <rect x="3" y="14" width="7" height="7" rx="1"/>
+        <rect x="14" y="14" width="7" height="7" rx="1"/>
+        <path d="M10 6.5h4M6.5 10v4M17.5 10v4M10 17.5h4"/>
+      </svg>
+    ),
+    label: "PROCESSES",
+    title: "Multi-Agent Runtime",
+    description: "Run unlimited agents simultaneously. Sales, Support, Research, Ops — each as an independent process. They share context and collaborate.",
+    highlight: "5,400+ skills. One runtime.",
     color: "#00D4FF",
   },
   {
-    emoji: "🌐",
-    title: "Manage From Your Phone, 24/7",
-    description: "Your agents work on Telegram, WhatsApp, and Slack — where you already are. A lead comes in at midnight? Your Sales Agent handles it. An issue escalates on a Sunday? Your Support Agent resolves it. Your business runs whether you're awake or not.",
-    highlight: "Your AI workforce runs 24/7. You run it from your phone.",
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#6600FF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+        <path d="M2 17l10 5 10-5"/>
+        <path d="M2 12l10 5 10-5"/>
+      </svg>
+    ),
+    label: "APP STORE",
+    title: "5,400+ Integrations",
+    description: "Skills for GHL, n8n, Google Workspace, and 500+ other tools. Install an agent skill in one click — like an app store for your AI workforce.",
+    highlight: "Skills for every vertical. One-click install.",
     color: "#6600FF",
   },
   {
-    emoji: "🔒",
-    title: "Your Data. Your Agents. Your Infrastructure.",
-    description: "Agents run on servers you control. Prompts, responses, client data — nothing routes through third-party AI APIs by default. Your data stays yours. Businesses handling sensitive client information stay compliant.",
-    highlight: "Private by architecture. Not just by policy.",
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00D4FF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+      </svg>
+    ),
+    label: "EXECUTION",
+    title: "Edge Execution",
+    description: "Agents run on your VPS, milliseconds from your data. No round-trip to cloud APIs. Real-time automation with zero latency.",
+    highlight: "Local execution. Zero network latency.",
     color: "#00D4FF",
   },
   {
-    emoji: "🔄",
-    title: "Agents That Collaborate",
-    description: "Support Agent flags an upsell opportunity — it hands to Sales Agent with full context. Research Agent finds qualified leads — it routes them to your pipeline. Multiple agents working together as a real workforce, not siloed chatbots.",
-    highlight: "Multi-agent collaboration built in by default.",
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#6600FF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      </svg>
+    ),
+    label: "FIREWALL",
+    title: "Data Sovereignty",
+    description: "Your client data, your prompts, your business intelligence — all stays on your VPS. Not training data for someone else's model. Not subject to their API outages.",
+    highlight: "Your data. Your server. Your control.",
     color: "#6600FF",
   },
 ];
@@ -59,11 +99,11 @@ const item = {
 };
 
 const trustItems = [
-  "Powered by OpenClaw (215K+ GitHub stars)",
-  "No DevOps required",
-  "Agents live in 3 minutes",
-  "Works 24/7 autonomously",
-  "Scale without hiring",
+  "Runs on your own VPS",
+  "Local AI models — zero per-call fees",
+  "5,400+ skills ready to install",
+  "One-time infrastructure cost",
+  "Your data never leaves your server",
 ];
 
 export default function Capabilities() {
@@ -77,26 +117,44 @@ export default function Capabilities() {
       }} />
 
       <div className="relative z-10 mx-auto max-w-6xl">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={isInView ? { opacity: 1, y: 0 } : undefined}
-          transition={{ duration: 0.6 }} className="text-center mb-12 md:mb-14">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : undefined}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-12 md:mb-14"
+        >
           <p className="font-mono text-xs uppercase tracking-[0.28em] text-[rgba(255,255,255,0.4)]">
-            What ClawOps Gives You
+            The Architecture
           </p>
           <h2 className="mt-3 text-[clamp(1.75rem,4vw,2.5rem)] font-bold tracking-[-0.03em] text-white md:text-5xl">
-            An Autonomous AI Workforce.<br className="hidden md:block" /> Not Another Chatbot.
+            The Operating System<br className="hidden md:block" /> for Your AI Stack.
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-base md:text-lg text-[rgba(255,255,255,0.45)] leading-relaxed">
-            ClawOps gives you agents that run your business autonomously — powered by OpenClaw, configured for your industry, and managed from your phone.
+            Hardware. Kernel. Processes. App Store. Firewall. Everything your AI stack needs — running on a VPS you own.
           </p>
         </motion.div>
 
-        <motion.div variants={container} initial="hidden" animate={isInView ? "show" : "hidden"}
-          className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <motion.div
+          variants={container}
+          initial="hidden"
+          animate={isInView ? "show" : "hidden"}
+          className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+        >
           {capabilities.map((cap) => (
-            <motion.div key={cap.title} variants={item}
-              className="group rounded-2xl border border-[rgba(255,255,255,0.07)] bg-[rgba(255,255,255,0.02)] p-5 md:p-6 transition-all duration-300 hover:bg-[rgba(255,255,255,0.04)]"
-              style={{ borderLeftColor: cap.color, borderLeftWidth: '2px' }}>
-              <div className="text-3xl mb-3">{cap.emoji}</div>
+            <motion.div
+              key={cap.title}
+              variants={item}
+              className="group rounded-2xl border border-[rgba(255,255,255,0.07)] bg-[rgba(255,255,255,0.02)] p-5 md:p-6 transition-all duration-300 hover:bg-[rgba(255,255,255,0.04)] hover:-translate-y-1"
+              style={{ borderLeftColor: cap.color, borderLeftWidth: '2px' }}
+            >
+              <div className="flex items-start justify-between mb-3">
+                <div className="flex items-center gap-2">
+                  {cap.icon}
+                  <span className="font-mono text-[9px] uppercase tracking-widest text-[rgba(255,255,255,0.2)]">
+                    {cap.label}
+                  </span>
+                </div>
+              </div>
               <h3 className="text-base md:text-lg font-semibold text-white mb-2">{cap.title}</h3>
               <p className="text-sm leading-relaxed text-[rgba(255,255,255,0.45)]">{cap.description}</p>
               <div className="mt-4 rounded-lg bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.06)] px-3 py-2">
@@ -106,9 +164,12 @@ export default function Capabilities() {
           ))}
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={isInView ? { opacity: 1, y: 0 } : undefined}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : undefined}
           transition={{ duration: 0.6, delay: 0.7 }}
-          className="mt-10 flex flex-wrap items-center justify-center gap-5 md:gap-8">
+          className="mt-10 flex flex-wrap items-center justify-center gap-5 md:gap-8"
+        >
           {trustItems.map((item) => (
             <div key={item} className="flex items-center gap-2">
               <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4 text-[#00D4FF]" aria-hidden="true">

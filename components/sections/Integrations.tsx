@@ -76,13 +76,13 @@ export default function Integrations() {
           className="text-center mb-12 md:mb-14"
         >
           <p className="font-mono text-xs uppercase tracking-[0.28em] text-[rgba(255,255,255,0.4)]">
-            Integrations
+            APP STORE
           </p>
           <h2 className="mt-3 text-[clamp(1.75rem,4vw,2.5rem)] font-bold tracking-[-0.03em] text-white md:text-5xl">
-            500+ Tools. One Platform.<br className="hidden md:block" /> Zero Extra API Bills.
+            500+ Apps. One AI OS.<br className="hidden md:block" /> Zero API Bills.
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-base md:text-lg text-[rgba(255,255,255,0.45)] leading-relaxed">
-            Every tool your business runs on — connected to your AI agents in minutes. No custom integrations. No developer hours. Pre-built, pre-authenticated, ready to use.
+            Connect GHL, n8n, Google Workspace, and 500+ other tools — like installing apps on your phone. Pre-built, pre-authenticated, running on your VPS.
           </p>
         </motion.div>
 

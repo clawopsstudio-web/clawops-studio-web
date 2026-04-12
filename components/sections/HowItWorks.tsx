@@ -6,22 +6,22 @@ import { motion, useInView } from "framer-motion";
 const steps = [
   {
     number: "01",
-    title: "Connect Your Infrastructure",
-    description: "We handle the OpenClaw setup on our optimized servers. You get enterprise-grade agent infrastructure without touching a terminal. Your agents are running before your coffee gets cold.",
-    detail: "OpenClaw-powered infrastructure, fully managed",
+    title: "Install Your OS",
+    description: "Point OpenClaw at your Contabo VPS. Our installer handles the rest — kernel, models, agent runtime, and skills library. Your OS boots in under 5 minutes.",
+    detail: "One-click install on your own VPS",
     color: "#00D4FF",
   },
   {
     number: "02",
-    title: "Pick Your Autonomous Agents",
-    description: "Choose your agents — Sales, Support, Research, Ops. Each is pre-configured to run autonomously in your business context. They don't wait for instructions. They execute on their own schedules.",
-    detail: "Agents are pre-configured for autonomous execution",
+    title: "Connect Your Apps",
+    description: "Connect GHL, n8n, Google Workspace — like installing apps on a new phone. Each integration unlocks new agent capabilities. No API glue needed.",
+    detail: "GHL, n8n, Google Workspace — like an app store",
     color: "#6600FF",
   },
   {
     number: "03",
-    title: "Let Them Run. You Manage from Your Phone.",
-    description: "Your agents work 24/7 — following up with leads, resolving support tickets, building reports, researching markets. You monitor from Telegram, WhatsApp, or Slack. Your business runs while you sleep.",
+    title: "Boot Your Agents",
+    description: "Pick your vertical. Install the skills. Your agents wake up and start running — following up with leads, resolving tickets, building reports. On their own. 24/7.",
     detail: "Autonomous 24/7 operation — you only step in when needed",
     color: "#00D4FF",
   },
@@ -62,13 +62,13 @@ export default function HowItWorks() {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={isInView ? { opacity: 1, y: 0 } : undefined}
           transition={{ duration: 0.6 }} className="text-center mb-12 md:mb-16">
           <p className="font-mono text-xs uppercase tracking-[0.28em] text-[rgba(255,255,255,0.4)]">
-            How It Works
+            BOOT SEQUENCE
           </p>
           <h2 className="mt-3 text-[clamp(1.75rem,4vw,2.5rem)] font-bold tracking-[-0.03em] text-white md:text-5xl">
-            From Signup to Autonomous<br className="hidden md:block" /> AI Workforce in 3 Minutes
+            From Signup to Running AI OS<br className="hidden md:block" /> in Under 5 Minutes
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-base md:text-lg text-[rgba(255,255,255,0.45)] leading-relaxed">
-            No DevOps. No configuration. No technical knowledge required. We handle the OpenClaw layer — you get autonomous agents running your business from day one.
+            No DevOps. No configuration. No terminal. Install the OS, connect your apps, boot your agents.
           </p>
         </motion.div>
 
@@ -101,9 +101,9 @@ export default function HowItWorks() {
         <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={isInView ? { opacity: 1, scale: 1 } : undefined}
           transition={{ duration: 0.5, delay: 0.8 }}
           className="mx-auto mt-12 max-w-sm rounded-2xl border border-[rgba(0,212,255,0.15)] bg-[rgba(0,212,255,0.03)] p-6 text-center">
-          <div className="text-3xl font-bold text-white">3 minutes</div>
+          <div className="text-3xl font-bold text-white">&lt; 5 minutes</div>
           <p className="mt-2 text-sm text-[rgba(255,255,255,0.45)]">
-            From signup to autonomous agents running your business
+            From signup to your AI OS running on your own VPS
           </p>
         </motion.div>
       </div>

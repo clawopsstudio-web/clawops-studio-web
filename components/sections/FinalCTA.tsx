@@ -32,20 +32,20 @@ export default function FinalCTA() {
 
           <p className="pre-label mb-4">START TODAY</p>
           <h2 className="text-5xl md:text-6xl font-black text-white mb-6 leading-tight">
-            Your Business.
+            The AI OS
             <br />
             <span style={{
               background: "linear-gradient(135deg, #00D4FF, #6600FF)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
             }}>
-              Run by AI.
+              Your Business Runs On.
             </span>
             <br />
-            While You Sleep.
+            Forever.
           </h2>
           <p className="text-[rgba(255,255,255,0.55)] text-lg mb-10 max-w-lg mx-auto leading-relaxed">
-            The Agentic OS for businesses that want to scale without hiring. Powered by OpenClaw, refined for business. Your autonomous workforce is 3 minutes away.
+            The Agentic OS for your VPS. Hardware you own. Models that run local. Agents that work 24/7. Skills for every vertical. One platform, zero per-call API fees.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -53,7 +53,7 @@ export default function FinalCTA() {
               className="group relative px-8 py-4 rounded-xl font-semibold text-white overflow-hidden transition-all hover:scale-[1.03] hover:shadow-[0_0_35px_rgba(0,212,255,0.35)]"
               style={{ background: "linear-gradient(135deg, #00D4FF, #6600FF)", boxShadow: "0 0 30px rgba(0,212,255,0.25)" }}>
               <span className="relative z-10 flex items-center gap-2">
-                Run Your Business on AI — Free
+                Install the AI OS — Free
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"
                   strokeLinecap="round" strokeLinejoin="round" className="group-hover:translate-x-1 transition-transform">
                   <path d="M5 12h14M12 5l7 7-7 7" />
@@ -67,7 +67,7 @@ export default function FinalCTA() {
           </div>
 
           <p className="mt-6 text-[rgba(255,255,255,0.25)] text-xs font-mono">
-            Powered by OpenClaw &middot; No DevOps &middot; Scale without hiring &middot; Cancel anytime
+            One-time VPS cost &middot; Unlimited agent hours &middot; Your data stays local &middot; No API per-call fees
           </p>
         </motion.div>
       </div>
