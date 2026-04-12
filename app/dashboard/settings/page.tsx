@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { useOpenClaw } from '@/contexts/OpenClawContext';
 import {
   User,
@@ -50,7 +51,21 @@ const PLANS = [
 ];
 
 export default function SettingsPage() {
-  const [activeTab, setActiveTab] = useState('profile');
+  return (
+    <Suspense fallback={<div className="p-8 text-white/50">Loading settings...</div>}>
+      <SettingsContent />
+    </Suspense>
+  )
+}
+
+function SettingsContent() {
+  const searchParams = useSearchParams()
+  const urlTab = searchParams.get('tab')
+  const [activeTab, setActiveTab] = useState(urlTab || 'profile');
+
+  useEffect(() => {
+    if (urlTab) setActiveTab(urlTab)
+  }, [urlTab])
   const [uploading, setUploading] = useState(false);
   const [saved, setSaved] = useState(false);
 
