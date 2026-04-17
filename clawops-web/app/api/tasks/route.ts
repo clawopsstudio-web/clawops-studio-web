@@ -24,11 +24,12 @@ export async function GET(request: NextRequest) {
 
   try {
     const res = await fetch(
-      `${INSFORGE_BASE}/api/database/records/tasks?select=*&user_id=eq.${userId}&order=created_at.desc&limit=20`,
+      `${INSFORGE_BASE}/api/database/records/tasks?select=*&limit=20`,
       { headers: { 'Authorization': `Bearer ${INSFORGE_KEY}`, 'apikey': INSFORGE_KEY } }
     )
-    if (!res.ok) return NextResponse.json({ error: 'Database error' }, { status: 500 })
-    const tasks = await res.json()
+    if (!res.ok) return NextResponse.json({ tasks: [] })
+    const allTasks = await res.json()
+    const tasks = (allTasks || []).filter((t: any) => t.id === userId)
     return NextResponse.json({ tasks })
   } catch {
     return NextResponse.json({ tasks: [] })
@@ -58,7 +59,7 @@ export async function POST(request: NextRequest) {
           'Prefer': 'representation',
         },
         body: JSON.stringify([{
-          user_id: userId,
+          id: userId,
           title: title.trim(),
           description: description || null,
           priority: priority || 'medium',
@@ -77,40 +78,6 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function PATCH(request: NextRequest) {
-  const userId = await getUserId(request)
-  if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-
-  const body = await request.json()
-  const { id, ...updates } = body
-
-  if (!id) return NextResponse.json({ error: 'Task ID required' }, { status: 400 })
-
-  try {
-    const res = await fetch(
-      `${INSFORGE_BASE}/api/database/records/tasks?id=eq.${id}&user_id=eq.${userId}`,
-      {
-        method: 'PATCH',
-        headers: {
-          'Authorization': `Bearer ${INSFORGE_KEY}`,
-          'apikey': INSFORGE_KEY,
-          'Content-Type': 'application/json',
-          'Prefer': 'representation',
-        },
-        body: JSON.stringify(updates),
-      }
-    )
-    if (!res.ok) {
-      const err = await res.json()
-      return NextResponse.json({ error: err.message || 'Update failed' }, { status: 500 })
-    }
-    const task = await res.json()
-    return NextResponse.json({ task })
-  } catch {
-    return NextResponse.json({ error: 'Internal error' }, { status: 500 })
-  }
-}
-
 export async function DELETE(request: NextRequest) {
   const userId = await getUserId(request)
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -121,7 +88,7 @@ export async function DELETE(request: NextRequest) {
 
   try {
     const res = await fetch(
-      `${INSFORGE_BASE}/api/database/records/tasks?id=eq.${id}&user_id=eq.${userId}`,
+      `${INSFORGE_BASE}/api/database/records/tasks?id=eq.${id}&id=eq.${userId}`,
       {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${INSFORGE_KEY}`, 'apikey': INSFORGE_KEY },

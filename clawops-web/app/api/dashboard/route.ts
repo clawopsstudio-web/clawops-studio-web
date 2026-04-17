@@ -3,11 +3,9 @@ import { NextRequest, NextResponse } from 'next/server'
 const INSFORGE_BASE = process.env.NEXT_PUBLIC_INSFORGE_BASE_URL!
 const INSFORGE_KEY = process.env.NEXT_PUBLIC_INSFORGE_ANON_KEY!
 
-// Get user from InsForge auth session
 async function getUserFromSession(request: NextRequest) {
   const token = request.cookies.get('insforge_session')?.value
   if (!token) return null
-
   try {
     const res = await fetch(`${INSFORGE_BASE}/api/auth/sessions/current`, {
       headers: { 'Authorization': `Bearer ${token}`, 'apikey': INSFORGE_KEY },
@@ -22,7 +20,6 @@ async function getUserFromSession(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
   const user = await getUserFromSession(request)
-
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
@@ -50,21 +47,25 @@ export async function GET(request: NextRequest) {
 
   try {
     const tasksRes = await fetch(
-      `${INSFORGE_BASE}/api/database/records/tasks?select=id,status,priority,title,created_at&user_id=eq.${userId}`,
+      `${INSFORGE_BASE}/api/database/records/tasks?select=id,status,priority,title,created_at&limit=20`,
       { headers: { 'Authorization': `Bearer ${INSFORGE_KEY}`, 'apikey': INSFORGE_KEY } }
     )
     if (tasksRes.ok) {
-      tasks = (await tasksRes.json()) || []
+      const allTasks = (await tasksRes.json()) || []
+      // tasks table uses id as user reference
+      tasks = allTasks.filter((t: any) => t.id === userId).slice(0, 5)
     }
   } catch { /* tasks table may be empty */ }
 
   try {
     const instancesRes = await fetch(
-      `${INSFORGE_BASE}/api/database/records/vps_instances?select=*&user_id=eq.${userId}`,
+      `${INSFORGE_BASE}/api/database/records/vps_instances?select=*&limit=20`,
       { headers: { 'Authorization': `Bearer ${INSFORGE_KEY}`, 'apikey': INSFORGE_KEY } }
     )
     if (instancesRes.ok) {
-      instances = (await instancesRes.json()) || []
+      const allInstances = (await instancesRes.json()) || []
+      // Filter by id (vps_instances uses id as user reference)
+      instances = allInstances.filter((i: any) => i.id === userId).slice(0, 10)
     }
   } catch { /* instances table may be empty */ }
 
@@ -73,7 +74,7 @@ export async function GET(request: NextRequest) {
 
   return NextResponse.json({
     profile: profile || { id: userId, email: userEmail, name: userName },
-    tasks: tasks.slice(0, 5),
+    tasks,
     tasksTotal: tasks.length,
     pendingTasks,
     completedTasks,
