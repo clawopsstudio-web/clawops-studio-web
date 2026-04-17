@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head><title>Cookie Debug</title></head>
+<body style="font-family:monospace;background:#111;color:#0f0;padding:20px">
+<h1>Cookies for this domain:</h1>
+<pre id="output">Loading...</pre>
+<script>
+const cookies = document.cookie.split(';').map(c => c.trim()).filter(c => c);
+document.getElementById('output').textContent = cookies.length === 0 
+  ? 'No cookies found!' 
+  : cookies.map(c => {
+      const [name, val] = c.split('=');
+      return name + '=' + (val ? val.substring(0, 30) + '...' : '(empty)';
+    }).join('\n');
+</script>
+</body>
+</html>

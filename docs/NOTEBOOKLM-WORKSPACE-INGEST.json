@@ -1,0 +1,233 @@
+{
+  "notebook_id": "900e8d51-cc20-426e-aba4-54187595a3db",
+  "added_count": 49,
+  "failed_count": 45,
+  "failed": [
+    {
+      "path": "/root/.openclaw/workspaces/arjun/docs/DEPLOYMENT-SEQUENCE.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Failed to get SOURCE_ID from registration response\"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/docs/EXECUTION-PATH-DECISION-FRAMEWORK.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Failed to get SOURCE_ID from registration response\"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/docs/GHL-SETUP.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Failed to get SOURCE_ID from registration response\"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/docs/GOOGLE-LABS-CLI-HARNESS-PLAN.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Failed to get SOURCE_ID from registration response\"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/docs/GOOGLE-WORKSPACE-INTEGRATION-PLAN.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Failed to get SOURCE_ID from registration response\"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/docs/INSTALL-PLAN.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Failed to get SOURCE_ID from registration response\"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/docs/LAUNCH-24H-PLAN.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Failed to get SOURCE_ID from registration response\"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/docs/LAUNCH-PLAN.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Failed to get SOURCE_ID from registration response\"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/docs/LEAD-LIST.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Failed to get SOURCE_ID from registration response\"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/docs/NOTION-INDEX.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Failed to get SOURCE_ID from registration response\"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/docs/OUTBOUND-VALIDATION-PLAN.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"[Errno -3] Temporary failure in name resolution\"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/docs/OUTREACH-TEMPLATES.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Failed to get SOURCE_ID from registration response\"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/docs/REPO-ANALYSIS.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Failed to get SOURCE_ID from registration response\"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/docs/RYAN-GHL-CONTACT-LOOP.md",
+      "stderr": "23:31:45 ERROR [notebooklm._core] RPC ADD_SOURCE_FILE failed after 10.014s:",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Connection timed out calling ADD_SOURCE_FILE: \"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/docs/SKILL-INVENTORY.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Failed to get SOURCE_ID from registration response\"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/docs/SUPABASE-BASELINE.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Failed to get SOURCE_ID from registration response\"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/docs/SWARM.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Failed to get SOURCE_ID from registration response\"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/docs/SYSTEM-OVERVIEW.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Failed to get SOURCE_ID from registration response\"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/docs/TELEGRAM-DELIVERY-OUTBOX.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Failed to get SOURCE_ID from registration response\"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/docs/TELEGRAM-LANE-SWEEP.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Failed to get SOURCE_ID from registration response\"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/docs/TELEGRAM-LANE-VALIDATION.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Failed to get SOURCE_ID from registration response\"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/docs/THIRD-PARTY-INSTALLS.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Failed to get SOURCE_ID from registration response\"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/docs/VIRAL-HOOKS.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Failed to get SOURCE_ID from registration response\"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/memory/2026-03-27.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Failed to get SOURCE_ID from registration response\"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/memory/2026-03-28-1357.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Failed to get SOURCE_ID from registration response\"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/memory/2026-03-28-1359.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Failed to get SOURCE_ID from registration response\"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/memory/2026-03-28-1408.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Authentication expired or invalid. Redirected to: https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fnotebooklm.google.com%2F&dsh=S-368660923%3A1774992851366365&followup=https%3A%2F%2Fnotebooklm.google.com%2F&osid=1&passive=1209600&flowName=WebLiteSignIn&flowEntry=ServiceLogin&ifkv=AT1y2_UvQP37_27xxoBIrXe8fleITF2w7TZdj6z_V45GZFNZ6aGHRjdGRBM482-dQyN5nC_cApY-1g\\nRun 'notebooklm login' to re-authenticate.\"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/memory/2026-03-28-1425.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Authentication expired or invalid. Redirected to: https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fnotebooklm.google.com%2F&dsh=S-768220118%3A1774992879820062&followup=https%3A%2F%2Fnotebooklm.google.com%2F&osid=1&passive=1209600&flowName=WebLiteSignIn&flowEntry=ServiceLogin&ifkv=AT1y2_WyK_6GJdoz5NIzWvmgG0Pm4Y0VNEKlXeoHEL63B8jZgl8vqTmYeemoS6SoZfTrM4ojIVXoEw\\nRun 'notebooklm login' to re-authenticate.\"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/memory/2026-03-28-hq-visible.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Authentication expired or invalid. Redirected to: https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fnotebooklm.google.com%2F&dsh=S993554546%3A1774992888391732&followup=https%3A%2F%2Fnotebooklm.google.com%2F&osid=1&passive=1209600&flowName=WebLiteSignIn&flowEntry=ServiceLogin&ifkv=AT1y2_V-9YzL38e_i-YTuWJuIeqz6isxrx2XhkOsYwf-IbACm0PccnPtHfufmXYC1BHIjHc9I0v_Eg\\nRun 'notebooklm login' to re-authenticate.\"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/memory/2026-03-28-research-visible.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Authentication expired or invalid. Redirected to: https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fnotebooklm.google.com%2F&dsh=S-2076944185%3A1774992902599707&followup=https%3A%2F%2Fnotebooklm.google.com%2F&osid=1&passive=1209600&flowName=WebLiteSignIn&flowEntry=ServiceLogin&ifkv=AT1y2_VISOon_h6yKa9mQepiVkojRqDVoss2eU5bEJSW9p1WUXfor3qgyC7w40GiaZQqVvt-xvokcw\\nRun 'notebooklm login' to re-authenticate.\"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/memory/2026-03-28-sales-code.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Authentication expired or invalid. Redirected to: https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fnotebooklm.google.com%2F&dsh=S1359878229%3A1774992911722891&followup=https%3A%2F%2Fnotebooklm.google.com%2F&osid=1&passive=1209600&flowName=WebLiteSignIn&flowEntry=ServiceLogin&ifkv=AT1y2_WXzvei5Brv1vfqOw-xFL4_r2wDoII0gWmX2MyWz5BBYUO08BW-xUgnD_Mzp1mu5AzhQKgnrw\\nRun 'notebooklm login' to re-authenticate.\"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/memory/2026-03-29.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Authentication expired or invalid. Redirected to: https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fnotebooklm.google.com%2F&dsh=S1411673437%3A1774992945410810&followup=https%3A%2F%2Fnotebooklm.google.com%2F&osid=1&passive=1209600&flowName=WebLiteSignIn&flowEntry=ServiceLogin&ifkv=AT1y2_Uqoba1k-JiFZMhuF3nMoPOqBmkfVxr902sc57nxVm1qrWLs3DtpOXE5M_hE-bzWbaV6etLcw\\nRun 'notebooklm login' to re-authenticate.\"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/memory/2026-03-31.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Authentication expired or invalid. Redirected to: https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fnotebooklm.google.com%2F&dsh=S-368660923%3A1774992959992627&followup=https%3A%2F%2Fnotebooklm.google.com%2F&osid=1&passive=1209600&flowName=WebLiteSignIn&flowEntry=ServiceLogin&ifkv=AT1y2_XY--bTvgv59wgPVgwIwp85wMxQuZTO8ej0JBgHXC6VLaqnZd3Y9aHK2_Ckoq8jP9Ecxui1\\nRun 'notebooklm login' to re-authenticate.\"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/mission-control/README.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Authentication expired or invalid. Redirected to: https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fnotebooklm.google.com%2F&dsh=S1980643987%3A1774992980404513&followup=https%3A%2F%2Fnotebooklm.google.com%2F&osid=1&passive=1209600&flowName=WebLiteSignIn&flowEntry=ServiceLogin&ifkv=AT1y2_Vt_2F3m7Tng2CMfp9ZzbyJDPMS1RPBL8oc6PC2yVlqrKONNMWDGiAhfw2iHSWPTHfFqu8qXA\\nRun 'notebooklm login' to re-authenticate.\"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/repos-analysis.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Authentication expired or invalid. Redirected to: https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fnotebooklm.google.com%2F&dsh=S-265050244%3A1774992989015883&followup=https%3A%2F%2Fnotebooklm.google.com%2F&osid=1&passive=1209600&flowName=WebLiteSignIn&flowEntry=ServiceLogin&ifkv=AT1y2_WQLuTKsbPeaLzn0oo-gZo_y_81fHqRyquVaXKtL5tclhP9GyFmLmbq9f5UUuMsNfdPnqyN\\nRun 'notebooklm login' to re-authenticate.\"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/repos-to-analyze.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Authentication expired or invalid. Redirected to: https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fnotebooklm.google.com%2F&dsh=S1392627664%3A1774993013171287&followup=https%3A%2F%2Fnotebooklm.google.com%2F&osid=1&passive=1209600&flowName=WebLiteSignIn&flowEntry=ServiceLogin&ifkv=AT1y2_VaanOGcCMmWlIaIJ2XR4bta_MZ0qeQWHwOB-fW9M1nTRuivYSdrXWtUzf2aLxDnyzar7KH\\nRun 'notebooklm login' to re-authenticate.\"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/skills/cli-vercel/SKILL.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Authentication expired or invalid. Redirected to: https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fnotebooklm.google.com%2F&dsh=S1411673437%3A1774993022118683&followup=https%3A%2F%2Fnotebooklm.google.com%2F&osid=1&passive=1209600&flowName=WebLiteSignIn&flowEntry=ServiceLogin&ifkv=AT1y2_XNvHTZQqtIu7tQ3sYR10flTMB5_HcaiZu0ECav0VDLgNI6GGOWCOyv__PH-WLdkqjsKzqh\\nRun 'notebooklm login' to re-authenticate.\"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/skills/supabase/SKILL.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Authentication expired or invalid. Redirected to: https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fnotebooklm.google.com%2F&dsh=S1479537402%3A1774993040825631&followup=https%3A%2F%2Fnotebooklm.google.com%2F&osid=1&passive=1209600&flowName=WebLiteSignIn&flowEntry=ServiceLogin&ifkv=AT1y2_X1cerIjh7iw7OSNEiPwo8my79B1c9Xa3U5r6vqejZ56g7z3zXR8dsm_Q7jjzzqTk0nYs5X5g\\nRun 'notebooklm login' to re-authenticate.\"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/skills/vercel/SKILL.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Authentication expired or invalid. Redirected to: https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fnotebooklm.google.com%2F&dsh=S-1441501355%3A1774993069228214&followup=https%3A%2F%2Fnotebooklm.google.com%2F&osid=1&passive=1209600&flowName=WebLiteSignIn&flowEntry=ServiceLogin&ifkv=AT1y2_WrWVsNSB-DfStvmbCLPxxDfXhZYJ0JasAocDGz-O1CcMqpypzRSAUxy6ksUmgrCfgYyouE\\nRun 'notebooklm login' to re-authenticate.\"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/tools/web-cli/flow/agent-harness/FLOW.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Authentication expired or invalid. Redirected to: https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fnotebooklm.google.com%2F&dsh=S-265050244%3A1774993087728178&followup=https%3A%2F%2Fnotebooklm.google.com%2F&osid=1&passive=1209600&flowName=WebLiteSignIn&flowEntry=ServiceLogin&ifkv=AT1y2_Vo0Zuc2UaucWwlJ4ZI8zF0_SRbFR6VGtNFBT_vwqpcHTmm-Q3dMd6A7WTmMDmqA5dk0hJt2w\\nRun 'notebooklm login' to re-authenticate.\"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/tools/web-cli/flow/agent-harness/cli_anything/flow/README.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Authentication expired or invalid. Redirected to: https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fnotebooklm.google.com%2F&dsh=S641534567%3A1774993096190791&followup=https%3A%2F%2Fnotebooklm.google.com%2F&osid=1&passive=1209600&flowName=WebLiteSignIn&flowEntry=ServiceLogin&ifkv=AT1y2_W6SKl7mazZvr88WGeCM-Xr6w4UDhddIddqdfUPssm0Ii6tg8SBJkui4hYiaNABGRg8PYfw\\nRun 'notebooklm login' to re-authenticate.\"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/tools/web-cli/flow/agent-harness/cli_anything/flow/tests/TEST.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Authentication expired or invalid. Redirected to: https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fnotebooklm.google.com%2F&dsh=S-249237555%3A1774993104696607&followup=https%3A%2F%2Fnotebooklm.google.com%2F&osid=1&passive=1209600&flowName=WebLiteSignIn&flowEntry=ServiceLogin&ifkv=AT1y2_UU7BunwvTTkPzAvlS_W1-uccasF78YVGxXLNQPFRWId5JpQFv_Fa1JxHGGX677yLdgl3dH5g\\nRun 'notebooklm login' to re-authenticate.\"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/tools/web-cli/whisk/agent-harness/WHISK.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Authentication expired or invalid. Redirected to: https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fnotebooklm.google.com%2F&dsh=S641534567%3A1774993123474070&followup=https%3A%2F%2Fnotebooklm.google.com%2F&osid=1&passive=1209600&flowName=WebLiteSignIn&flowEntry=ServiceLogin&ifkv=AT1y2_Ualmk9pMbntklsp4me9_pX-ChcBOAcXeNRqLf6DBRIyktQLjdcNSFFO8mc-JRv0iPeQ3rCUQ\\nRun 'notebooklm login' to re-authenticate.\"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/tools/web-cli/whisk/agent-harness/cli_anything/whisk/README.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Authentication expired or invalid. Redirected to: https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fnotebooklm.google.com%2F&dsh=S-234133115%3A1774993148237547&followup=https%3A%2F%2Fnotebooklm.google.com%2F&osid=1&passive=1209600&flowName=WebLiteSignIn&flowEntry=ServiceLogin&ifkv=AT1y2_UThm54vWnui91srbbZmT5W2_m0e28pP9T3-rj1nJ8hcUN3A7L1AJ48pMeNsdGCCokbit43QA\\nRun 'notebooklm login' to re-authenticate.\"\n}"
+    },
+    {
+      "path": "/root/.openclaw/workspaces/arjun/tools/web-cli/whisk/agent-harness/cli_anything/whisk/tests/TEST.md",
+      "stderr": "",
+      "stdout": "{\n  \"error\": true,\n  \"code\": \"ERROR\",\n  \"message\": \"Authentication expired or invalid. Redirected to: https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fnotebooklm.google.com%2F&dsh=S993554546%3A1774993156756941&followup=https%3A%2F%2Fnotebooklm.google.com%2F&osid=1&passive=1209600&flowName=WebLiteSignIn&flowEntry=ServiceLogin&ifkv=AT1y2_UJ2lBaY4-pnDyz9TPQ3ILu_MuThPRWpVIzaAsHqKV13mYYxdp-Sh9QbtNH8PAIP4fCm8EFuw\\nRun 'notebooklm login' to re-authenticate.\"\n}"
+    }
+  ],
+  "files_total": 94
+}

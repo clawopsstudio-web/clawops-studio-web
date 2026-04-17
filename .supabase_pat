@@ -1,0 +1,21 @@
+# Supabase Credentials - clawopsstudio-web's Project
+# Retrieved via browser API on 2026-03-31
+# Project status: ACTIVE_HEALTHY
+
+SUPABASE_PROJECT_REF=dyzkfmdjusdyjmytgeah
+SUPABASE_API_URL=https://dyzkfmdjusdyjmytgeah.supabase.co
+SUPABASE_REGION=us-east-1
+
+# Legacy anon key (safe for client-side with RLS)
+SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5emtmbWRqdXNkeWpteXRnZWFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE1ODMxNzcsImV4cCI6MjA4NzE1OTE3N30.reGXzSQdhAdqVytkgAYFffWIasBZJWRUQO4ttP_bCoo
+
+# Legacy service_role key (SERVER-SIDE ONLY - bypasses RLS)
+SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5emtmbWRqdXNkeWpteXRnZWFoIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MTU4MzE3NywiZXhwIjoyMDg3MTU5MTc3fQ.DyoaHHeOFYnSiq8bPf2hwxqDVAtIZzewmVND2e1cumY
+
+# New API keys (v2 format)
+SUPABASE_PUBLISHABLE_KEY=sb_publishable_M8FLd7mNRAMVBuIjMssOYA_92MJkllN
+SUPABASE_SECRET_KEY=sb_secret_uez3X··························
+# Note: Secret key is masked in dashboard - full value accessible via .env download
+
+# Supabase dashboard URL
+SUPABASE_DASHBOARD_URL=https://supabase.com/dashboard/project/dyzkfmdjusdyjmytgeah

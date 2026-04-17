@@ -1,0 +1,377 @@
+@import "tailwindcss";
+
+/* ============================================
+   Tailwind v4 Theme Tokens
+   ============================================ */
+
+@theme {
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, sans-serif;
+  --font-mono: "SF Mono", Monaco, Menlo, "Courier New", monospace;
+  --text-caption2: 11px;
+  --text-caption1: 12px;
+  --text-footnote: 13px;
+  --text-subheadline: 15px;
+  --text-body: 17px;
+  --text-title3: 20px;
+  --text-title2: 22px;
+  --text-title1: 28px;
+  --text-large-title: 34px;
+  --leading-tight: 1.15;
+  --leading-snug: 1.3;
+  --leading-normal: 1.47;
+  --leading-relaxed: 1.65;
+  --tracking-tight: -0.41px;
+  --tracking-normal: -0.24px;
+  --tracking-wide: 0.07em;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+}
+
+/* ============================================
+   Apple Material Design System — Dark Theme
+   ============================================ */
+
+:root {
+  --bg: #0d0d18;
+  --bg-secondary: rgba(20,20,32,1);
+  --bg-tertiary: rgba(30,30,48,1);
+  --material-regular: rgba(255,255,255,0.07);
+  --material-thick: rgba(255,255,255,0.10);
+  --material-thin: rgba(255,255,255,0.06);
+  --material-ultra-thin: rgba(255,255,255,0.04);
+  --fill-primary: rgba(255,255,255,0.16);
+  --fill-secondary: rgba(255,255,255,0.12);
+  --fill-tertiary: rgba(255,255,255,0.08);
+  --fill-quaternary: rgba(255,255,255,0.05);
+  --separator: rgba(255,255,255,0.14);
+  --separator-opaque: rgba(255,255,255,0.18);
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255,255,255,0.60);
+  --text-tertiary: rgba(255,255,255,0.30);
+  --text-quaternary: rgba(255,255,255,0.18);
+  --accent: #5B6CFF;
+  --accent-fill: rgba(91,108,255,0.18);
+  --accent-contrast: #fff;
+  --accent-secondary: #00D1FF;
+  --accent-secondary-fill: rgba(0,209,255,0.15);
+  --accent-energy: #FFC857;
+  --accent-energy-fill: rgba(255,200,87,0.15);
+  --system-blue: #3B9EFF;
+  --system-green: #34D058;
+  --system-red: #FF5C57;
+  --system-orange: #FFB340;
+  --system-purple: #CC6FF0;
+  --inset-shine: inset 0 1px 0 rgba(255,255,255,0.15);
+  --shadow-subtle: 0 1px 3px rgba(0,0,0,0.25);
+  --shadow-ambient: 0 0 0 0.5px rgba(255,255,255,0.06);
+  --shadow-key: 0 8px 32px rgba(0,0,0,0.45);
+  --shadow-card: 0 0 0 0.5px rgba(255,255,255,0.06), 0 8px 32px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.15);
+  --shadow-overlay: 0 0 0 0.5px rgba(255,255,255,0.08), 0 16px 56px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.12);
+  --code-bg: rgba(255,255,255,0.07);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --sidebar-bg: rgba(15,15,24,0.98);
+}
+
+/* ============================================
+   Global Base Styles
+   ============================================ */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--fill-tertiary); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--fill-secondary); }
+
+::selection { background: var(--accent-fill); color: var(--text-primary); }
+
+/* ============================================
+   Interactive Helpers
+   ============================================ */
+
+.hover-bg { transition: background-color 150ms var(--ease-smooth); }
+.hover-bg:hover { background-color: var(--fill-secondary); }
+.hover-bg:active { background-color: var(--fill-tertiary); }
+
+.hover-lift { transition: transform 150ms var(--ease-smooth), box-shadow 150ms var(--ease-smooth); }
+.hover-lift:hover { transform: translateY(-1px); box-shadow: var(--shadow-card); }
+.hover-lift:active { transform: translateY(0); }
+
+.focus-ring:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.btn-scale { transition: transform 80ms var(--ease-smooth); }
+.btn-scale:hover { transform: scale(1.015); }
+.btn-scale:active { transform: scale(0.98); }
+
+/* ============================================
+   Button Primitives
+   ============================================ */
+
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px; border-radius: var(--radius-sm);
+  background: var(--accent); color: #fff;
+  border: none; cursor: pointer; font-size: 13px; font-weight: 500;
+  transition: background 150ms, transform 80ms, opacity 150ms;
+  white-space: nowrap;
+}
+.btn-primary:hover { background: #6B7CFF; }
+.btn-primary:active { transform: scale(0.98); }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 14px; border-radius: var(--radius-sm);
+  background: transparent; color: var(--text-secondary);
+  border: 1px solid var(--separator); cursor: pointer; font-size: 13px; font-weight: 500;
+  transition: background 150ms, color 150ms;
+  white-space: nowrap;
+}
+.btn-ghost:hover { background: var(--fill-secondary); color: var(--text-primary); }
+
+.btn-danger {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px; border-radius: var(--radius-sm);
+  background: rgba(239,68,68,0.15); color: var(--system-red);
+  border: 1px solid rgba(239,68,68,0.3); cursor: pointer; font-size: 13px; font-weight: 500;
+  transition: background 150ms;
+  white-space: nowrap;
+}
+.btn-danger:hover { background: rgba(239,68,68,0.25); }
+
+/* ============================================
+   Card / Surface Primitives
+   ============================================ */
+
+.card {
+  background: var(--material-regular);
+  border: 1px solid var(--separator);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+}
+
+.card-hover {
+  background: var(--material-regular);
+  border: 1px solid var(--separator);
+  border-radius: var(--radius-md);
+  transition: border-color 150ms, transform 150ms, box-shadow 150ms;
+}
+.card-hover:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-card);
+}
+
+/* ============================================
+   Typography Helpers
+   ============================================ */
+
+.text-label { font-size: 11px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-quaternary); }
+.text-heading { font-size: 20px; font-weight: 600; letter-spacing: -0.3px; color: var(--text-primary); }
+.text-subheading { font-size: 15px; font-weight: 500; color: var(--text-secondary); }
+.text-body { font-size: 14px; color: var(--text-secondary); }
+.text-mono { font-family: var(--font-mono); font-size: 12px; }
+
+/* ============================================
+   Page Layout
+   ============================================ */
+
+.page-container {
+  padding: 24px;
+  max-width: 1200px;
+}
+
+.page-header {
+  margin-bottom: 24px;
+}
+
+.page-header h1 {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.page-header p {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+/* ============================================
+   Section / Grid Helpers
+   ============================================ */
+
+.section-title {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-quaternary);
+  margin-bottom: 12px;
+  padding: 0 2px;
+}
+
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+
+@media (max-width: 900px) { .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; } }
+
+/* ============================================
+   Badge / Status Dot
+   ============================================ */
+
+.status-dot {
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.status-dot.active { background: var(--system-green); box-shadow: 0 0 6px var(--system-green); }
+.status-dot.idle { background: var(--text-tertiary); }
+.status-dot.error { background: var(--system-red); box-shadow: 0 0 6px var(--system-red); }
+.status-dot.warning { background: var(--system-orange); box-shadow: 0 0 6px var(--system-orange); }
+
+.badge {
+  display: inline-flex; align-items: center;
+  padding: 2px 8px; border-radius: 99px;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.02em;
+}
+.badge-accent { background: var(--accent-fill); color: var(--accent); }
+.badge-green { background: rgba(52,208,88,0.12); color: var(--system-green); }
+.badge-red { background: rgba(239,92,87,0.12); color: var(--system-red); }
+.badge-orange { background: rgba(255,179,64,0.12); color: var(--system-orange); }
+.badge-gray { background: var(--fill-tertiary); color: var(--text-secondary); }
+
+/* ============================================
+   Tab Navigation
+   ============================================ */
+
+.tabs {
+  display: flex; gap: 2px;
+  background: var(--material-ultra-thin);
+  border: 1px solid var(--separator);
+  border-radius: var(--radius-sm);
+  padding: 3px;
+}
+
+.tab-item {
+  flex: 1; padding: 6px 14px;
+  border-radius: 4px; border: none;
+  background: transparent; color: var(--text-secondary);
+  font-size: 12px; font-weight: 500; cursor: pointer;
+  transition: background 150ms, color 150ms;
+  white-space: nowrap;
+}
+.tab-item:hover { color: var(--text-primary); background: var(--material-thin); }
+.tab-item.active { background: var(--material-regular); color: var(--text-primary); box-shadow: var(--shadow-subtle); }
+
+/* ============================================
+   Input / Textarea
+   ============================================ */
+
+.input {
+  width: 100%; padding: 8px 12px;
+  background: var(--fill-quaternary);
+  border: 1px solid var(--separator);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary); font-size: 13px;
+  transition: border-color 150ms;
+  outline: none;
+}
+.input:focus { border-color: var(--accent); }
+.input::placeholder { color: var(--text-tertiary); }
+
+.textarea {
+  width: 100%; padding: 10px 12px;
+  background: var(--fill-quaternary);
+  border: 1px solid var(--separator);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary); font-size: 13px;
+  transition: border-color 150ms;
+  outline: none; resize: vertical; font-family: var(--font-mono);
+  min-height: 120px;
+}
+.textarea:focus { border-color: var(--accent); }
+.textarea::placeholder { color: var(--text-tertiary); }
+
+/* ============================================
+   Scrollable Areas
+   ============================================ */
+
+.scroll-area {
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+}
+
+/* ============================================
+   Empty State
+   ============================================ */
+
+.empty-state {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 8px;
+  padding: 48px 24px; text-align: center;
+  color: var(--text-tertiary);
+}
+.empty-state svg { opacity: 0.4; }
+.empty-state p { font-size: 13px; }
+
+/* ============================================
+   Divider
+   ============================================ */
+
+.divider {
+  height: 1px; background: var(--separator);
+  margin: 16px 0;
+}
+
+/* ============================================
+   Avatar
+   ============================================ */
+
+.avatar {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--accent-fill);
+  color: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 600;
+  flex-shrink: 0;
+}
+
+.avatar-sm { width: 24px; height: 24px; font-size: 10px; }
+.avatar-lg { width: 40px; height: 40px; font-size: 14px; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+.spin { animation: spin 0.8s linear infinite; }
+
