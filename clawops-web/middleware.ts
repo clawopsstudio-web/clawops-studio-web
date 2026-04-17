@@ -72,5 +72,5 @@ export const config = {
    * (redirects /dashboard → /dashboard/ automatically).
    * The /dashboard/ URL itself is matched by :path* with an empty path segment.
    */
-  matcher: ['/dashboard/:path*'],
+  matcher: ['/dashboard', '/dashboard/:path*'],
 }
