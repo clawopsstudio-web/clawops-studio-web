@@ -1,0 +1,16 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/guides/layout,_N_T_/guides/authentication/layout,_N_T_/guides/authentication/page,_N_T_/guides/authentication/"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/guides/authentication/__PAGE__",
+    "/guides/authentication",
+    "/guides",
+    "/_index",
+    "/_head"
+  ]
+}

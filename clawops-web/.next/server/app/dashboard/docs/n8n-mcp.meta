@@ -1,0 +1,17 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/dashboard/layout,_N_T_/dashboard/docs/layout,_N_T_/dashboard/docs/n8n-mcp/layout,_N_T_/dashboard/docs/n8n-mcp/page,_N_T_/dashboard/docs/n8n-mcp/"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/dashboard/docs/n8n-mcp/__PAGE__",
+    "/dashboard/docs/n8n-mcp",
+    "/dashboard/docs",
+    "/dashboard",
+    "/_index",
+    "/_head"
+  ]
+}

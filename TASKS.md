@@ -387,3 +387,34 @@ Nango can be hidden behind ClawOps branding - users don't need to know Nango exi
 - `pulkit_twitter` - Pulkit's Twitter connection
 - `client_001_linkedin` - Client 001's LinkedIn
 - `client_001_facebook` - Client 001's Facebook
+
+---
+
+## InsForge Migration Status (2026-04-17)
+
+### Completed
+- [DONE] **Auth system** — InsForge Cloud auth (email/password, Google OAuth, GitHub OAuth, OTP verification)
+- [DONE] **Database** — 11 tables created on InsForge (profiles, onboarding_configs, vps_instances, agent_configs, tasks, user_integrations, skills_catalog, user_skills, chat_messages, ai_agents, accounts)
+- [DONE] **API routes** — All migrated from Supabase to InsForge
+- [DONE] **Dashboard pages** — Login, signup, instances, account settings, skills library
+- [DONE] **Usage guides** — Getting started, authentication, dashboard tour
+- [DONE] **Build fix** — Restored package-lock.json for Vercel native binary resolution
+
+### In Progress
+- [DOING] **Vercel deployment** — Creating new Vercel project for app.clawops.studio
+  - Repo: `clawopsstudio-web/clawops-studio-web`
+  - Branch: `insforge-v2` (pushed to `main`)
+  - Root Directory: `clawops-web/`
+  - Build Command: `cd clawops-web && npm install && npm run build`
+  - Env vars (already set): NEXT_PUBLIC_INSFORGE_BASE_URL, NEXT_PUBLIC_INSFORGE_ANON_KEY
+
+### Blocked
+- [BLOCKED] **InsForge admin token** — Needed for table creation via API. Anon key works for data operations.
+- [BLOCKED] **Domain on InsForge** — Optional. Not required for dashboard to work.
+
+### Next Actions
+1. Create new Vercel project for app.clawops.studio (Point to clawops-web/ directory)
+2. Test login/signup flow
+3. Test OAuth (Google, GitHub)
+4. Set up custom domain on InsForge (optional)
+5. Seed remaining skills in skills_catalog

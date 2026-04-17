@@ -1,0 +1,17 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/dashboard/layout,_N_T_/dashboard/mission-control/layout,_N_T_/dashboard/mission-control/logs/layout,_N_T_/dashboard/mission-control/logs/page,_N_T_/dashboard/mission-control/logs/"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/dashboard/mission-control/logs/__PAGE__",
+    "/dashboard/mission-control/logs",
+    "/dashboard/mission-control",
+    "/dashboard",
+    "/_index",
+    "/_head"
+  ]
+}

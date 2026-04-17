@@ -1,0 +1,3 @@
+{
+  "/api/auth/validate-jwt/route": "app/api/auth/validate-jwt/route.js"
+}

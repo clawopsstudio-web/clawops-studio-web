@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client';
 
 // ============================================================================
@@ -234,12 +233,12 @@ export default function Sidebar() {
             sidebarCollapsed && 'justify-center'
           )}>
             <div className="w-7 h-7 rounded-full bg-[#00D4FF]/15 border border-[#00D4FF]/25 flex items-center justify-center flex-shrink-0 text-[10px] font-bold text-[#00D4FF]">
-              {getInitials(user.fullName || user.email)}
+              {getInitials((user as any).fullName || (user as any).full_name || user.email)}
             </div>
             {!sidebarCollapsed && (
               <div className="flex-1 min-w-0">
-                <p className="text-xs font-medium text-white/80 truncate">{user.fullName || user.email}</p>
-                <p className="text-[10px] text-white/40 font-mono">{user.role}</p>
+                <p className="text-xs font-medium text-white/80 truncate">{(user as any).fullName || (user as any).full_name || user.email}</p>
+                <p className="text-[10px] text-white/40 font-mono">{(user as any).role}</p>
               </div>
             )}
             {!sidebarCollapsed && (
