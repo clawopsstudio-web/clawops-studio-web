@@ -50,7 +50,9 @@ export async function POST(request: NextRequest) {
     }
 
     // No verification needed — user is registered and session token was returned
-    const { access_token, user } = data
+    // InsForge returns camelCase: accessToken
+    const access_token = data.accessToken || data.access_token
+    const user = data.user
 
     if (!access_token) {
       return NextResponse.json(

@@ -33,11 +33,13 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const { access_token, user } = data
+    // InsForge returns camelCase: accessToken, not snake_case: access_token
+    const access_token = data.accessToken || data.access_token
+    const user = data.user
 
     if (!access_token) {
       return NextResponse.json(
-        { error: 'Authentication failed - no access token returned' },
+        { error: 'Authentication failed - no access token returned', detail: Object.keys(data) },
         { status: 500 }
       )
     }
