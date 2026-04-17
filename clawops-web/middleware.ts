@@ -33,6 +33,12 @@ function decodeJwtExpiry(token: string): { valid: boolean; expired: boolean } {
   }
 }
 
+function redirectToLogin(request: NextRequest, redirectPath: string) {
+  const loginUrl = new URL('/auth/login', request.url)
+  loginUrl.searchParams.set('redirectTo', redirectPath)
+  return NextResponse.redirect(loginUrl)
+}
+
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
@@ -41,23 +47,28 @@ export function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
+  // Allow API routes (they have their own auth checks)
+  if (pathname.startsWith('/api/')) {
+    return NextResponse.next()
+  }
+
+  // Allow auth pages
+  if (pathname.startsWith('/auth/')) {
+    return NextResponse.next()
+  }
+
   // Check for InsForge session cookie
   const sessionToken = request.cookies.get('insforge_session')?.value
 
   if (!sessionToken) {
-    const loginUrl = new URL('/auth/login', request.url)
-    loginUrl.searchParams.set('redirectTo', pathname)
-    return NextResponse.redirect(loginUrl)
+    return redirectToLogin(request, pathname)
   }
 
   // Check token expiry
   const { valid, expired } = decodeJwtExpiry(sessionToken)
 
   if (!valid || expired) {
-    const loginUrl = new URL('/auth/login', request.url)
-    loginUrl.searchParams.set('redirectTo', pathname)
-    const response = NextResponse.redirect(loginUrl)
-    // Clear expired cookie
+    const response = redirectToLogin(request, pathname)
     response.cookies.set('insforge_session', '', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -72,14 +83,7 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    /*
-     * Match all request paths except:
-     * - _next/static (static files)
-     * - _next/image (image optimization)
-     * - favicon.ico (favicon)
-     * - public files (public/)
-     */
-    '/((?!_next/static|_next/image|favicon.ico|public/).*)',
-  ],
+  // Only protect /dashboard routes — let everything else pass through
+  // This avoids redirect loops with Next.js trailing slash redirects
+  matcher: ['/dashboard', '/dashboard/:path*'],
 }
