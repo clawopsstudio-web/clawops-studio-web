@@ -100,3 +100,7 @@
 - GitHub push: ✅ pushed to `insforge-v2`
 - Vercel: should auto-deploy from `insforge-v2` branch
 - Landing page: new sections (Hero, Features, Pricing, FAQ, etc.) added to `clawops-web/`
+
+## Google Doc: https://docs.google.com/document/d/1mhkWxJERmc2-lQ6wbUvyec5flw0GHU9MiVrXbLQAmyo
+
+## Docs pushed to GitHub: docs/SYSTEM_DOCUMENTATION.md
