@@ -1,10 +1,4 @@
 {
-  "name": "clawops-studio-web",
-  "version": "0.1.0",
-  "private": true,
-  "workspaces": ["clawops-web"],
-  "scripts": {
-    "dev": "cd clawops-web && npm run dev",
-    "build": "cd clawops-web && npm run build"
-  }
+  "name": "clawops-workspace",
+  "private": true
 }
