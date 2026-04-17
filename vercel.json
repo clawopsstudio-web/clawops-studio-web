@@ -1,6 +1,7 @@
 {
   "buildCommand": "cd clawops-web && npm install && npm run build",
-  "outputDirectory": "clawops-web/.next",
+  "outputDirectory": ".next",
   "installCommand": "cd clawops-web && npm install",
-  "framework": "nextjs"
+  "framework": "nextjs",
+  "rewrites": []
 }
