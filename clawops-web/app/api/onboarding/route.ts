@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
   try {
     const res = await fetch(
       `${INSFORGE_BASE}/api/database/records/onboarding_configs?user_id=eq.${userId}`,
-      { headers: { 'Authorization': `Bearer ${userId}`, 'apikey': INSFORGE_KEY } }
+      { headers: { 'Authorization': `Bearer ${INSFORGE_KEY}`, 'apikey': INSFORGE_KEY } }
     )
     if (!res.ok) return NextResponse.json({ error: 'Database error' }, { status: 500 })
     const data = await res.json()
@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
       {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${userId}`,
+          'Authorization': `Bearer ${INSFORGE_KEY}`,
           'apikey': INSFORGE_KEY,
           'Content-Type': 'application/json',
           'Prefer': 'resolution=merge-duplicates',
@@ -70,13 +70,11 @@ export async function POST(request: NextRequest) {
         }]),
       }
     )
-
     if (!res.ok) {
       const err = await res.json()
       return NextResponse.json({ error: err.message || 'Failed' }, { status: 500 })
     }
-
-    return NextResponse.json({ success: true, data: await res.json() })
+    return NextResponse.json({ success: true })
   } catch (err: any) {
     return NextResponse.json({ error: err.message || 'Internal error' }, { status: 500 })
   }

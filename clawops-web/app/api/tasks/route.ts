@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
   try {
     const res = await fetch(
       `${INSFORGE_BASE}/api/database/records/tasks?select=*&user_id=eq.${userId}&order=created_at.desc&limit=20`,
-      { headers: { 'Authorization': `Bearer ${userId}`, 'apikey': INSFORGE_KEY } }
+      { headers: { 'Authorization': `Bearer ${INSFORGE_KEY}`, 'apikey': INSFORGE_KEY } }
     )
     if (!res.ok) return NextResponse.json({ error: 'Database error' }, { status: 500 })
     const tasks = await res.json()
@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
       {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${userId}`,
+          'Authorization': `Bearer ${INSFORGE_KEY}`,
           'apikey': INSFORGE_KEY,
           'Content-Type': 'application/json',
           'Prefer': 'representation',
@@ -92,7 +92,7 @@ export async function PATCH(request: NextRequest) {
       {
         method: 'PATCH',
         headers: {
-          'Authorization': `Bearer ${userId}`,
+          'Authorization': `Bearer ${INSFORGE_KEY}`,
           'apikey': INSFORGE_KEY,
           'Content-Type': 'application/json',
           'Prefer': 'representation',
@@ -124,7 +124,7 @@ export async function DELETE(request: NextRequest) {
       `${INSFORGE_BASE}/api/database/records/tasks?id=eq.${id}&user_id=eq.${userId}`,
       {
         method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${userId}`, 'apikey': INSFORGE_KEY },
+        headers: { 'Authorization': `Bearer ${INSFORGE_KEY}`, 'apikey': INSFORGE_KEY },
       }
     )
     if (!res.ok) return NextResponse.json({ error: 'Delete failed' }, { status: 500 })

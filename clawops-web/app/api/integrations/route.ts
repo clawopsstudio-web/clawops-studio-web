@@ -32,7 +32,7 @@ export async function GET(request: NextRequest) {
   try {
     const res = await fetch(
       `${INSFORGE_BASE}/api/database/records/user_skills?select=skill_slug,config_data,status&user_id=eq.${userId}`,
-      { headers: { 'Authorization': `Bearer ${userId}`, 'apikey': INSFORGE_KEY } }
+      { headers: { 'Authorization': `Bearer ${INSFORGE_KEY}`, 'apikey': INSFORGE_KEY } }
     )
     if (res.ok) {
       const skills = await res.json() || []
@@ -67,20 +67,19 @@ export async function POST(request: NextRequest) {
   if (action === 'disconnect') {
     await fetch(
       `${INSFORGE_BASE}/api/database/records/user_skills?user_id=eq.${userId}&skill_slug=eq.${skill_slug}`,
-      { method: 'DELETE', headers: { 'Authorization': `Bearer ${userId}`, 'apikey': INSFORGE_KEY } }
+      { method: 'DELETE', headers: { 'Authorization': `Bearer ${INSFORGE_KEY}`, 'apikey': INSFORGE_KEY } }
     )
     return NextResponse.json({ success: true, message: 'Disconnected' })
   }
 
   if (!config_data) return NextResponse.json({ error: 'config_data is required' }, { status: 400 })
 
-  // Insert/update
   const res = await fetch(
     `${INSFORGE_BASE}/api/database/records/user_skills`,
     {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${userId}`,
+        'Authorization': `Bearer ${INSFORGE_KEY}`,
         'apikey': INSFORGE_KEY,
         'Content-Type': 'application/json',
         'Prefer': 'resolution=merge-duplicates',

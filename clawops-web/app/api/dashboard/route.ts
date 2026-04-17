@@ -31,17 +31,16 @@ export async function GET(request: NextRequest) {
   const userEmail = user.email || ''
   const userName = user.profile?.name || user.profile?.full_name || userEmail.split('@')[0]
 
-  // Fetch dashboard data from database (may be empty initially)
+  // Fetch dashboard data from InsForge database using anon key
   let profile = null
   let tasks: any[] = []
   let instances: any[] = []
-  let activeAgents: number = 0
+  let activeAgents = 0
 
   try {
-    // Query profiles
     const profileRes = await fetch(
       `${INSFORGE_BASE}/api/database/records/profiles?select=*&id=eq.${userId}`,
-      { headers: { 'Authorization': `Bearer ${userId}`, 'apikey': INSFORGE_KEY } }
+      { headers: { 'Authorization': `Bearer ${INSFORGE_KEY}`, 'apikey': INSFORGE_KEY } }
     )
     if (profileRes.ok) {
       const profiles = await profileRes.json()
@@ -50,10 +49,9 @@ export async function GET(request: NextRequest) {
   } catch { /* profiles table may be empty */ }
 
   try {
-    // Query tasks
     const tasksRes = await fetch(
       `${INSFORGE_BASE}/api/database/records/tasks?select=id,status,priority,title,created_at&user_id=eq.${userId}`,
-      { headers: { 'Authorization': `Bearer ${userId}`, 'apikey': INSFORGE_KEY } }
+      { headers: { 'Authorization': `Bearer ${INSFORGE_KEY}`, 'apikey': INSFORGE_KEY } }
     )
     if (tasksRes.ok) {
       tasks = (await tasksRes.json()) || []
@@ -61,10 +59,9 @@ export async function GET(request: NextRequest) {
   } catch { /* tasks table may be empty */ }
 
   try {
-    // Query VPS instances
     const instancesRes = await fetch(
       `${INSFORGE_BASE}/api/database/records/vps_instances?select=*&user_id=eq.${userId}`,
-      { headers: { 'Authorization': `Bearer ${userId}`, 'apikey': INSFORGE_KEY } }
+      { headers: { 'Authorization': `Bearer ${INSFORGE_KEY}`, 'apikey': INSFORGE_KEY } }
     )
     if (instancesRes.ok) {
       instances = (await instancesRes.json()) || []
