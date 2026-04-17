@@ -1,41 +1,35 @@
 import { NextResponse } from 'next/server'
 
-const VPS_API = 'https://app.clawops.studio'
-const TIMEOUT_MS = 5000
+// VPS gateway URL - the OpenClaw gateway on the Contabo VPS
+// This should be set to the Cloudflare tunnel URL or the public VPS IP
+const VPS_GATEWAY_URL = process.env.VPS_GATEWAY_URL || 'http://localhost:18789'
+const TIMEOUT_MS = 8000
 
-export async function GET(request: Request) {
+export async function GET() {
   try {
-    const { searchParams } = new URL(request.url)
-    const endpoint = searchParams.get('endpoint') || ''
-
-    const url = endpoint
-      ? `${VPS_API}/${endpoint}`
-      : VPS_API
-
     const controller = new AbortController()
     const timeout = setTimeout(() => controller.abort(), TIMEOUT_MS)
 
-    const response = await fetch(url, {
+    const response = await fetch(VPS_GATEWAY_URL, {
       signal: controller.signal,
-      next: { revalidate: 10 },
     })
 
     clearTimeout(timeout)
 
     if (!response.ok) {
       return NextResponse.json(
-        { error: `VPS returned ${response.status}`, status: response.status },
+        { error: `VPS gateway returned ${response.status}`, status: response.status },
         { status: 502 }
       )
     }
 
     const data = await response.json()
-    return NextResponse.json(data)
+    return NextResponse.json({ ...data, source: 'vps_gateway' })
   } catch (err: any) {
     const isAbort = err?.name === 'AbortError'
     console.error('[/api/openclaw-status] Error:', isAbort ? 'TIMEOUT' : err)
     return NextResponse.json(
-      { error: isAbort ? 'VPS timeout' : 'Internal server error' },
+      { error: isAbort ? 'VPS gateway timeout' : 'VPS gateway unreachable' },
       { status: isAbort ? 504 : 500 }
     )
   }

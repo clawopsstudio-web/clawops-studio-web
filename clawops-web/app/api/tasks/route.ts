@@ -1,25 +1,42 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createServerClient, getUserId } from '@/lib/insforge/server'
+
+const INSFORGE_BASE = process.env.NEXT_PUBLIC_INSFORGE_BASE_URL!
+const INSFORGE_KEY = process.env.NEXT_PUBLIC_INSFORGE_ANON_KEY!
+
+async function getUserId(request: NextRequest): Promise<string> {
+  const token = request.cookies.get('insforge_session')?.value
+  if (!token) return ''
+  try {
+    const res = await fetch(`${INSFORGE_BASE}/api/auth/sessions/current`, {
+      headers: { 'Authorization': `Bearer ${token}`, 'apikey': INSFORGE_KEY },
+    })
+    if (!res.ok) return ''
+    const data = await res.json()
+    return data.user?.id || ''
+  } catch {
+    return ''
+  }
+}
 
 export async function GET(request: NextRequest) {
-  const insforge = await createServerClient()
-  const userId = await getUserId()
+  const userId = await getUserId(request)
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const { data: tasks, error } = await insforge.database
-    .from('tasks')
-    .select('*')
-    .eq('user_id', userId)
-    .order('created_at', { ascending: false })
-    .limit(20)
-
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
-  return NextResponse.json({ tasks: tasks || [] })
+  try {
+    const res = await fetch(
+      `${INSFORGE_BASE}/api/database/records/tasks?select=*&user_id=eq.${userId}&order=created_at.desc&limit=20`,
+      { headers: { 'Authorization': `Bearer ${userId}`, 'apikey': INSFORGE_KEY } }
+    )
+    if (!res.ok) return NextResponse.json({ error: 'Database error' }, { status: 500 })
+    const tasks = await res.json()
+    return NextResponse.json({ tasks })
+  } catch {
+    return NextResponse.json({ tasks: [] })
+  }
 }
 
 export async function POST(request: NextRequest) {
-  const insforge = await createServerClient()
-  const userId = await getUserId()
+  const userId = await getUserId(request)
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const body = await request.json()
@@ -29,25 +46,39 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Title is required' }, { status: 400 })
   }
 
-  const { data: task, error } = await insforge.database
-    .from('tasks')
-    .insert([{
-      user_id: userId,
-      title: title.trim(),
-      description: description || null,
-      priority: priority || 'medium',
-      status: 'pending',
-    }])
-    .select()
-    .single()
-
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
-  return NextResponse.json({ task }, { status: 201 })
+  try {
+    const res = await fetch(
+      `${INSFORGE_BASE}/api/database/records/tasks`,
+      {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${userId}`,
+          'apikey': INSFORGE_KEY,
+          'Content-Type': 'application/json',
+          'Prefer': 'representation',
+        },
+        body: JSON.stringify([{
+          user_id: userId,
+          title: title.trim(),
+          description: description || null,
+          priority: priority || 'medium',
+          status: 'pending',
+        }]),
+      }
+    )
+    if (!res.ok) {
+      const err = await res.json()
+      return NextResponse.json({ error: err.message || 'Insert failed' }, { status: 500 })
+    }
+    const task = await res.json()
+    return NextResponse.json({ task }, { status: 201 })
+  } catch {
+    return NextResponse.json({ error: 'Internal error' }, { status: 500 })
+  }
 }
 
 export async function PATCH(request: NextRequest) {
-  const insforge = await createServerClient()
-  const userId = await getUserId()
+  const userId = await getUserId(request)
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const body = await request.json()
@@ -55,33 +86,50 @@ export async function PATCH(request: NextRequest) {
 
   if (!id) return NextResponse.json({ error: 'Task ID required' }, { status: 400 })
 
-  const { data: task, error } = await insforge.database
-    .from('tasks')
-    .update(updates)
-    .eq('id', id)
-    .eq('user_id', userId)
-    .select()
-    .single()
-
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
-  return NextResponse.json({ task })
+  try {
+    const res = await fetch(
+      `${INSFORGE_BASE}/api/database/records/tasks?id=eq.${id}&user_id=eq.${userId}`,
+      {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${userId}`,
+          'apikey': INSFORGE_KEY,
+          'Content-Type': 'application/json',
+          'Prefer': 'representation',
+        },
+        body: JSON.stringify(updates),
+      }
+    )
+    if (!res.ok) {
+      const err = await res.json()
+      return NextResponse.json({ error: err.message || 'Update failed' }, { status: 500 })
+    }
+    const task = await res.json()
+    return NextResponse.json({ task })
+  } catch {
+    return NextResponse.json({ error: 'Internal error' }, { status: 500 })
+  }
 }
 
 export async function DELETE(request: NextRequest) {
-  const insforge = await createServerClient()
-  const userId = await getUserId()
+  const userId = await getUserId(request)
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const { searchParams } = new URL(request.url)
   const id = searchParams.get('id')
   if (!id) return NextResponse.json({ error: 'Task ID required' }, { status: 400 })
 
-  const { error } = await insforge.database
-    .from('tasks')
-    .delete()
-    .eq('id', id)
-    .eq('user_id', userId)
-
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
-  return NextResponse.json({ ok: true })
+  try {
+    const res = await fetch(
+      `${INSFORGE_BASE}/api/database/records/tasks?id=eq.${id}&user_id=eq.${userId}`,
+      {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${userId}`, 'apikey': INSFORGE_KEY },
+      }
+    )
+    if (!res.ok) return NextResponse.json({ error: 'Delete failed' }, { status: 500 })
+    return NextResponse.json({ ok: true })
+  } catch {
+    return NextResponse.json({ error: 'Internal error' }, { status: 500 })
+  }
 }

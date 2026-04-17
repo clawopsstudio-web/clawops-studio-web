@@ -1,8 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createServerClient, getSession } from '@/lib/insforge/server'
 
-// Register or update a VPS instance for the authenticated user
-export async function POST(request: Request) {
+const INSFORGE_BASE = process.env.NEXT_PUBLIC_INSFORGE_BASE_URL!
+const INSFORGE_KEY = process.env.NEXT_PUBLIC_INSFORGE_ANON_KEY!
+
+async function getUserId(request: NextRequest): Promise<string> {
+  const token = request.cookies.get('insforge_session')?.value
+  if (!token) return ''
+  try {
+    const res = await fetch(`${INSFORGE_BASE}/api/auth/sessions/current`, {
+      headers: { 'Authorization': `Bearer ${token}`, 'apikey': INSFORGE_KEY },
+    })
+    if (!res.ok) return ''
+    const data = await res.json()
+    return data.user?.id || ''
+  } catch {
+    return ''
+  }
+}
+
+export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
     const { tunnel_url, name, vps_ip, specs } = body
@@ -11,54 +27,68 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'tunnel_url and name are required' }, { status: 400 })
     }
 
-    const session = await getSession()
-    const userId = session.data.session?.user?.id
-    if (!userId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
-
-    const insforge = await createServerClient()
+    const userId = await getUserId(request)
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     // Check if instance with this tunnel_url exists
-    const { data: existing } = await insforge.database
-      .from('vps_instances')
-      .select('id')
-      .eq('tunnel_url', tunnel_url)
-      .maybeSingle()
+    const checkRes = await fetch(
+      `${INSFORGE_BASE}/api/database/records/vps_instances?tunnel_url=eq.${encodeURIComponent(tunnel_url)}`,
+      { headers: { 'Authorization': `Bearer ${userId}`, 'apikey': INSFORGE_KEY } }
+    )
 
-    let result
-    if (existing) {
-      result = await insforge.database
-        .from('vps_instances')
-        .update({
-          name,
-          vps_ip: vps_ip || null,
-          specs: specs || null,
-          status: 'online',
-        })
-        .eq('id', existing.id)
-        .select('id, name')
-        .single()
-    } else {
-      result = await insforge.database
-        .from('vps_instances')
-        .insert([{
+    if (checkRes.ok) {
+      const existing = await checkRes.json()
+      if (existing && existing.length > 0) {
+        // Update existing
+        const updateRes = await fetch(
+          `${INSFORGE_BASE}/api/database/records/vps_instances?id=eq.${existing[0].id}`,
+          {
+            method: 'PATCH',
+            headers: {
+              'Authorization': `Bearer ${userId}`,
+              'apikey': INSFORGE_KEY,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name, vps_ip: vps_ip || null, specs: specs || null, status: 'online' }),
+          }
+        )
+        if (updateRes.ok) {
+          return NextResponse.json({ registered: true, vps_id: existing[0].id, vps_name: name, tunnel_url })
+        }
+      }
+    }
+
+    // Insert new
+    const insertRes = await fetch(
+      `${INSFORGE_BASE}/api/database/records/vps_instances`,
+      {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${userId}`,
+          'apikey': INSFORGE_KEY,
+          'Content-Type': 'application/json',
+          'Prefer': 'representation',
+        },
+        body: JSON.stringify([{
           user_id: userId,
           name,
           tunnel_url,
           vps_ip: vps_ip || null,
           specs: specs || null,
           status: 'online',
-        }])
-        .select('id, name')
-        .single()
+        }]),
+      }
+    )
+
+    if (!insertRes.ok) {
+      const err = await insertRes.json()
+      return NextResponse.json({ error: err.message || 'Insert failed' }, { status: 500 })
     }
 
-    if (result.error) return NextResponse.json({ error: result.error.message }, { status: 500 })
-
+    const inserted = await insertRes.json()
     return NextResponse.json({
       registered: true,
-      vps_id: result.data.id,
+      vps_id: inserted[0]?.id || inserted?.id,
       vps_name: name,
       tunnel_url,
     })
@@ -68,18 +98,19 @@ export async function POST(request: Request) {
   }
 }
 
-export async function GET(request: Request) {
-  const session = await getSession()
-  const userId = session.data.session?.user?.id
+export async function GET(request: NextRequest) {
+  const userId = await getUserId(request)
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const insforge = await createServerClient()
-  const { data, error } = await insforge.database
-    .from('vps_instances')
-    .select('*')
-    .eq('user_id', userId)
-    .order('created_at', { ascending: false })
-
-  if (error) return NextResponse.json({ error: error.message, instances: [] }, { status: 500 })
-  return NextResponse.json({ instances: data || [] })
+  try {
+    const res = await fetch(
+      `${INSFORGE_BASE}/api/database/records/vps_instances?user_id=eq.${userId}&order=created_at.desc`,
+      { headers: { 'Authorization': `Bearer ${userId}`, 'apikey': INSFORGE_KEY } }
+    )
+    if (!res.ok) return NextResponse.json({ error: 'Database error', instances: [] }, { status: 500 })
+    const instances = await res.json()
+    return NextResponse.json({ instances })
+  } catch {
+    return NextResponse.json({ instances: [] })
+  }
 }
