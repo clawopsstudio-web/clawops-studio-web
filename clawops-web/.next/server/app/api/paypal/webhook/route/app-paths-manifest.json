@@ -1,3 +1,0 @@
-{
-  "/api/paypal/webhook/route": "app/api/paypal/webhook/route.js"
-}

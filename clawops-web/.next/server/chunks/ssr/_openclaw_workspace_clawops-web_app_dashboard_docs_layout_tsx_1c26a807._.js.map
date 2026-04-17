@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../../../../../../.openclaw/workspace/clawops-web/app/dashboard/docs/layout.tsx"],"sourcesContent":["export default function DocsSectionLayout({ children }: { children: React.ReactNode }) {\n  return <>{children}</>;\n}\n"],"names":[],"mappings":"wDAAe,SAAS,EAAkB,UAAE,CAAQ,CAAiC,EACnF,MAAO,CAAA,EAAA,EAAA,GAAA,EAAA,EAAA,QAAA,CAAA,UAAG,GACZ"}

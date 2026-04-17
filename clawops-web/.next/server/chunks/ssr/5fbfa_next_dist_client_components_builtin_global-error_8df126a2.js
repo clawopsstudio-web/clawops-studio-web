@@ -1,3 +1,0 @@
-module.exports=[10332,(a,b,c)=>{let{createClientModuleProxy:d}=a.r(24435);a.n(d("[project]/.openclaw/workspace/clawops-web/node_modules/next/dist/client/components/builtin/global-error.js <module evaluation>"))},23326,(a,b,c)=>{let{createClientModuleProxy:d}=a.r(24435);a.n(d("[project]/.openclaw/workspace/clawops-web/node_modules/next/dist/client/components/builtin/global-error.js"))},96383,a=>{"use strict";a.i(10332);var b=a.i(23326);a.n(b)}];
-
-//# sourceMappingURL=5fbfa_next_dist_client_components_builtin_global-error_8df126a2.js.map
