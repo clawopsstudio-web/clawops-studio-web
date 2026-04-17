@@ -20,14 +20,34 @@ function decodeJwtExpiry(token: string): { valid: boolean; expired: boolean } {
   }
 }
 
+// Landing page paths (no auth required, no SmoothScroll)
+const LANDING_PATHS = [
+  '/',
+  '/company',
+  '/how-it-works',
+  '/integrations',
+  '/legal/cookie',
+  '/legal/privacy',
+  '/legal/terms',
+  '/pricing',
+  '/quick-start',
+  '/use-cases',
+  '/guides',
+  '/settings',
+]
+
+function isLandingPath(pathname: string): boolean {
+  if (pathname === '/') return true
+  return LANDING_PATHS.some(p => pathname.startsWith(p))
+}
+
 export function middleware(request: NextRequest) {
   const { pathname, hostname } = request.nextUrl
   const isAppDomain = hostname.startsWith('app.')
 
   // ── Landing domain: clawops.studio ──────────────────────────────────
-  // Serve ONLY the landing page. Redirect everything else to app domain.
   if (!isAppDomain) {
-    // /dashboard → app subdomain dashboard
+    // Redirect /dashboard → app subdomain
     if (pathname.startsWith('/dashboard')) {
       const redirectTo = pathname.endsWith('/') ? pathname : `${pathname}/`
       return NextResponse.redirect(
@@ -35,32 +55,69 @@ export function middleware(request: NextRequest) {
         307
       )
     }
-    // All other routes → landing page (/)
+    // Redirect /auth → app subdomain
+    if (pathname.startsWith('/auth')) {
+      return NextResponse.redirect(
+        new URL(`https://app.clawops.studio${pathname}`, request.url),
+        307
+      )
+    }
+    // Serve landing page
     return NextResponse.next()
   }
 
   // ── App domain: app.clawops.studio ───────────────────────────────────
-  // Serve auth pages and dashboard. Redirect everything else to landing.
+  // Landing paths → serve without auth check (smooth scroll layout)
+  if (isLandingPath(pathname)) {
+    return NextResponse.next()
+  }
 
-  // Public auth paths — let them through
+  // Auth paths → let through (no auth required)
   if (
-    pathname === '/' ||
     pathname.startsWith('/auth/') ||
-    pathname.startsWith('/api/') ||
-    pathname.startsWith('/_next/') ||
-    pathname.startsWith('/dashboard/') ||
-    pathname === '/dashboard'
+    pathname.startsWith('/api/auth/') ||
+    pathname === '/api/health'
   ) {
     return NextResponse.next()
   }
 
-  // Everything else on app domain → landing page
+  // API routes → let through (individual routes handle auth)
+  if (pathname.startsWith('/api/') || pathname.startsWith('/_next/')) {
+    return NextResponse.next()
+  }
+
+  // Dashboard paths → require auth
+  if (pathname.startsWith('/dashboard/') || pathname === '/dashboard') {
+    const sessionToken = request.cookies.get('insforge_session')?.value
+
+    if (!sessionToken) {
+      const loginUrl = new URL('/auth/login', request.url)
+      loginUrl.searchParams.set('redirectTo', pathname)
+      return NextResponse.redirect(loginUrl)
+    }
+
+    const { valid, expired } = decodeJwtExpiry(sessionToken)
+    if (!valid || expired) {
+      const response = NextResponse.redirect(new URL('/auth/login', request.url))
+      response.cookies.set('insforge_session', '', {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'lax',
+        maxAge: 0,
+        path: '/',
+      })
+      return response
+    }
+
+    return NextResponse.next()
+  }
+
+  // Unknown paths on app domain → redirect to landing
   return NextResponse.redirect(new URL('/', 'https://clawops.studio'), 307)
 }
 
 export const config = {
   matcher: [
-    // Match ALL routes so we can redirect at the domain level
     '/:path*',
   ],
 }
