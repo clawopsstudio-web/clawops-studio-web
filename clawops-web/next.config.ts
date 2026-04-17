@@ -1,8 +1,8 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  // Disable trailing slash redirects to prevent /dashboard <-> /dashboard/ loop
-  trailingSlash: false,
+  // Enable trailing slash so /dashboard redirects to /dashboard/ (not the other way)
+  trailingSlash: true,
   env: {
     NEXT_PUBLIC_INSFORGE_BASE_URL: process.env.NEXT_PUBLIC_INSFORGE_BASE_URL,
     NEXT_PUBLIC_INSFORGE_ANON_KEY: process.env.NEXT_PUBLIC_INSFORGE_ANON_KEY,

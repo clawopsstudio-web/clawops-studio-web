@@ -33,42 +33,25 @@ function decodeJwtExpiry(token: string): { valid: boolean; expired: boolean } {
   }
 }
 
-function redirectToLogin(request: NextRequest, redirectPath: string) {
-  const loginUrl = new URL('/auth/login', request.url)
-  loginUrl.searchParams.set('redirectTo', redirectPath)
-  return NextResponse.redirect(loginUrl)
-}
-
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  // Allow public paths
-  if (PUBLIC_PATHS.some(p => pathname.startsWith(p))) {
-    return NextResponse.next()
-  }
+  if (PUBLIC_PATHS.some(p => pathname.startsWith(p))) return NextResponse.next()
+  if (pathname.startsWith('/api/')) return NextResponse.next()
+  if (pathname.startsWith('/auth/')) return NextResponse.next()
 
-  // Allow API routes (they have their own auth checks)
-  if (pathname.startsWith('/api/')) {
-    return NextResponse.next()
-  }
-
-  // Allow auth pages
-  if (pathname.startsWith('/auth/')) {
-    return NextResponse.next()
-  }
-
-  // Check for InsForge session cookie
   const sessionToken = request.cookies.get('insforge_session')?.value
 
   if (!sessionToken) {
-    return redirectToLogin(request, pathname)
+    const loginUrl = new URL('/auth/login', request.url)
+    loginUrl.searchParams.set('redirectTo', pathname)
+    return NextResponse.redirect(loginUrl)
   }
 
-  // Check token expiry
   const { valid, expired } = decodeJwtExpiry(sessionToken)
 
   if (!valid || expired) {
-    const response = redirectToLogin(request, pathname)
+    const response = NextResponse.redirect(new URL('/auth/login', request.url))
     response.cookies.set('insforge_session', '', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -83,7 +66,11 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  // Only protect /dashboard routes — let everything else pass through
-  // This avoids redirect loops with Next.js trailing slash redirects
-  matcher: ['/dashboard', '/dashboard/:path*'],
+  /*
+   * Match /dashboard/:path* — this catches /dashboard/userId and all sub-paths.
+   * The base /dashboard route will be handled by Next.js with trailingSlash: true
+   * (redirects /dashboard → /dashboard/ automatically).
+   * The /dashboard/ URL itself is matched by :path* with an empty path segment.
+   */
+  matcher: ['/dashboard/:path*'],
 }
