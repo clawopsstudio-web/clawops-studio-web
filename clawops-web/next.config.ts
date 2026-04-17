@@ -1,8 +1,6 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  // Enable trailing slash so /dashboard redirects to /dashboard/ (not the other way)
-  trailingSlash: true,
   typescript: {
     ignoreBuildErrors: false,
   },

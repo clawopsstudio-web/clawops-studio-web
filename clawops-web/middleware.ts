@@ -22,69 +22,45 @@ function decodeJwtExpiry(token: string): { valid: boolean; expired: boolean } {
 
 export function middleware(request: NextRequest) {
   const { pathname, hostname } = request.nextUrl
+  const isAppDomain = hostname.startsWith('app.')
 
   // ── Landing domain: clawops.studio ──────────────────────────────────
-  if (!hostname.startsWith('app.')) {
-    // Redirect /dashboard → app.clawops.studio/dashboard/
-    if (pathname === '/dashboard' || pathname === '/dashboard/') {
+  // Serve ONLY the landing page. Redirect everything else to app domain.
+  if (!isAppDomain) {
+    // /dashboard → app subdomain dashboard
+    if (pathname.startsWith('/dashboard')) {
+      const redirectTo = pathname.endsWith('/') ? pathname : `${pathname}/`
       return NextResponse.redirect(
-        new URL('/dashboard/', 'https://app.clawops.studio'),
+        new URL(`https://app.clawops.studio${redirectTo}`, request.url),
         307
       )
     }
-    // Let everything else pass through (landing page)
+    // All other routes → landing page (/)
     return NextResponse.next()
   }
 
-  // ── Dashboard domain: app.clawops.studio ───────────────────────────────
-  // Public auth paths
+  // ── App domain: app.clawops.studio ───────────────────────────────────
+  // Serve auth pages and dashboard. Redirect everything else to landing.
+
+  // Public auth paths — let them through
   if (
-    pathname.startsWith('/auth/login') ||
-    pathname.startsWith('/auth/signup') ||
-    pathname.startsWith('/auth/google/callback') ||
-    pathname.startsWith('/auth/github/callback') ||
-    pathname.startsWith('/api/auth')
+    pathname === '/' ||
+    pathname.startsWith('/auth/') ||
+    pathname.startsWith('/api/') ||
+    pathname.startsWith('/_next/') ||
+    pathname.startsWith('/dashboard/') ||
+    pathname === '/dashboard'
   ) {
     return NextResponse.next()
   }
 
-  // API routes have their own auth
-  if (pathname.startsWith('/api/')) {
-    return NextResponse.next()
-  }
-
-  // Dashboard routes: require InsForge session
-  const sessionToken = request.cookies.get('insforge_session')?.value
-
-  if (!sessionToken) {
-    const loginUrl = new URL('/auth/login', request.url)
-    loginUrl.searchParams.set('redirectTo', pathname)
-    return NextResponse.redirect(loginUrl)
-  }
-
-  const { valid, expired } = decodeJwtExpiry(sessionToken)
-
-  if (!valid || expired) {
-    const response = NextResponse.redirect(new URL('/auth/login', request.url))
-    response.cookies.set('insforge_session', '', {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'lax',
-      maxAge: 0,
-      path: '/',
-    })
-    return response
-  }
-
-  return NextResponse.next()
+  // Everything else on app domain → landing page
+  return NextResponse.redirect(new URL('/', 'https://clawops.studio'), 307)
 }
 
 export const config = {
   matcher: [
-    // Dashboard subdomain (app.clawops.studio)
-    '/dashboard',
-    '/dashboard/:path*',
-    // Landing domain redirects
-    '/dashboard/',
+    // Match ALL routes so we can redirect at the domain level
+    '/:path*',
   ],
 }

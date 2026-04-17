@@ -1,5 +1,4 @@
 'use client';
-
 import React, { Component, type ReactNode } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -112,17 +111,15 @@ export default function MissionControlShell({ children }: Props) {
           {/* Connection Status */}
           <div className="px-4 py-2.5 border-b" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
             <div className="flex items-center gap-2">
-              {state === 'connected' ? (
+              {isConnected ? (
                 <Wifi className="w-3.5 h-3.5 text-green-500" />
-              ) : state === 'connecting' || state === 'authenticating' ? (
-                <Loader2 className="w-3.5 h-3.5 text-yellow-500 animate-spin" />
               ) : (
                 <WifiOff className="w-3.5 h-3.5 text-red-500" />
               )}
               <span className="text-[11px] font-medium" style={{
-                color: isConnected ? '#22c55e' : state === 'connecting' || state === 'authenticating' ? '#eab308' : '#ef4444',
+                color: isConnected ? '#22c55e' : '#ef4444',
               }}>
-                {state === 'connected' ? 'Gateway Connected' : state === 'connecting' ? 'Connecting...' : state === 'authenticating' ? 'Authenticating...' : 'Disconnected'}
+                {isConnected ? 'Gateway Connected' : 'Disconnected'}
               </span>
             </div>
           </div>
