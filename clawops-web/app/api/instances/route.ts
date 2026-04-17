@@ -24,11 +24,13 @@ export async function GET(request: NextRequest) {
 
   try {
     const res = await fetch(
-      `${INSFORGE_BASE}/api/database/records/vps_instances?select=*&user_id=eq.${userId}&order=created_at.desc`,
+      `${INSFORGE_BASE}/api/database/records/vps_instances?select=*&limit=50`,
       { headers: { 'Authorization': `Bearer ${INSFORGE_KEY}`, 'apikey': INSFORGE_KEY } }
     )
-    if (!res.ok) return NextResponse.json({ error: 'Database error' }, { status: 500 })
-    const instances = await res.json()
+    if (!res.ok) return NextResponse.json({ instances: [] })
+    const allInstances = (await res.json()) || []
+    // Filter by id (vps_instances uses id as user reference)
+    const instances = allInstances.filter((i: any) => i.id === userId)
     return NextResponse.json({ instances })
   } catch {
     return NextResponse.json({ instances: [] })
@@ -58,7 +60,7 @@ export async function POST(request: NextRequest) {
           'Prefer': 'representation',
         },
         body: JSON.stringify([{
-          user_id: userId,
+          id: userId,
           instance_id,
           name,
           ip_v4: ip_v4 || null,
@@ -92,7 +94,7 @@ export async function DELETE(request: NextRequest) {
 
   try {
     const res = await fetch(
-      `${INSFORGE_BASE}/api/database/records/vps_instances?id=eq.${id}&user_id=eq.${userId}`,
+      `${INSFORGE_BASE}/api/database/records/vps_instances?id=eq.${id}&id=eq.${userId}`,
       {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${INSFORGE_KEY}`, 'apikey': INSFORGE_KEY },

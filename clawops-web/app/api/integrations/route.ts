@@ -31,11 +31,11 @@ export async function GET(request: NextRequest) {
 
   try {
     const res = await fetch(
-      `${INSFORGE_BASE}/api/database/records/user_skills?select=skill_slug,config_data,status&user_id=eq.${userId}`,
+      `${INSFORGE_BASE}/api/database/records/user_skills?select=skill_slug,config_data,status&id=eq.${userId}`,
       { headers: { 'Authorization': `Bearer ${INSFORGE_KEY}`, 'apikey': INSFORGE_KEY } }
     )
     if (res.ok) {
-      const skills = await res.json() || []
+      const skills = (await res.json()) || []
       for (const row of skills) {
         if (integrations[row.skill_slug] !== undefined) {
           const cfg = row.config_data || {}
@@ -66,7 +66,7 @@ export async function POST(request: NextRequest) {
 
   if (action === 'disconnect') {
     await fetch(
-      `${INSFORGE_BASE}/api/database/records/user_skills?user_id=eq.${userId}&skill_slug=eq.${skill_slug}`,
+      `${INSFORGE_BASE}/api/database/records/user_skills?id=eq.${userId}&skill_slug=eq.${skill_slug}`,
       { method: 'DELETE', headers: { 'Authorization': `Bearer ${INSFORGE_KEY}`, 'apikey': INSFORGE_KEY } }
     )
     return NextResponse.json({ success: true, message: 'Disconnected' })
@@ -85,7 +85,7 @@ export async function POST(request: NextRequest) {
         'Prefer': 'resolution=merge-duplicates',
       },
       body: JSON.stringify([{
-        user_id: userId,
+        id: userId,
         skill_slug,
         config_data,
         status: 'installed',

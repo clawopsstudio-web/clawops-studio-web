@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
 
   try {
     const res = await fetch(
-      `${INSFORGE_BASE}/api/database/records/onboarding_configs?user_id=eq.${userId}`,
+      `${INSFORGE_BASE}/api/database/records/onboarding_configs?id=eq.${userId}`,
       { headers: { 'Authorization': `Bearer ${INSFORGE_KEY}`, 'apikey': INSFORGE_KEY } }
     )
     if (!res.ok) return NextResponse.json({ error: 'Database error' }, { status: 500 })
@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
           'Prefer': 'resolution=merge-duplicates',
         },
         body: JSON.stringify([{
-          user_id: userId,
+          id: userId,
           name,
           company: company || null,
           role: role || null,
