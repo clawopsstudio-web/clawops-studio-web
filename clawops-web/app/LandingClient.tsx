@@ -10,6 +10,8 @@ import Integrations from '@/components/sections/Integrations'
 import Pricing from '@/components/sections/Pricing'
 import FAQ from '@/components/sections/FAQ'
 import SocialProof from '@/components/sections/SocialProof'
+import MissionControl from '@/components/sections/MissionControl'
+import Deployment from '@/components/sections/Deployment'
 import Trust from '@/components/sections/Trust'
 import CTA from '@/components/sections/CTA'
 import FinalCTA from '@/components/sections/FinalCTA'
@@ -25,6 +27,8 @@ export default function LandingClient() {
       <AIDepartments />
       <Integrations />
       <SocialProof />
+      <MissionControl />
+      <Deployment />
       <Trust />
       <Pricing />
       <FAQ />
