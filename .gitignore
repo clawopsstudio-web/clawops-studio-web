@@ -1,3 +1,7 @@
 /lossless-claw/
 clawops-web/node_modules/
+clawops-web/.next/
 node_modules/
+.vercel_token
+lossless-claw/
+clawops-dashboard/
