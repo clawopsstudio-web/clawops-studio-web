@@ -4,11 +4,9 @@ import { useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Loader2 } from 'lucide-react'
 
-
 function GoogleCallback() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const code = searchParams.get('insforge_code')
   const error = searchParams.get('error')
 
   useEffect(() => {
@@ -18,48 +16,41 @@ function GoogleCallback() {
         return
       }
 
+      const code = searchParams.get('insforge_code')
       if (!code) {
         router.push('/auth/login?error=missing_code')
         return
       }
 
       try {
-        // Get PKCE verifier from localStorage (set by login page before redirect)
-        const verifier = localStorage.getItem('insforge_pkce_verifier')
+        const { insforge } = await import('@/lib/insforge/client')
 
-        if (!verifier) {
-          router.push('/auth/login?error=pkce_verifier_missing')
+        // Exchange the code with InsForge using PKCE.
+        // The verifier is read from sessionStorage by the SDK's exchangeOAuthCode.
+        const { data, error: exchangeError } = await insforge.auth.exchangeOAuthCode(code)
+
+        if (exchangeError) {
+          console.error('[Google Callback] Exchange error:', exchangeError)
+          router.push(`/auth/login?error=${encodeURIComponent(exchangeError.message || 'exchange_failed')}`)
           return
         }
 
-        // Exchange code + verifier for InsForge session
-        const res = await fetch('/api/auth/oauth/persist-session', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ code, verifier, provider: 'google' }),
-        })
-
-        const data = await res.json()
-
-        if (!res.ok) {
-          router.push(`/auth/login?error=${encodeURIComponent(data.error || 'OAuth failed')}`)
-          return
+        if (data?.accessToken) {
+          // Clear PKCE verifier
+          sessionStorage.removeItem('insforge_pkce_verifier')
+          localStorage.removeItem('insforge_pkce_verifier')
+          router.push('/dashboard')
+        } else {
+          router.push('/auth/login?error=no_access_token')
         }
-
-        // Clear PKCE verifier from localStorage
-        localStorage.removeItem('insforge_pkce_verifier')
-
-        router.push('/dashboard')
-      } catch (err) {
-        console.error('Google OAuth error:', err)
+      } catch (err: any) {
+        console.error('[Google Callback] Fatal error:', err)
         router.push('/auth/login?error=oauth_failed')
       }
     }
 
-    if (code || error) {
-      handleCallback()
-    }
-  }, [code, error, router])
+    handleCallback()
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div style={{

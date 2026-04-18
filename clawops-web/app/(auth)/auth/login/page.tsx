@@ -33,12 +33,9 @@ function LoginPageInner() {
         return
       }
 
-      // Extract PKCE verifier from sessionStorage (set by SDK) and store in localStorage
-      // localStorage is more reliable than sessionStorage for cross-origin OAuth redirects
-      const verifier = sessionStorage.getItem('insforge_pkce_verifier')
-      if (verifier) {
-        localStorage.setItem('insforge_pkce_verifier', verifier)
-      }
+      // The SDK has already stored the PKCE verifier in sessionStorage during signInWithOAuth.
+      // It will be read automatically by the SDK's detectAuthCallback when the callback page loads.
+      // No manual storage needed — sessionStorage survives the OAuth redirect on the same origin.
 
       // Redirect to Google OAuth
       window.location.href = data.url
