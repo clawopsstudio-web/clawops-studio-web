@@ -99,3 +99,4 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Signup failed' }, { status: 500 })
   }
 }// Updated at Sat Apr 18 09:33:15 CEST 2026
+// Updated Sat Apr 18 09:54:53 CEST 2026
