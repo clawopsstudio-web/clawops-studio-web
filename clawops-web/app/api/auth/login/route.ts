@@ -5,7 +5,6 @@ const INSFORGE_BASE = process.env.NEXT_PUBLIC_INSFORGE_BASE_URL || 'https://4tn9
 const INSFORGE_KEY = process.env.NEXT_PUBLIC_INSFORGE_ANON_KEY || 'ik_f11da2bf3d1087cfb816f76748ebfe93'
 
 function hashPass(password: string): string {
-  // Simple hash - matches signup
   let hash = 0
   for (let i = 0; i < password.length; i++) {
     const char = password.charCodeAt(i)
@@ -53,6 +52,7 @@ export async function POST(request: NextRequest) {
 
     const response = NextResponse.json({
       ok: true,
+      token,  // Add token for frontend
       user: {
         id: user.id,
         email: user.email,
@@ -74,4 +74,4 @@ export async function POST(request: NextRequest) {
     console.error('Login error:', error)
     return NextResponse.json({ error: 'Login failed' }, { status: 500 })
   }
-}// deploy-1776497828
+}
