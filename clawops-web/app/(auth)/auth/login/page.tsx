@@ -65,10 +65,6 @@ function LoginPageInner() {
         return
       }
 
-      if (data.user) {
-        localStorage.setItem('user', JSON.stringify(data.user))
-      }
-
       router.push(redirectTo)
       router.refresh()
     } catch {

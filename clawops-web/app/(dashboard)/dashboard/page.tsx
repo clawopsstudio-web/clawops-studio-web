@@ -3,32 +3,62 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
+function getCookie(name: string): string | null {
+  if (typeof document === 'undefined') return null
+  const match = document.cookie.match(new RegExp('(?:^|; )' + name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '=([^;]*)'))
+  return match ? decodeURIComponent(match[1]) : null
+}
+
+function decodeJwtPayload(token: string): Record<string, unknown> | null {
+  try {
+    const parts = token.split('.')
+    if (parts.length !== 3) return null
+    const padded = parts[1] + '=='.slice(0, (4 - parts[1].length % 4) % 4)
+    const decoded = Buffer.from(padded.replace(/-/g, '+').replace(/_/g, '/'), 'base64').toString()
+    return JSON.parse(decoded)
+  } catch {
+    return null
+  }
+}
+
 export default function DashboardPage() {
   const router = useRouter()
   const [status, setStatus] = useState<'loading' | 'redirecting' | 'error'>('loading')
   const [error, setError] = useState('')
 
   useEffect(() => {
-    const checkAuth = async () => {
+    const checkAuth = () => {
       try {
-        // Check localStorage for user data (set by login)
-        const userData = localStorage.getItem('user')
-        
-        if (!userData) {
+        // Read session from insforge_session cookie (set by both Google OAuth and email login)
+        const token = getCookie('insforge_session')
+
+        if (!token) {
           window.location.href = '/auth/login?redirectTo=/dashboard'
           return
         }
 
-        const user = JSON.parse(userData)
-        
-        if (!user?.id) {
+        const payload = decodeJwtPayload(token)
+        if (!payload) {
+          window.location.href = '/auth/login?redirectTo=/dashboard'
+          return
+        }
+
+        // Check expiry
+        const exp = payload.exp as number | undefined
+        if (exp && Date.now() / 1000 > exp) {
+          window.location.href = '/auth/login?redirectTo=/dashboard'
+          return
+        }
+
+        const userId = payload.sub as string
+        if (!userId) {
           setError('No user ID in session')
           setStatus('error')
           return
         }
 
         setStatus('redirecting')
-        window.location.href = `/dashboard/${user.id}`
+        window.location.href = `/dashboard/${userId}`
       } catch (err) {
         console.error('Auth check error:', err)
         window.location.href = '/auth/login?redirectTo=/dashboard'
