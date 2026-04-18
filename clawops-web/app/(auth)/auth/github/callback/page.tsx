@@ -7,7 +7,6 @@ import { Loader2 } from 'lucide-react'
 function GitHubCallback() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const code = searchParams.get('insforge_code')
   const error = searchParams.get('error')
 
   useEffect(() => {
@@ -17,70 +16,64 @@ function GitHubCallback() {
         return
       }
 
+      const code = searchParams.get('insforge_code')
       if (!code) {
         router.push('/auth/login?error=missing_code')
         return
       }
 
       try {
-        // Get the PKCE verifier from sessionStorage (set by SDK during OAuth initiation)
-        const verifier = sessionStorage.getItem('insforge_pkce_verifier')
+        const { insforge } = await import('@/lib/insforge/client')
 
-        if (!verifier) {
-          // Fallback: use SDK to exchange (verifier still in memory from same tab)
-          const { insforge } = await import('@/lib/insforge/client')
-          const { data } = await insforge.auth.exchangeOAuthCode(code)
-          
-          if (data?.accessToken) {
-            await fetch('/api/auth/oauth/persist-session', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ accessToken: data.accessToken, provider: 'github' }),
-            })
+        // Exchange the code with InsForge using PKCE.
+        // The SDK reads the verifier from sessionStorage automatically.
+        const { data, error: exchangeError } = await insforge.auth.exchangeOAuthCode(code)
+
+        if (exchangeError) {
+          console.error('[GitHub Callback] Exchange error:', exchangeError)
+          router.push(`/auth/login?error=${encodeURIComponent(exchangeError.message || 'exchange_failed')}`)
+          return
+        }
+
+        if (data?.accessToken) {
+          // SDK stores session in memory. We also need to set the insforge_session cookie
+          // so middleware can see it for server-side auth.
+          const response = await fetch('/api/auth/oauth/persist-session', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ accessToken: data.accessToken, provider: 'github' }),
+          })
+
+          if (response.ok) {
+            sessionStorage.removeItem('insforge_pkce_verifier')
+            router.push('/dashboard')
+          } else {
+            router.push('/auth/login?error=persist_failed')
           }
-          router.push('/dashboard')
-          return
+        } else {
+          router.push('/auth/login?error=no_access_token')
         }
-
-        // Exchange code + verifier for tokens via our API
-        const res = await fetch('/api/auth/oauth/persist-session', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ code, verifier, provider: 'github' }),
-        })
-
-        if (!res.ok) {
-          const data = await res.json()
-          router.push(`/auth/login?error=${encodeURIComponent(data.error || 'OAuth failed')}`)
-          return
-        }
-
-        // Clear PKCE verifier from storage
-        sessionStorage.removeItem('insforge_pkce_verifier')
-        router.push('/dashboard')
-      } catch (err) {
-        console.error('GitHub OAuth error:', err)
+      } catch (err: any) {
+        console.error('[GitHub Callback] Fatal error:', err)
         router.push('/auth/login?error=oauth_failed')
       }
     }
 
-    if (code || error) {
-      handleCallback()
-    }
-  }, [code, error, router])
+    handleCallback()
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div style={{
       minHeight: '100vh',
-      background: 'var(--bg)',
+      background: '#04040c',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       gap: 12,
       flexDirection: 'column',
-      color: 'var(--text-secondary)',
+      color: '#888',
     }}>
-      <Loader2 size={24} style={{ animation: 'spin 1s linear infinite', color: 'var(--accent)' }} />
+      <Loader2 size={24} style={{ animation: 'spin 1s linear infinite', color: '#5b6cff' }} />
       <span style={{ fontSize: 14 }}>Completing sign in with GitHub...</span>
       <style>{`
         @keyframes spin {
@@ -97,12 +90,12 @@ export default function GitHubCallbackPage() {
     <Suspense fallback={
       <div style={{
         minHeight: '100vh',
-        background: 'var(--bg)',
+        background: '#04040c',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
       }}>
-        <Loader2 size={24} style={{ animation: 'spin 1s linear infinite', color: 'var(--accent)' }} />
+        <Loader2 size={24} style={{ animation: 'spin 1s linear infinite', color: '#5b6cff' }} />
       </div>
     }>
       <GitHubCallback />

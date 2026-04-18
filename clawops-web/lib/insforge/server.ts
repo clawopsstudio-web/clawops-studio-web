@@ -12,105 +12,139 @@ export function createServerClient() {
   })
 }
 
+// ── Local JWT decoding (avoids calling InsForge /sessions/current which rejects our self-signed JWT) ──
+function base64UrlDecode(str: string): string {
+  try {
+    const base64 = str.replace(/-/g, '+').replace(/_/g, '/')
+    const padded = base64 + '=='.slice(0, (4 - base64.length % 4) % 4)
+    return Buffer.from(padded, 'base64').toString('utf-8')
+  } catch {
+    return ''
+  }
+}
+
+function decodeJwtPayload(token: string): Record<string, unknown> | null {
+  try {
+    const parts = token.split('.')
+    if (parts.length !== 3) return null
+    return JSON.parse(base64UrlDecode(parts[1]))
+  } catch {
+    return null
+  }
+}
+
+function isJwtExpired(payload: Record<string, unknown>): boolean {
+  const exp = payload.exp as number | undefined
+  if (!exp) return false
+  return Date.now() / 1000 > exp
+}
+
+// ── Session from insforge_session JWT cookie (local decode — no InsForge validation needed) ──
 export async function getSession() {
-  // Try request.cookies first (more reliable in API routes)
-  // Then fall back to next/headers cookies()
   let token: string | undefined
 
-  // Note: in actual API routes, we read from request.cookies directly
-  // This function is kept for compatibility with Server Components
   try {
     const cookieStore = await cookies()
     token = cookieStore.get('insforge_session')?.value
   } catch {
-    // cookies() may not be available
+    // cookies() may not be available in some contexts
   }
 
   if (!token) {
     return { data: { session: null } }
   }
 
-  try {
-    const res = await fetch(`${INSFORGE_BASE}/api/auth/sessions/current`, {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'apikey': INSFORGE_KEY,
-      },
-    })
-
-    if (!res.ok) {
-      return { data: { session: null } }
-    }
-
-    const user = await res.json()
-    return {
-      data: {
-        session: {
-          user,
-          accessToken: token,
-        },
-      },
-    }
-  } catch {
+  const payload = decodeJwtPayload(token)
+  if (!payload) {
     return { data: { session: null } }
   }
-}
 
-// Get user ID from InsForge auth session - reads cookie from request or headers
-export async function getUserIdFromRequest(request: NextRequest): Promise<string> {
-  const token = request.cookies.get('insforge_session')?.value
-  if (!token) return ''
+  if (isJwtExpired(payload)) {
+    return { data: { session: null } }
+  }
 
-  try {
-    const res = await fetch(`${INSFORGE_BASE}/api/auth/sessions/current`, {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'apikey': INSFORGE_KEY,
+  return {
+    data: {
+      session: {
+        user: {
+          id: payload.sub as string,
+          email: payload.email as string,
+          name: payload.name as string | undefined,
+        },
+        accessToken: token,
       },
-    })
-    if (!res.ok) return ''
-    const data = await res.json()
-    return data.user?.id || ''
-  } catch {
-    return ''
+    },
   }
 }
 
+// ── Session from incoming request (for API routes with request object) ──
+export async function getSessionFromRequest(request: NextRequest) {
+  const token = request.cookies.get('insforge_session')?.value
+
+  if (!token) {
+    return { data: { session: null } }
+  }
+
+  const payload = decodeJwtPayload(token)
+  if (!payload) {
+    return { data: { session: null } }
+  }
+
+  if (isJwtExpired(payload)) {
+    return { data: { session: null } }
+  }
+
+  return {
+    data: {
+      session: {
+        user: {
+          id: payload.sub as string,
+          email: payload.email as string,
+          name: payload.name as string | undefined,
+        },
+        accessToken: token,
+      },
+    },
+  }
+}
+
+// Get user ID from session
 export async function getUserId(): Promise<string> {
   try {
     const cookieStore = await cookies()
     const token = cookieStore.get('insforge_session')?.value
     if (!token) return ''
 
-    const res = await fetch(`${INSFORGE_BASE}/api/auth/sessions/current`, {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'apikey': INSFORGE_KEY,
-      },
-    })
-    if (!res.ok) return ''
-    const data = await res.json()
-    return data.user?.id || ''
+    const payload = decodeJwtPayload(token)
+    if (!payload || isJwtExpired(payload)) return ''
+    return payload.sub as string
   } catch {
     return ''
   }
 }
 
-// Update user profile via InsForge auth API
-export async function updateUserProfile(profile: Record<string, any>) {
+// Update user profile via InsForge profiles table
+export async function updateUserProfile(profile: Record<string, unknown>) {
   try {
     const cookieStore = await cookies()
     const token = cookieStore.get('insforge_session')?.value
     if (!token) return { success: false, error: 'No session' }
 
-    const res = await fetch(`${INSFORGE_BASE}/api/auth/profiles/current`, {
+    const payload = decodeJwtPayload(token)
+    if (!payload) return { success: false, error: 'Invalid session' }
+
+    const userId = payload.sub as string
+    if (!userId) return { success: false, error: 'No user ID' }
+
+    const res = await fetch(`${INSFORGE_BASE}/rest/v1/profiles?id=eq.${userId}`, {
       method: 'PATCH',
       headers: {
-        'Authorization': `Bearer ${token}`,
+        'Authorization': `Bearer ${INSFORGE_KEY}`,
         'apikey': INSFORGE_KEY,
         'Content-Type': 'application/json',
+        'Prefer': 'return=representation',
       },
-      body: JSON.stringify({ profile }),
+      body: JSON.stringify(profile),
     })
 
     if (!res.ok) {

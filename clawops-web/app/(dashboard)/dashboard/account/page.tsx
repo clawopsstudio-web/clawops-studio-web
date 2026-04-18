@@ -1,44 +1,81 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useSession, signOut } from 'next-auth/react'
-import { User, LogOut, Shield, Key, Loader2 } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { User, LogOut, Shield, Loader2 } from 'lucide-react'
+
+function getCookie(name: string): string | null {
+  if (typeof document === 'undefined') return null
+  const match = document.cookie.match(new RegExp('(?:^|; )' + name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '=([^;]*)'))
+  return match ? decodeURIComponent(match[1]) : null
+}
+
+function decodeJwtPayload(token: string): Record<string, unknown> | null {
+  try {
+    const parts = token.split('.')
+    if (parts.length !== 3) return null
+    const padded = parts[1] + '=='.slice(0, (4 - parts[1].length % 4) % 4)
+    return JSON.parse(Buffer.from(padded.replace(/-/g, '+').replace(/_/g, '/'), 'base64').toString())
+  } catch {
+    return null
+  }
+}
+
+interface SessionUser {
+  id: string
+  email: string
+  name?: string
+}
 
 export default function AccountPage() {
-  const { data: session, status } = useSession()
-  const [profile, setProfile] = useState<any>(null)
+  const router = useRouter()
+  const [user, setUser] = useState<SessionUser | null>(null)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState('')
   const [form, setForm] = useState({ full_name: '', company: '' })
 
   useEffect(() => {
-    if (status === 'loading') return
-    if (!session?.user) {
+    const token = getCookie('insforge_session')
+    if (!token) {
       window.location.href = '/auth/login'
       return
     }
 
-    // Set user from session
-    setForm({
-      full_name: session.user.name || '',
-      company: '',
-    })
-    
-    // Fetch profile from API
+    const payload = decodeJwtPayload(token)
+    if (!payload) {
+      window.location.href = '/auth/login'
+      return
+    }
+
+    const exp = payload.exp as number | undefined
+    if (exp && Date.now() / 1000 > exp) {
+      window.location.href = '/auth/login'
+      return
+    }
+
+    const userData: SessionUser = {
+      id: payload.sub as string,
+      email: payload.email as string,
+      name: payload.name as string | undefined,
+    }
+    setUser(userData)
+    setForm({ full_name: (payload.name as string) || '', company: '' })
+    setLoading(false)
+
+    // Fetch full profile from API
     fetch('/api/profile')
       .then(res => res.json())
       .then(data => {
         if (data) {
-          setProfile(data)
           setForm(prev => ({
             full_name: data.full_name || prev.full_name,
             company: data.company || '',
           }))
         }
       })
-      .finally(() => setLoading(false))
-  }, [session, status])
+      .catch(() => {})
+  }, [])
 
   const handleSave = async () => {
     setSaving(true)
@@ -58,11 +95,12 @@ export default function AccountPage() {
     setTimeout(() => setMessage(''), 3000)
   }
 
-  const handleSignOut = () => {
-    signOut({ callbackUrl: '/auth/login' })
+  const handleSignOut = async () => {
+    await fetch('/api/auth/logout', { method: 'POST' })
+    window.location.href = '/auth/login'
   }
 
-  if (loading || status === 'loading') {
+  if (loading) {
     return (
       <div className="min-h-screen bg-[#04040c] flex items-center justify-center">
         <Loader2 className="w-5 h-5 text-[#00D4FF] animate-spin" />
@@ -70,8 +108,6 @@ export default function AccountPage() {
     )
   }
 
-  const user = session?.user
-  const avatarUrl = profile?.avatar_url
   const initials = form.full_name
     ? form.full_name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)
     : (user?.email?.[0] || 'U').toUpperCase()
@@ -92,13 +128,9 @@ export default function AccountPage() {
           </h2>
 
           <div className="flex items-center gap-4 mb-6">
-            {avatarUrl ? (
-              <img src={avatarUrl} alt="Avatar" className="w-16 h-16 rounded-full" />
-            ) : (
-              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#00D4FF] to-[#6600FF] flex items-center justify-center text-xl font-bold text-white">
-                {initials}
-              </div>
-            )}
+            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#00D4FF] to-[#6600FF] flex items-center justify-center text-xl font-bold text-white">
+              {initials}
+            </div>
             <div>
               <p className="text-white font-medium">{form.full_name || 'No name set'}</p>
               <p className="text-sm text-white/40">{user?.email}</p>
@@ -166,7 +198,7 @@ export default function AccountPage() {
         {/* Sign Out */}
         <div className="rounded-xl border border-red-500/10 bg-red-500/5 p-6">
           <h2 className="text-sm font-semibold text-red-400 mb-4 flex items-center gap-2">
-            <Key className="w-4 h-4" />
+            <LogOut className="w-4 h-4" />
             Sign Out
           </h2>
           <div className="flex items-center justify-between">
