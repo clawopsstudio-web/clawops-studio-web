@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createServerClient, getUserId } from '@/lib/insforge/server'
+import { createServerClient } from '@/lib/insforge/server'
+import { getUserId } from '@/lib/api-auth'
 
 export async function POST(request: NextRequest) {
-  const userId = await getUserId()
+  const userId = getUserId(request)
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const { client_id, client_secret } = await request.json()
@@ -34,7 +35,7 @@ export async function POST(request: NextRequest) {
   const { data: existing } = await insforge.database
     .from('user_integrations')
     .select('id')
-    .eq('user_id', userId)
+    .eq('id', userId)
     .eq('provider', 'contabo')
     .maybeSingle()
 
@@ -53,7 +54,7 @@ export async function POST(request: NextRequest) {
     result = await insforge.database
       .from('user_integrations')
       .insert([{
-        user_id: userId,
+        id: userId,
         provider: 'contabo',
         credentials: { client_id, client_secret },
         status: 'connected',

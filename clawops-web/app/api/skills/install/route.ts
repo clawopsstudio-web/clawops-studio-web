@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createServerClient, getUserId } from '@/lib/insforge/server'
+import { createServerClient } from '@/lib/insforge/server'
+import { getUserId } from '@/lib/api-auth'
 import { insforgeAdmin } from '@/lib/insforge/admin'
 
 // GET: Get install details for a skill
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
   const slug = searchParams.get('slug')
 
@@ -21,8 +22,8 @@ export async function GET(request: Request) {
 }
 
 // POST: Install a skill for the current user
-export async function POST(request: Request) {
-  const userId = await getUserId()
+export async function POST(request: NextRequest) {
+  const userId = getUserId(request)
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const body = await request.json()
@@ -45,7 +46,7 @@ export async function POST(request: Request) {
   const { data: existing } = await insforge.database
     .from('user_skills')
     .select('id')
-    .eq('user_id', userId)
+    .eq('id', userId)
     .eq('skill_slug', slug)
     .maybeSingle()
 
@@ -60,7 +61,7 @@ export async function POST(request: Request) {
   } else {
     result = await insforge.database
       .from('user_skills')
-      .insert([{ user_id: userId, skill_slug: slug, status, config_data }])
+      .insert([{ id: userId, skill_slug: slug, status, config_data }])
       .select()
       .single()
   }

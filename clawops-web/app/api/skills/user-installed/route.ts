@@ -1,16 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createServerClient, getUserId } from '@/lib/insforge/server'
+import { createServerClient } from '@/lib/insforge/server'
+import { getUserId } from '@/lib/api-auth'
 import { insforgeAdmin } from '@/lib/insforge/admin'
 
 // GET: List user's installed skills
-export async function GET(request: Request) {
-  const userId = await getUserId()
+export async function GET(request: NextRequest) {
+  const userId = getUserId(request)
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const insforge = await createServerClient()
 
   const [userSkillsResult, catalogResult] = await Promise.all([
-    insforge.database.from('user_skills').select('*').eq('user_id', userId),
+    insforge.database.from('user_skills').select('*').eq('id', userId),
     insforgeAdmin.database.from('skills_catalog').select('*'),
   ])
 

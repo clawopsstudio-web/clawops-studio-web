@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createServerClient, getUserId } from '@/lib/insforge/server'
+import { createServerClient } from '@/lib/insforge/server'
+import { getUserId } from '@/lib/api-auth'
 
 export async function POST(request: NextRequest) {
-  const userId = await getUserId()
+  const userId = getUserId(request)
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const insforge = await createServerClient()
@@ -14,7 +15,7 @@ export async function POST(request: NextRequest) {
       const { data: contaboToken } = await insforge.database
         .from('user_integrations')
         .select('credentials')
-        .eq('user_id', userId)
+        .eq('id', userId)
         .eq('provider', 'contabo')
         .maybeSingle()
 
@@ -53,7 +54,7 @@ export async function POST(request: NextRequest) {
         const { data: existing } = await insforge.database
           .from('vps_instances')
           .select('id')
-          .eq('user_id', userId)
+          .eq('id', userId)
           .eq('instance_id', String(inst.instanceId))
           .maybeSingle()
 
@@ -76,7 +77,7 @@ export async function POST(request: NextRequest) {
           await insforge.database
             .from('vps_instances')
             .insert([{
-              user_id: userId,
+              id: userId,
               instance_id: String(inst.instanceId),
               name: inst.name || inst.displayName || `vmi${inst.instanceId}`,
               ip_v4: inst.ipConfig?.v4?.ip || null,
@@ -107,7 +108,7 @@ export async function POST(request: NextRequest) {
     const { data: existing } = await insforge.database
       .from('vps_instances')
       .select('id')
-      .eq('user_id', userId)
+      .eq('id', userId)
       .eq('instance_id', String(instance_id))
       .maybeSingle()
 
@@ -122,7 +123,7 @@ export async function POST(request: NextRequest) {
     } else {
       result = await insforge.database
         .from('vps_instances')
-        .insert([{ user_id: userId, instance_id: String(instance_id), name: name || `vmi${instance_id}`, ip_v4: ip_v4 || null, product_id: product_id || null, region: region || null, status: 'tracked' }])
+        .insert([{ id: userId, instance_id: String(instance_id), name: name || `vmi${instance_id}`, ip_v4: ip_v4 || null, product_id: product_id || null, region: region || null, status: 'tracked' }])
         .select()
         .single()
     }

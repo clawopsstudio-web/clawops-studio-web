@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createServerClient, getUserId } from '@/lib/insforge/server'
+import { createServerClient } from '@/lib/insforge/server'
+import { getUserId } from '@/lib/api-auth'
 
 // GET: Fetch all Contabo instances from Contabo API for the authenticated user
 export async function GET(request: NextRequest) {
-  const userId = await getUserId()
+  const userId = getUserId(request)
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const insforge = await createServerClient()
@@ -12,7 +13,7 @@ export async function GET(request: NextRequest) {
   const { data: integration } = await insforge.database
     .from('user_integrations')
     .select('credentials')
-    .eq('user_id', userId)
+    .eq('id', userId)
     .eq('provider', 'contabo')
     .maybeSingle()
 

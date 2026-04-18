@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createServerClient, getUserId } from '@/lib/insforge/server'
+import { createServerClient } from '@/lib/insforge/server'
+import { getUserId } from '@/lib/api-auth'
 
 export async function POST(request: NextRequest) {
-  const userId = await getUserId()
+  const userId = getUserId(request)
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const body = await request.json()
@@ -16,7 +17,7 @@ export async function POST(request: NextRequest) {
   const { data, error } = await insforge.database
     .from('agent_configs')
     .insert([{
-      user_id: userId,
+      id: userId,
       agent_name: name,
       agent_type: agent_type || 'custom',
       skills: skills || null,
