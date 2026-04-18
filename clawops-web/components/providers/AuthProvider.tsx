@@ -1,41 +1,31 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-
-// Auth disabled — InForge will handle auth
-export default function AuthProvider({ children }: { children: React.ReactNode }) {
-  return <>{children}</>
-}
+import { useSession, signIn, signOut } from 'next-auth/react'
+import { useEffect, useState } from 'react'
 
 export interface AuthUser {
   id: string
   email: string
-  name?: string
-  role?: string
+  name?: string | null
+  image?: string | null
+}
+
+export default function AuthProvider({ children }: { children: React.ReactNode }) {
+  return <>{children}</>
 }
 
 export function useAuth() {
-  const [user, setUser] = useState<AuthUser | null>(null)
-  const [loading, setLoading] = useState(true)
+  const { data: session, status } = useSession()
+  const [loading, setLoading] = useState(status === 'loading')
 
   useEffect(() => {
-    async function load() {
-      try {
-        const res = await fetch('/api/auth/session')
-        if (res.ok) {
-          const data = await res.json()
-          setUser(data.user || null)
-        } else {
-          setUser(null)
-        }
-      } catch {
-        setUser(null)
-      } finally {
-        setLoading(false)
-      }
-    }
-    load()
-  }, [])
+    setLoading(status === 'loading')
+  }, [status])
 
-  return { user, loading }
+  return {
+    user: session?.user as AuthUser | null,
+    loading,
+    signIn: (provider?: string, options?: Record<string, unknown>) => signIn(provider, options),
+    signOut: (options?: Record<string, unknown>) => signOut(options),
+  }
 }

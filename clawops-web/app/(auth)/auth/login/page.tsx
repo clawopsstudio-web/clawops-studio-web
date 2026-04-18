@@ -1,7 +1,8 @@
 'use client'
 
-import { useState, useEffect, Suspense } from 'react'
+import { useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { signIn } from 'next-auth/react'
 import { Bot, Loader2 } from 'lucide-react'
 
 function LoginForm() {
@@ -12,16 +13,8 @@ function LoginForm() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
   const [oAuthLoading, setOAuthLoading] = useState<string | null>(null)
-
-  useEffect(() => {
-    // Redirect if already logged in
-    const token = document.cookie.match(/insforge_session=([^;]+)/)
-    if (token) {
-      router.push(redirectTo)
-    }
-  }, [redirectTo, router])
+  const [error, setError] = useState('')
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -29,55 +22,34 @@ function LoginForm() {
     setError('')
 
     try {
-      const res = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+      const result = await signIn('credentials', {
+        email,
+        password,
+        redirect: false,
       })
 
-      const data = await res.json()
-
-      if (!res.ok) {
-        setError(data.error || 'Login failed')
+      if (result?.error) {
+        setError('Invalid email or password')
+        setLoading(false)
         return
       }
 
       router.push(redirectTo)
+      router.refresh()
     } catch {
       setError('Something went wrong. Please try again.')
-    } finally {
       setLoading(false)
     }
   }
 
-  async function handleOAuth(provider: 'google' | 'github') {
-    setOAuthLoading(provider)
+  async function handleGoogleSignIn() {
+    setOAuthLoading('google')
     setError('')
 
     try {
-      // Get the OAuth URL from InsForge via the SDK
-      const { insforge } = await import('@/lib/insforge/client')
-      const redirectUri = `${window.location.origin}/auth/${provider}/callback`
-
-      const { data, error } = await insforge.auth.signInWithOAuth({
-        provider,
-        redirectTo: redirectUri,
-      })
-
-      if (error) {
-        setError(`Failed to start ${provider} login`)
-        setOAuthLoading(null)
-        return
-      }
-
-      if (data?.url) {
-        window.location.href = data.url
-      } else {
-        setError('Failed to get OAuth URL')
-        setOAuthLoading(null)
-      }
+      await signIn('google', { callbackUrl: redirectTo })
     } catch {
-      setError(`Failed to start ${provider} login`)
+      setError('Failed to start Google sign in')
       setOAuthLoading(null)
     }
   }
@@ -85,13 +57,13 @@ function LoginForm() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: 'var(--bg)',
+      background: '#04040c',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       padding: '20px',
     }}>
-      {/* Background gradient */}
+      {/* Glow effect */}
       <div style={{
         position: 'fixed',
         inset: 0,
@@ -99,7 +71,7 @@ function LoginForm() {
         pointerEvents: 'none',
       }} />
 
-      <div style={{ width: '100%', maxWidth: 400, position: 'relative' }}>
+      <div style={{ width: '100%', maxWidth: 400, position: 'relative', zIndex: 1 }}>
         {/* Logo */}
         <div style={{ textAlign: 'center', marginBottom: 32 }}>
           <div style={{
@@ -109,39 +81,37 @@ function LoginForm() {
             width: 56,
             height: 56,
             borderRadius: 14,
-            background: 'var(--accent-fill)',
+            background: 'linear-gradient(135deg, #5b6cff 0%, #8b5cf6 100%)',
             marginBottom: 16,
           }}>
-            <Bot size={28} style={{ color: 'var(--accent)' }} />
+            <Bot size={28} style={{ color: '#fff' }} />
           </div>
           <h1 style={{
             fontSize: 24,
             fontWeight: 700,
-            color: 'var(--text-primary)',
+            color: '#fff',
             letterSpacing: '-0.4px',
             marginBottom: 6,
           }}>
-            Claw<span style={{ color: 'var(--accent)' }}>Ops</span>
+            Claw<span style={{ color: '#5b6cff' }}>Ops</span>
           </h1>
-          <p style={{ fontSize: 14, color: 'var(--text-secondary)' }}>
+          <p style={{ fontSize: 14, color: '#94a3b8' }}>
             Agentic OS — Sign in to your workspace
           </p>
         </div>
 
         {/* Card */}
         <div style={{
-          background: 'var(--material-regular)',
-          border: '0.5px solid var(--separator)',
+          background: 'rgba(15,15,25,0.8)',
+          border: '0.5px solid rgba(255,255,255,0.08)',
           borderRadius: 20,
           padding: 28,
-          boxShadow: 'var(--shadow-card)',
           backdropFilter: 'blur(40px)',
-          WebkitBackdropFilter: 'blur(40px)',
         }}>
-          {/* OAuth buttons */}
+          {/* Google OAuth */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 24 }}>
             <button
-              onClick={() => handleOAuth('google')}
+              onClick={handleGoogleSignIn}
               disabled={!!oAuthLoading}
               style={{
                 display: 'flex',
@@ -150,9 +120,9 @@ function LoginForm() {
                 gap: 10,
                 padding: '11px 16px',
                 borderRadius: 10,
-                border: '0.5px solid var(--separator)',
-                background: 'var(--bg-secondary)',
-                color: 'var(--text-primary)',
+                border: '0.5px solid rgba(255,255,255,0.08)',
+                background: 'rgba(255,255,255,0.04)',
+                color: '#fff',
                 fontSize: 14,
                 fontWeight: 500,
                 cursor: oAuthLoading ? 'not-allowed' : 'pointer',
@@ -172,48 +142,13 @@ function LoginForm() {
               )}
               Continue with Google
             </button>
-
-            <button
-              onClick={() => handleOAuth('github')}
-              disabled={!!oAuthLoading}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 10,
-                padding: '11px 16px',
-                borderRadius: 10,
-                border: '0.5px solid var(--separator)',
-                background: 'var(--bg-secondary)',
-                color: 'var(--text-primary)',
-                fontSize: 14,
-                fontWeight: 500,
-                cursor: oAuthLoading ? 'not-allowed' : 'pointer',
-                opacity: oAuthLoading && oAuthLoading !== 'github' ? 0.6 : 1,
-                transition: 'all 0.15s ease',
-              }}
-            >
-              {oAuthLoading === 'github' ? (
-                <Loader2 size={16} style={{ animation: 'spin 1s linear infinite' }} />
-              ) : (
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                </svg>
-              )}
-              Continue with GitHub
-            </button>
           </div>
 
           {/* Divider */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 12,
-            marginBottom: 20,
-          }}>
-            <div style={{ flex: 1, height: '0.5px', background: 'var(--separator)' }} />
-            <span style={{ fontSize: 12, color: 'var(--text-tertiary)' }}>or</span>
-            <div style={{ flex: 1, height: '0.5px', background: 'var(--separator)' }} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
+            <div style={{ flex: 1, height: '0.5px', background: 'rgba(255,255,255,0.08)' }} />
+            <span style={{ fontSize: 12, color: '#64748b' }}>or</span>
+            <div style={{ flex: 1, height: '0.5px', background: 'rgba(255,255,255,0.08)' }} />
           </div>
 
           {/* Email/password form */}
@@ -222,9 +157,9 @@ function LoginForm() {
               <div style={{
                 padding: '10px 12px',
                 borderRadius: 8,
-                background: 'rgba(255,92,87,0.12)',
-                border: '0.5px solid rgba(255,92,87,0.3)',
-                color: 'var(--system-red)',
+                background: 'rgba(239,68,68,0.12)',
+                border: '0.5px solid rgba(239,68,68,0.3)',
+                color: '#ef4444',
                 fontSize: 13,
               }}>
                 {error}
@@ -232,13 +167,7 @@ function LoginForm() {
             )}
 
             <div>
-              <label style={{
-                display: 'block',
-                fontSize: 12,
-                fontWeight: 500,
-                color: 'var(--text-secondary)',
-                marginBottom: 6,
-              }}>
+              <label style={{ display: 'block', fontSize: 12, fontWeight: 500, color: '#94a3b8', marginBottom: 6 }}>
                 Email
               </label>
               <input
@@ -251,9 +180,9 @@ function LoginForm() {
                   width: '100%',
                   padding: '10px 12px',
                   borderRadius: 8,
-                  border: '0.5px solid var(--separator)',
-                  background: 'var(--bg-secondary)',
-                  color: 'var(--text-primary)',
+                  border: '0.5px solid rgba(255,255,255,0.08)',
+                  background: 'rgba(255,255,255,0.04)',
+                  color: '#fff',
                   fontSize: 14,
                   outline: 'none',
                   boxSizing: 'border-box',
@@ -262,13 +191,7 @@ function LoginForm() {
             </div>
 
             <div>
-              <label style={{
-                display: 'block',
-                fontSize: 12,
-                fontWeight: 500,
-                color: 'var(--text-secondary)',
-                marginBottom: 6,
-              }}>
+              <label style={{ display: 'block', fontSize: 12, fontWeight: 500, color: '#94a3b8', marginBottom: 6 }}>
                 Password
               </label>
               <input
@@ -281,9 +204,9 @@ function LoginForm() {
                   width: '100%',
                   padding: '10px 12px',
                   borderRadius: 8,
-                  border: '0.5px solid var(--separator)',
-                  background: 'var(--bg-secondary)',
-                  color: 'var(--text-primary)',
+                  border: '0.5px solid rgba(255,255,255,0.08)',
+                  background: 'rgba(255,255,255,0.04)',
+                  color: '#fff',
                   fontSize: 14,
                   outline: 'none',
                   boxSizing: 'border-box',
@@ -299,8 +222,8 @@ function LoginForm() {
                 padding: '11px 16px',
                 borderRadius: 10,
                 border: 'none',
-                background: 'var(--accent)',
-                color: 'var(--accent-contrast)',
+                background: 'linear-gradient(135deg, #5b6cff 0%, #8b5cf6 100%)',
+                color: '#fff',
                 fontSize: 14,
                 fontWeight: 600,
                 cursor: loading ? 'not-allowed' : 'pointer',
@@ -318,16 +241,11 @@ function LoginForm() {
         </div>
 
         {/* Sign up link */}
-        <p style={{
-          textAlign: 'center',
-          marginTop: 20,
-          fontSize: 13,
-          color: 'var(--text-secondary)',
-        }}>
-          Don't have an account?{' '}
+        <p style={{ textAlign: 'center', marginTop: 20, fontSize: 13, color: '#64748b' }}>
+          Don&apos;t have an account?{' '}
           <a
             href={`/auth/signup${redirectTo !== '/dashboard' ? `?redirectTo=${encodeURIComponent(redirectTo)}` : ''}`}
-            style={{ color: 'var(--accent)', fontWeight: 500, textDecoration: 'none' }}
+            style={{ color: '#5b6cff', fontWeight: 500, textDecoration: 'none' }}
           >
             Sign up
           </a>
@@ -335,20 +253,10 @@ function LoginForm() {
       </div>
 
       <style>{`
-        @keyframes spin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-        input:focus {
-          border-color: var(--accent) !important;
-          box-shadow: 0 0 0 2px var(--accent-fill);
-        }
-        button:hover:not(:disabled) {
-          filter: brightness(1.1);
-        }
-        button:active:not(:disabled) {
-          transform: scale(0.98);
-        }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        input:focus { border-color: #5b6cff !important; box-shadow: 0 0 0 2px rgba(91,108,255,0.2); }
+        button:hover:not(:disabled) { filter: brightness(1.15); }
+        button:active:not(:disabled) { transform: scale(0.98); }
       `}</style>
     </div>
   )
@@ -359,12 +267,12 @@ export default function LoginPage() {
     <Suspense fallback={
       <div style={{
         minHeight: '100vh',
-        background: 'var(--bg)',
+        background: '#04040c',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
       }}>
-        <Loader2 size={24} style={{ color: 'var(--accent)', animation: 'spin 1s linear infinite' }} />
+        <Loader2 size={24} style={{ color: '#5b6cff', animation: 'spin 1s linear infinite' }} />
       </div>
     }>
       <LoginForm />

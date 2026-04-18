@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import AuthProvider from "@/components/providers/AuthProvider";
+import NextAuthProvider from "@/components/providers/NextAuthProvider";
 
 export const metadata: Metadata = {
   title: "ClawOps Studio",
@@ -34,7 +35,7 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-[#04040c] text-white antialiased overflow-x-hidden">
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider><NextAuthProvider>{children}</NextAuthProvider></AuthProvider>
       </body>
     </html>
   );

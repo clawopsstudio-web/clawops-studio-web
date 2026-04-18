@@ -1,26 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { auth } from '@/lib/auth'
 
-function base64UrlDecode(str: string): string {
-  const base64 = str.replace(/-/g, '+').replace(/_/g, '/')
-  const padded = base64 + '=='.slice(0, (4 - base64.length % 4) % 4)
-  return Buffer.from(padded, 'base64').toString('utf-8')
-}
-
-function decodeJwtExpiry(token: string): { valid: boolean; expired: boolean } {
-  try {
-    const parts = token.split('.')
-    if (parts.length !== 3) return { valid: false, expired: false }
-    const payload = JSON.parse(base64UrlDecode(parts[1]))
-    if (payload.exp && typeof payload.exp === 'number') {
-      if (Date.now() / 1000 > payload.exp) return { valid: true, expired: true }
-    }
-    return { valid: true, expired: false }
-  } catch {
-    return { valid: false, expired: false }
-  }
-}
-
-// Landing page paths (no auth required, no SmoothScroll)
+// Landing page paths
 const LANDING_PATHS = [
   '/',
   '/company',
@@ -41,13 +22,12 @@ function isLandingPath(pathname: string): boolean {
   return LANDING_PATHS.some(p => pathname.startsWith(p))
 }
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname, hostname } = request.nextUrl
   const isAppDomain = hostname.startsWith('app.')
 
   // ── Landing domain: clawops.studio ──────────────────────────────────
   if (!isAppDomain) {
-    // Redirect /dashboard → app subdomain
     if (pathname.startsWith('/dashboard')) {
       const redirectTo = pathname.endsWith('/') ? pathname : `${pathname}/`
       return NextResponse.redirect(
@@ -55,19 +35,17 @@ export function middleware(request: NextRequest) {
         307
       )
     }
-    // Redirect /auth → app subdomain
     if (pathname.startsWith('/auth')) {
       return NextResponse.redirect(
         new URL(`https://app.clawops.studio${pathname}`, request.url),
         307
       )
     }
-    // Serve landing page
     return NextResponse.next()
   }
 
   // ── App domain: app.clawops.studio ───────────────────────────────────
-  // Landing paths → serve without auth check (smooth scroll layout)
+  // Landing paths → serve without auth check
   if (isLandingPath(pathname)) {
     return NextResponse.next()
   }
@@ -76,6 +54,7 @@ export function middleware(request: NextRequest) {
   if (
     pathname.startsWith('/auth/') ||
     pathname.startsWith('/api/auth/') ||
+    pathname.startsWith('/api/nextauth/') ||
     pathname === '/api/health'
   ) {
     return NextResponse.next()
@@ -88,25 +67,12 @@ export function middleware(request: NextRequest) {
 
   // Dashboard paths → require auth
   if (pathname.startsWith('/dashboard/') || pathname === '/dashboard') {
-    const sessionToken = request.cookies.get('insforge_session')?.value
+    const session = await auth()
 
-    if (!sessionToken) {
+    if (!session?.user) {
       const loginUrl = new URL('/auth/login', request.url)
       loginUrl.searchParams.set('redirectTo', pathname)
       return NextResponse.redirect(loginUrl)
-    }
-
-    const { valid, expired } = decodeJwtExpiry(sessionToken)
-    if (!valid || expired) {
-      const response = NextResponse.redirect(new URL('/auth/login', request.url))
-      response.cookies.set('insforge_session', '', {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'lax',
-        maxAge: 0,
-        path: '/',
-      })
-      return response
     }
 
     return NextResponse.next()
@@ -117,7 +83,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    '/:path*',
-  ],
+  matcher: ['/:path*'],
 }
