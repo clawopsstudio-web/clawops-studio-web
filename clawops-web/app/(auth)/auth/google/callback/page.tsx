@@ -25,35 +25,35 @@ function GoogleCallback() {
       try {
         const { insforge } = await import('@/lib/insforge/client')
 
-        // Exchange the code with InsForge using PKCE.
-        // The SDK reads the verifier from sessionStorage automatically.
-        const { data, error: exchangeError } = await insforge.auth.exchangeOAuthCode(code)
+        // The SDK auto-detects insforge_code in the URL during initialization
+        // and exchanges it for tokens. getCurrentUser() automatically waits for
+        // any pending OAuth callback to complete before returning.
+        const { data, error } = await insforge.auth.getCurrentUser()
 
-        if (exchangeError) {
-          console.error('[Google Callback] Exchange error:', exchangeError)
-          router.push(`/auth/login?error=${encodeURIComponent(exchangeError.message || 'exchange_failed')}`)
+        if (error || !data?.user) {
+          console.error('[Google Callback] Session error:', error)
+          router.push('/auth/login?error=session_failed')
           return
         }
 
-        if (data?.accessToken) {
-          // SDK stores session in memory. We need to also set the insforge_session cookie
-          // so that middleware can read it for server-side auth.
-          const response = await fetch('/api/auth/oauth/persist-session', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ accessToken: data.accessToken, provider: 'google' }),
-          })
+        // Persist the session as a cookie so middleware can read it
+        const session = (insforge.auth as any).getSession()
+        const persistRes = await fetch('/api/auth/oauth/persist-session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            accessToken: session?.accessToken,
+            provider: 'google',
+          }),
+        })
 
-          if (response.ok) {
-            sessionStorage.removeItem('insforge_pkce_verifier')
-            router.push('/dashboard')
-          } else {
-            console.error('[Google Callback] persist-session failed:', response.status)
-            router.push('/auth/login?error=persist_failed')
-          }
-        } else {
-          router.push('/auth/login?error=no_access_token')
+        if (!persistRes.ok) {
+          console.error('[Google Callback] persist-session failed:', persistRes.status)
+          router.push('/auth/login?error=persist_failed')
+          return
         }
+
+        router.push('/dashboard')
       } catch (err: any) {
         console.error('[Google Callback] Fatal error:', err)
         router.push('/auth/login?error=oauth_failed')
