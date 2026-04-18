@@ -19,15 +19,29 @@ function LoginPageInner() {
     setOauthLoading(true)
     try {
       const { insforge } = await import('@/lib/insforge/client')
-      const { error } = await insforge.auth.signInWithOAuth({
+
+      // Get the OAuth URL without redirecting
+      const { data, error: oauthError } = await insforge.auth.signInWithOAuth({
         provider: 'google',
         redirectTo: `${window.location.origin}/auth/google/callback`,
+        skipBrowserRedirect: true,
       })
-      if (error) {
-        setError(error.message || 'Google sign-in failed')
+
+      if (oauthError || !data?.url) {
+        setError(oauthError?.message || 'Google sign-in failed')
         setOauthLoading(false)
+        return
       }
-      // If no error, browser is redirected to Google OAuth
+
+      // Extract PKCE verifier from sessionStorage (set by SDK) and store in localStorage
+      // localStorage is more reliable than sessionStorage for cross-origin OAuth redirects
+      const verifier = sessionStorage.getItem('insforge_pkce_verifier')
+      if (verifier) {
+        localStorage.setItem('insforge_pkce_verifier', verifier)
+      }
+
+      // Redirect to Google OAuth
+      window.location.href = data.url
     } catch (err: any) {
       setError(err?.message || 'Google sign-in failed')
       setOauthLoading(false)
@@ -274,9 +288,11 @@ function LoginPageInner() {
 
 export default function LoginPage() {
   return (
-    <Suspense fallback={<div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <div style={{ color: '#5b6cff', fontSize: 14 }}>Loading...</div>
-    </div>}>
+    <Suspense fallback={
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ color: '#5b6cff', fontSize: 14 }}>Loading...</div>
+      </div>
+    }>
       <LoginPageInner />
     </Suspense>
   )

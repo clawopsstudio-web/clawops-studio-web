@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
 
     let insforgeAccessToken = accessToken
 
-    // If no accessToken provided, exchange code + verifier for tokens
+    // Exchange code for tokens using the verifier
     if (!insforgeAccessToken && code && verifier) {
       const res = await fetch(`${INSFORGE_BASE}/api/auth/oauth/exchange`, {
         method: 'POST',
@@ -22,9 +22,9 @@ export async function POST(request: NextRequest) {
 
       const data = await res.json()
 
-      if (!res.ok) {
+      if (!res.ok || !data.access_token) {
         return NextResponse.json(
-          { error: data.message || 'OAuth exchange failed' },
+          { error: data.message || `OAuth exchange failed (${res.status})` },
           { status: res.status }
         )
       }
