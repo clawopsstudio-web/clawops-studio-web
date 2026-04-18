@@ -1,5 +1,3 @@
-import { NextResponse } from 'next/server'
+import { handlers } from '@/lib/auth'
 
-export async function GET() {
-  return NextResponse.json({ message: 'API is working!' })
-}
+export const { GET, POST } = handlers
