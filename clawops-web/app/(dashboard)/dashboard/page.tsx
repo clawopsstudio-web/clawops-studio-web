@@ -11,36 +11,24 @@ export default function DashboardPage() {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        // Check for our custom auth token/cookie
-        const token = document.cookie.match(/auth-session=([^;]+)/)?.[1]
+        // Check localStorage for user data (set by login)
+        const userData = localStorage.getItem('user')
         
-        if (!token) {
+        if (!userData) {
           window.location.href = '/auth/login?redirectTo=/dashboard'
           return
         }
 
-        // Validate token with our API
-        const res = await fetch('/api/auth/validate-jwt', {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          },
-        })
-
-        if (!res.ok) {
-          window.location.href = '/auth/login?redirectTo=/dashboard'
-          return
-        }
-
-        const data = await res.json()
+        const user = JSON.parse(userData)
         
-        if (!data.user?.id) {
+        if (!user?.id) {
           setError('No user ID in session')
           setStatus('error')
           return
         }
 
         setStatus('redirecting')
-        window.location.href = `/dashboard/${data.user.id}`
+        window.location.href = `/dashboard/${user.id}`
       } catch (err) {
         console.error('Auth check error:', err)
         window.location.href = '/auth/login?redirectTo=/dashboard'
@@ -69,7 +57,7 @@ export default function DashboardPage() {
             animation: 'spin 1s linear infinite',
             margin: '0 auto 16px',
           }} />
-          <p style={{ color: '#888' }}>Checking authentication...</p>
+          <p style={{ color: '#888' }}>Loading dashboard...</p>
         </div>
         <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
       </div>
