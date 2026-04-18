@@ -1,75 +1,71 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { createHash } from 'crypto'
 
 const INSFORGE_BASE = process.env.NEXT_PUBLIC_INSFORGE_BASE_URL!
 const INSFORGE_KEY = process.env.NEXT_PUBLIC_INSFORGE_ANON_KEY!
+
+function hashPass(password: string): string {
+  return createHash('sha256').update(password + 'clawops-salt').digest('hex')
+}
 
 export async function POST(request: NextRequest) {
   try {
     const { email, password } = await request.json()
 
     if (!email || !password) {
-      return NextResponse.json(
-        { error: 'Email and password are required' },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: 'Email and password required' }, { status: 400 })
     }
 
-    // Call InsForge auth API
-    const res = await fetch(`${INSFORGE_BASE}/api/auth/sessions`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'apikey': INSFORGE_KEY,
-      },
-      body: JSON.stringify({ email, password }),
-    })
+    // Find user in InsForge
+    const res = await fetch(
+      `${INSFORGE_BASE}/rest/v1/profiles?email=eq.${encodeURIComponent(email)}&select=*`,
+      {
+        headers: {
+          apikey: INSFORGE_KEY,
+          Authorization: `Bearer ${INSFORGE_KEY}`,
+        },
+      }
+    )
 
-    const data = await res.json()
-
-    if (!res.ok) {
-      return NextResponse.json(
-        { error: data.message || 'Invalid credentials' },
-        { status: res.status }
-      )
+    const users = await res.json()
+    
+    if (!users || users.length === 0) {
+      return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 })
     }
 
-    // InsForge returns camelCase: accessToken, not snake_case: access_token
-    const access_token = data.accessToken || data.access_token
-    const user = data.user
-
-    if (!access_token) {
-      return NextResponse.json(
-        { error: 'Authentication failed - no access token returned', detail: Object.keys(data) },
-        { status: 500 }
-      )
+    const user = users[0]
+    const inputHash = hashPass(password)
+    
+    // Check password
+    if (user.password_hash !== inputHash && password !== user.password_hash) {
+      return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 })
     }
 
-    // Create response
+    // Generate session token
+    const token = Buffer.from(`${user.id}:${Date.now()}`).toString('base64')
+
     const response = NextResponse.json({
       ok: true,
+      token,
       user: {
-        id: user?.id || user?.profile?.id,
-        email: user?.email,
-        name: user?.profile?.name || user?.full_name,
-        role: user?.role || 'authenticated',
-      },
+        id: user.id,
+        email: user.email,
+        name: user.full_name,
+      }
     })
 
-    // Set httpOnly session cookie (readable by middleware)
-    response.cookies.set('insforge_session', access_token, {
+    // Set auth cookie
+    response.cookies.set('auth-session', token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: true,
       sameSite: 'lax',
-      maxAge: 60 * 60 * 24 * 7, // 7 days
+      maxAge: 60 * 60 * 24 * 7,
       path: '/',
     })
 
     return response
   } catch (error) {
     console.error('Login error:', error)
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Login failed' }, { status: 500 })
   }
 }
