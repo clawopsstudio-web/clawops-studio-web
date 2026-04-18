@@ -2,26 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-
-function base64UrlDecode(str: string): string {
-  try {
-    const base64 = str.replace(/-/g, '+').replace(/_/g, '/')
-    const padded = base64 + '=='.slice(0, (4 - base64.length % 4) % 4)
-    return Buffer.from(padded, 'base64').toString('utf-8')
-  } catch {
-    return ''
-  }
-}
-
-function decodeJwtPayload(token: string): Record<string, unknown> | null {
-  try {
-    const parts = token.split('.')
-    if (parts.length !== 3) return null
-    return JSON.parse(base64UrlDecode(parts[1]))
-  } catch {
-    return null
-  }
-}
+import { getSession } from 'next-auth/react'
 
 export default function DashboardPage() {
   const router = useRouter()
@@ -29,32 +10,28 @@ export default function DashboardPage() {
   const [error, setError] = useState('')
 
   useEffect(() => {
-    const checkSession = () => {
-      const token = document.cookie.match(/insforge_session=([^;]+)/)?.[1]
+    const checkSession = async () => {
+      try {
+        const session = await getSession()
+        
+        if (!session?.user) {
+          window.location.href = '/auth/login?redirectTo=/dashboard'
+          return
+        }
 
-      if (!token) {
-        window.location.href = '/auth/login?redirectTo=/dashboard'
-        return
-      }
+        const userId = session.user.id
+        if (!userId) {
+          setError('No user ID in session')
+          setStatus('error')
+          return
+        }
 
-      const payload = decodeJwtPayload(token)
-      if (!payload) {
-        setError('Invalid session')
+        setStatus('redirecting')
+        window.location.href = `/dashboard/${userId}`
+      } catch (err) {
+        setError('Failed to check session')
         setStatus('error')
-        return
       }
-
-      // Check expiry
-      const exp = payload.exp as number | undefined
-      if (exp && Date.now() / 1000 > exp) {
-        document.cookie = 'insforge_session=; Max-Age=0; path=/'
-        window.location.href = '/auth/login?redirectTo=/dashboard'
-        return
-      }
-
-      const userId = payload.sub as string
-      setStatus('redirecting')
-      window.location.href = `/dashboard/${userId}`
     }
 
     checkSession()

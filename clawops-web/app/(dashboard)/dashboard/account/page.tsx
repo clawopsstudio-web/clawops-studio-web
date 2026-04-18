@@ -1,37 +1,11 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { User, LogOut, Shield, Key } from 'lucide-react'
-
-function base64UrlDecode(str: string): string {
-  try {
-    const base64 = str.replace(/-/g, '+').replace(/_/g, '/')
-    const padded = base64 + '=='.slice(0, (4 - base64.length % 4) % 4)
-    return Buffer.from(padded, 'base64').toString('utf-8')
-  } catch {
-    return ''
-  }
-}
-
-function decodeJwtPayload(token: string): Record<string, unknown> | null {
-  try {
-    const parts = token.split('.')
-    if (parts.length !== 3) return null
-    return JSON.parse(base64UrlDecode(parts[1]))
-  } catch {
-    return null
-  }
-}
-
-function getCookie(name: string): string | null {
-  const match = document.cookie.match(
-    new RegExp('(?:^|; )' + name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '=([^;]*)')
-  )
-  return match ? decodeURIComponent(match[1]) : null
-}
+import { useSession, signOut } from 'next-auth/react'
+import { User, LogOut, Shield, Key, Loader2 } from 'lucide-react'
 
 export default function AccountPage() {
-  const [user, setUser] = useState<any>(null)
+  const { data: session, status } = useSession()
   const [profile, setProfile] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
@@ -39,29 +13,32 @@ export default function AccountPage() {
   const [form, setForm] = useState({ full_name: '', company: '' })
 
   useEffect(() => {
-    const token = getCookie('insforge_session')
-    if (!token) {
+    if (status === 'loading') return
+    if (!session?.user) {
       window.location.href = '/auth/login'
       return
     }
 
-    const payload = decodeJwtPayload(token)
-    if (!payload) {
-      window.location.href = '/auth/login'
-      return
-    }
-
-    setUser({
-      id: payload.sub as string,
-      email: payload.email as string,
-      created_at: payload.created_at as string || null,
-    })
+    // Set user from session
     setForm({
-      full_name: (payload.name as string) || '',
+      full_name: session.user.name || '',
       company: '',
     })
-    setLoading(false)
-  }, [])
+    
+    // Fetch profile from API
+    fetch('/api/profile')
+      .then(res => res.json())
+      .then(data => {
+        if (data) {
+          setProfile(data)
+          setForm(prev => ({
+            full_name: data.full_name || prev.full_name,
+            company: data.company || '',
+          }))
+        }
+      })
+      .finally(() => setLoading(false))
+  }, [session, status])
 
   const handleSave = async () => {
     setSaving(true)
@@ -81,22 +58,19 @@ export default function AccountPage() {
     setTimeout(() => setMessage(''), 3000)
   }
 
-  const handleSignOut = async () => {
-    try {
-      await fetch('/api/auth/logout', { method: 'POST' })
-    } catch {}
-    document.cookie = 'insforge_session=; Max-Age=0; path=/'
-    window.location.href = '/auth/login'
+  const handleSignOut = () => {
+    signOut({ callbackUrl: '/auth/login' })
   }
 
-  if (loading) {
+  if (loading || status === 'loading') {
     return (
       <div className="min-h-screen bg-[#04040c] flex items-center justify-center">
-        <div className="w-5 h-5 rounded-full border-2 border-[#00D4FF] border-t-transparent animate-spin" />
+        <Loader2 className="w-5 h-5 text-[#00D4FF] animate-spin" />
       </div>
     )
   }
 
+  const user = session?.user
   const avatarUrl = profile?.avatar_url
   const initials = form.full_name
     ? form.full_name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)
@@ -186,20 +160,14 @@ export default function AccountPage() {
               <span className="text-sm text-white/50">User ID</span>
               <span className="text-xs text-white/30 font-mono">{user?.id}</span>
             </div>
-            <div className="flex items-center justify-between py-2">
-              <span className="text-sm text-white/50">Member Since</span>
-              <span className="text-xs text-white/30">
-                {user?.created_at ? new Date(user.created_at).toLocaleDateString() : '—'}
-              </span>
-            </div>
           </div>
         </div>
 
-        {/* Danger Zone */}
+        {/* Sign Out */}
         <div className="rounded-xl border border-red-500/10 bg-red-500/5 p-6">
           <h2 className="text-sm font-semibold text-red-400 mb-4 flex items-center gap-2">
             <Key className="w-4 h-4" />
-            Danger Zone
+            Sign Out
           </h2>
           <div className="flex items-center justify-between">
             <div>
