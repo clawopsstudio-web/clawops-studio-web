@@ -50,18 +50,14 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
-  // Auth paths → let through (no auth required)
-  if (
-    pathname.startsWith('/auth/') ||
-    pathname.startsWith('/api/auth/') ||
-    pathname.startsWith('/api/nextauth/') ||
-    pathname === '/api/health'
-  ) {
+  // ALL API routes → let through (individual routes handle auth)
+  // This is critical - API routes must pass through
+  if (pathname.startsWith('/api/') || pathname.startsWith('/_next/')) {
     return NextResponse.next()
   }
 
-  // API routes → let through (individual routes handle auth)
-  if (pathname.startsWith('/api/') || pathname.startsWith('/_next/')) {
+  // Auth pages → let through  
+  if (pathname.startsWith('/auth/')) {
     return NextResponse.next()
   }
 
