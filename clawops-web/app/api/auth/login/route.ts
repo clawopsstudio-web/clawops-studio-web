@@ -1,17 +1,31 @@
 // @ts-nocheck
 import { NextRequest, NextResponse } from 'next/server'
+import crypto from 'crypto'
 
 const INSFORGE_BASE = process.env.NEXT_PUBLIC_INSFORGE_BASE_URL || 'https://4tn9u5bb.us-east.insforge.app'
 const INSFORGE_KEY = process.env.NEXT_PUBLIC_INSFORGE_ANON_KEY || 'ik_f11da2bf3d1087cfb816f76748ebfe93'
 
-function hashPass(password: string): string {
-  let hash = 0
-  for (let i = 0; i < password.length; i++) {
-    const char = password.charCodeAt(i)
-    hash = ((hash << 5) - hash) + char
-    hash = hash & hash
-  }
-  return 'h' + Math.abs(hash).toString(16)
+function hashPassword(password: string): string {
+  const data = Buffer.from(password + 'clawops-salt-2024')
+  return crypto.createHash('sha256').update(data).digest('hex')
+}
+
+function createInsForgeToken(user: { id: string; email: string; name?: string }): string {
+  const header = Buffer.from(JSON.stringify({ alg: 'HS256', typ: 'JWT' })).toString('base64url')
+  const payload = Buffer.from(JSON.stringify({
+    sub: user.id,
+    email: user.email,
+    name: user.name || '',
+    iat: Math.floor(Date.now() / 1000),
+    exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7,
+    aud: 'authenticated',
+  })).toString('base64url')
+
+  const secret = INSFORGE_KEY
+  const data = `${header}.${payload}`
+  const signature = crypto.createHmac('sha256', secret).update(data).digest('base64url')
+
+  return `${data}.${signature}`
 }
 
 export async function POST(request: NextRequest) {
@@ -22,7 +36,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Email and password required' }, { status: 400 })
     }
 
-    // Find user in InsForge
     const res = await fetch(
       `${INSFORGE_BASE}/rest/v1/profiles?email=eq.${encodeURIComponent(email)}&select=*`,
       {
@@ -34,36 +47,39 @@ export async function POST(request: NextRequest) {
     )
 
     const users = await res.json()
-    
+
     if (!users || users.length === 0) {
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 })
     }
 
     const user = users[0]
-    const inputHash = hashPass(password)
-    
-    // Check password - accept both hash and raw (for testing)
-    if (user.password_hash !== inputHash && user.password_hash !== password && user.password !== password) {
+
+    // Check password — accept plain text or SHA-256 hash
+    const inputHash = hashPassword(password)
+    const valid = user.password_hash === password || user.password_hash === inputHash
+
+    if (!valid) {
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 })
     }
 
-    // Generate session token
-    const token = Buffer.from(`${user.id}:${Date.now()}`).toString('base64')
+    const token = createInsForgeToken({
+      id: user.id,
+      email: user.email,
+      name: user.full_name,
+    })
 
     const response = NextResponse.json({
       ok: true,
-      token,  // Add token for frontend
       user: {
         id: user.id,
         email: user.email,
         name: user.full_name,
-      }
+      },
     })
 
-    // Set auth cookie
-    response.cookies.set('auth-session', token, {
+    response.cookies.set('insforge_session', token, {
       httpOnly: true,
-      secure: true,
+      secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
       maxAge: 60 * 60 * 24 * 7,
       path: '/',
