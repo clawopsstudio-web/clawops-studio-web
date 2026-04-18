@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { auth } from '@/lib/auth'
 
 // Landing page paths
 const LANDING_PATHS = [
@@ -20,6 +19,40 @@ const LANDING_PATHS = [
 function isLandingPath(pathname: string): boolean {
   if (pathname === '/') return true
   return LANDING_PATHS.some(p => pathname.startsWith(p))
+}
+
+function base64UrlDecode(str: string): string {
+  try {
+    const base64 = str.replace(/-/g, '+').replace(/_/g, '/')
+    const padded = base64 + '=='.slice(0, (4 - base64.length % 4) % 4)
+    return Buffer.from(padded, 'base64').toString('utf-8')
+  } catch {
+    return ''
+  }
+}
+
+function decodeJwtPayload(token: string): Record<string, unknown> | null {
+  try {
+    const parts = token.split('.')
+    if (parts.length !== 3) return null
+    return JSON.parse(base64UrlDecode(parts[1]))
+  } catch {
+    return null
+  }
+}
+
+function isAuthenticated(request: NextRequest): boolean {
+  const token = request.cookies.get('insforge_session')?.value
+  if (!token) return false
+
+  const payload = decodeJwtPayload(token)
+  if (!payload) return false
+
+  // Check expiry
+  const exp = payload.exp as number | undefined
+  if (exp && Date.now() / 1000 > exp) return false
+
+  return true
 }
 
 export async function middleware(request: NextRequest) {
@@ -51,26 +84,22 @@ export async function middleware(request: NextRequest) {
   }
 
   // ALL API routes → let through (individual routes handle auth)
-  // This is critical - API routes must pass through
   if (pathname.startsWith('/api/') || pathname.startsWith('/_next/')) {
     return NextResponse.next()
   }
 
-  // Auth pages → let through  
+  // Auth pages → let through
   if (pathname.startsWith('/auth/')) {
     return NextResponse.next()
   }
 
-  // Dashboard paths → require auth
+  // Dashboard paths → require auth via InsForge session
   if (pathname.startsWith('/dashboard/') || pathname === '/dashboard') {
-    const session = await auth()
-
-    if (!session?.user) {
+    if (!isAuthenticated(request)) {
       const loginUrl = new URL('/auth/login', request.url)
       loginUrl.searchParams.set('redirectTo', pathname)
       return NextResponse.redirect(loginUrl)
     }
-
     return NextResponse.next()
   }
 
