@@ -1,7 +1,28 @@
-/lossless-claw/
+# Dependencies
+node_modules/
 clawops-web/node_modules/
 clawops-web/.next/
-node_modules/
+.next/
+
+# Environment files
+.env
+.env.local
+.env*.local
+.clawops-web/.env.local
+
+# Vercel
 .vercel_token
+
+# Secrets & credentials
+.secrets/
+credentials/
+*.env
+
+# Private projects
 lossless-claw/
 clawops-dashboard/
+openclaw-dashboard/
+
+# Build output
+dist/
+build/
