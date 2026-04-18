@@ -26,7 +26,7 @@ function GoogleCallback() {
         const { insforge } = await import('@/lib/insforge/client')
 
         // Exchange the code with InsForge using PKCE.
-        // The verifier is read from sessionStorage by the SDK's exchangeOAuthCode.
+        // The SDK reads the verifier from sessionStorage automatically.
         const { data, error: exchangeError } = await insforge.auth.exchangeOAuthCode(code)
 
         if (exchangeError) {
@@ -36,10 +36,21 @@ function GoogleCallback() {
         }
 
         if (data?.accessToken) {
-          // Clear PKCE verifier
-          sessionStorage.removeItem('insforge_pkce_verifier')
-          localStorage.removeItem('insforge_pkce_verifier')
-          router.push('/dashboard')
+          // SDK stores session in memory. We need to also set the insforge_session cookie
+          // so that middleware can read it for server-side auth.
+          const response = await fetch('/api/auth/oauth/persist-session', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ accessToken: data.accessToken, provider: 'google' }),
+          })
+
+          if (response.ok) {
+            sessionStorage.removeItem('insforge_pkce_verifier')
+            router.push('/dashboard')
+          } else {
+            console.error('[Google Callback] persist-session failed:', response.status)
+            router.push('/auth/login?error=persist_failed')
+          }
         } else {
           router.push('/auth/login?error=no_access_token')
         }
