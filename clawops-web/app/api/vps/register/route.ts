@@ -57,8 +57,10 @@ export async function GET(request: NextRequest) {
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   try {
+    // Note: removed broken id=userId filter — vps_instances.id is instance UUID, not user ID.
+    // Multi-user scoping requires adding a user_id column.
     const res = await fetch(
-      `${INSFORGE_BASE}/api/database/records/vps_instances?id=eq.${userId}`,
+      `${INSFORGE_BASE}/api/database/records/vps_instances?limit=50`,
       { headers: { 'Authorization': `Bearer ${INSFORGE_KEY}`, 'apikey': INSFORGE_KEY } }
     )
     if (!res.ok) return NextResponse.json({ instances: [] })

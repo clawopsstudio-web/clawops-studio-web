@@ -136,7 +136,7 @@ export async function updateUserProfile(profile: Record<string, unknown>) {
     const userId = payload.sub as string
     if (!userId) return { success: false, error: 'No user ID' }
 
-    const res = await fetch(`${INSFORGE_BASE}/rest/v1/profiles?id=eq.${userId}`, {
+    const res = await fetch(`${INSFORGE_BASE}/api/database/records/profiles?id=eq.${userId}`, {
       method: 'PATCH',
       headers: {
         'Authorization': `Bearer ${INSFORGE_KEY}`,

@@ -15,7 +15,9 @@ export async function GET(request: NextRequest) {
     )
     if (!res.ok) return NextResponse.json({ instances: [] })
     const allInstances = (await res.json()) || []
-    const instances = allInstances.filter((i: any) => i.id === userId)
+    // Note: vps_instances table has no user_id column. Showing all instances for now.
+    // Multi-user scoping requires adding a user_id column to the vps_instances table.
+    const instances = allInstances
     return NextResponse.json({ instances })
   } catch {
     return NextResponse.json({ instances: [] })
@@ -79,7 +81,7 @@ export async function DELETE(request: NextRequest) {
 
   try {
     const res = await fetch(
-      `${INSFORGE_BASE}/api/database/records/vps_instances?id=eq.${id}&id=eq.${userId}`,
+      `${INSFORGE_BASE}/api/database/records/vps_instances?id=eq.${id}`,  // vps_instances.id is instance UUID (no user_id col — multi-user fix needed)
       {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${INSFORGE_KEY}`, 'apikey': INSFORGE_KEY },

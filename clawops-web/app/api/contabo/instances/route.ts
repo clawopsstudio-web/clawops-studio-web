@@ -1,27 +1,37 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createServerClient } from '@/lib/insforge/server'
 import { getUserId } from '@/lib/api-auth'
+import { decrypt } from '@/lib/crypto'
 
-// GET: Fetch all Contabo instances from Contabo API for the authenticated user
+const INSFORGE_BASE = process.env.NEXT_PUBLIC_INSFORGE_BASE_URL!
+const INSFORGE_KEY = process.env.NEXT_PUBLIC_INSFORGE_ANON_KEY!
+
 export async function GET(request: NextRequest) {
   const userId = getUserId(request)
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const insforge = await createServerClient()
-
-  // Get Contabo credentials for this user
-  const { data: integration } = await insforge.database
-    .from('user_integrations')
-    .select('credentials')
-    .eq('id', userId)
-    .eq('provider', 'contabo')
-    .maybeSingle()
+  // Get encrypted Contabo credentials for this user
+  const checkRes = await fetch(
+    `${INSFORGE_BASE}/api/database/records/user_integrations?id=eq.${userId}&provider=eq.contabo`,
+    {
+      headers: { 'Authorization': `Bearer ${INSFORGE_KEY}`, 'apikey': INSFORGE_KEY },
+    }
+  )
+  const integrations = await checkRes.json()
+  const integration = integrations?.[0]
 
   if (!integration) {
     return NextResponse.json({ connected: false, instances: [] })
   }
 
-  const creds = integration.credentials || {}
+  // Decrypt credentials
+  let creds: { client_id: string; client_secret: string } = { client_id: '', client_secret: '' }
+  if (integration.credentials_encrypted) {
+    try {
+      creds = JSON.parse(decrypt(integration.credentials_encrypted))
+    } catch {
+      return NextResponse.json({ connected: false, error: 'Failed to decrypt credentials' }, { status: 500 })
+    }
+  }
 
   // Get OAuth token from Contabo
   const tokenRes = await fetch('https://auth.contabo.com/auth/realms/contabo/protocol/openid-connect/token', {

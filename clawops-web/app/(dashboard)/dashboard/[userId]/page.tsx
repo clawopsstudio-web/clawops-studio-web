@@ -1,7 +1,10 @@
 import { redirect } from 'next/navigation'
-import { createServerClient, getSession } from '@/lib/insforge/server'
+import { getSession } from '@/lib/insforge/server'
 import DashboardShell from '@/components/dashboard/DashboardShell'
 import DashboardClient from '@/components/dashboard/DashboardClient'
+
+const INSFORGE_BASE = process.env.NEXT_PUBLIC_INSFORGE_BASE_URL!
+const INSFORGE_KEY = process.env.NEXT_PUBLIC_INSFORGE_ANON_KEY!
 
 interface Props {
   params: Promise<{ userId: string }>
@@ -10,7 +13,6 @@ interface Props {
 export default async function UserDashboardPage({ params }: Props) {
   const { userId } = await params
   const session = await getSession()
-  const insforge = await createServerClient()
 
   if (!session.data.session) {
     redirect('/auth/login')
@@ -23,16 +25,26 @@ export default async function UserDashboardPage({ params }: Props) {
     redirect('/auth/login')
   }
 
-  // Fetch data in parallel
+  // Fetch data in parallel using direct fetch (SDK /rest/v1/ is broken)
+  const headers = { 'Authorization': `Bearer ${INSFORGE_KEY}`, 'apikey': INSFORGE_KEY }
+
   const [profileResult, tasksResult, instancesResult] = await Promise.allSettled([
-    insforge.database.from('profiles').select('*').eq('id', userId).maybeSingle(),
-    insforge.database.from('tasks').select('*').eq('user_id', userId).order('created_at', { ascending: false }).limit(10),
-    insforge.database.from('vps_instances').select('*').eq('user_id', userId),
+    fetch(`${INSFORGE_BASE}/api/database/records/profiles?id=eq.${userId}`, { headers }),
+    fetch(`${INSFORGE_BASE}/api/database/records/tasks?order=created_at.desc&limit=10`, { headers }),
+    fetch(`${INSFORGE_BASE}/api/database/records/vps_instances?limit=20`, { headers }),
   ])
 
-  const profile = profileResult.status === 'fulfilled' ? profileResult.value.data : null
-  const tasks = tasksResult.status === 'fulfilled' ? (tasksResult.value.data || []) : []
-  const instances = instancesResult.status === 'fulfilled' ? (instancesResult.value.data || []) : []
+  const profile = profileResult.status === 'fulfilled' && profileResult.value.ok
+    ? (await profileResult.value.json())?.[0] || null
+    : null
+
+  const tasks = tasksResult.status === 'fulfilled' && tasksResult.value.ok
+    ? (await tasksResult.value.json()) || []
+    : []
+
+  const instances = instancesResult.status === 'fulfilled' && instancesResult.value.ok
+    ? (await instancesResult.value.json()) || []
+    : []
 
   // Try to fetch OpenClaw status
   let openclaw: any = null

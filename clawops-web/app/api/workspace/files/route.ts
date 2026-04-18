@@ -3,8 +3,6 @@ import { getUserId } from '@/lib/api-auth'
 import fs from 'fs'
 import path from 'path'
 
-const WORKSPACE = '/root/.openclaw/workspace'
-
 function base64UrlDecode(str: string): string {
   try {
     const base64 = str.replace(/-/g, '+').replace(/_/g, '/')
@@ -35,22 +33,15 @@ function getUserIdFromRequest(request: NextRequest): string {
   return payload.sub as string
 }
 
-interface FSNode {
-  name: string
-  path: string
-  type: 'file' | 'directory'
-  children?: FSNode[]
-}
-
-function buildTree(dir: string): FSNode[] {
+function buildTree(userDir: string): object[] {
   try {
-    const entries = fs.readdirSync(dir, { withFileTypes: true })
+    const entries = fs.readdirSync(userDir, { withFileTypes: true })
     return entries
       .filter(e => !e.name.startsWith('.'))
       .map(entry => {
-        const fullPath = path.join(dir, entry.name)
+        const fullPath = path.join(userDir, entry.name)
         const isDir = entry.isDirectory()
-        const node: FSNode = {
+        const node: any = {
           name: entry.name,
           path: fullPath,
           type: isDir ? 'directory' : 'file',
@@ -60,7 +51,7 @@ function buildTree(dir: string): FSNode[] {
         }
         return node
       })
-      .sort((a, b) => {
+      .sort((a: any, b: any) => {
         if (a.type === 'directory' && b.type === 'file') return -1
         if (a.type === 'file' && b.type === 'directory') return 1
         return a.name.localeCompare(b.name)
@@ -76,9 +67,25 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
+  const userDir = path.join('/root/.openclaw/workspace', userId)
+
+  // Reject access to any user other than their own directory
+  if (!userDir.startsWith('/root/.openclaw/workspace/')) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  }
+
+  // Ensure the user's directory exists
+  if (!fs.existsSync(userDir)) {
+    try {
+      fs.mkdirSync(userDir, { recursive: true })
+    } catch {
+      return NextResponse.json({ error: 'Access denied' }, { status: 403 })
+    }
+  }
+
   try {
-    const tree = buildTree(WORKSPACE)
-    return NextResponse.json({ tree })
+    const tree = buildTree(userDir)
+    return NextResponse.json({ tree, userId })
   } catch {
     return NextResponse.json({ error: 'Failed to read workspace' }, { status: 500 })
   }

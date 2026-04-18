@@ -14,8 +14,10 @@ export async function GET(request: NextRequest) {
       { headers: { 'Authorization': `Bearer ${INSFORGE_KEY}`, 'apikey': INSFORGE_KEY } }
     )
     if (!res.ok) return NextResponse.json({ tasks: [] })
+    // Note: tasks table has no user_id column. Showing all tasks for now.
+    // Multi-user scoping requires adding a user_id column to the tasks table.
     const allTasks = await res.json()
-    const tasks = (allTasks || []).filter((t: any) => t.id === userId)
+    const tasks = (allTasks || [])
     return NextResponse.json({ tasks })
   } catch {
     return NextResponse.json({ tasks: [] })

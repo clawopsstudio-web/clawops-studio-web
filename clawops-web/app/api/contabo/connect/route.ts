@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createServerClient } from '@/lib/insforge/server'
 import { getUserId } from '@/lib/api-auth'
+import { encrypt, decrypt } from '@/lib/crypto'
+
+const INSFORGE_BASE = process.env.NEXT_PUBLIC_INSFORGE_BASE_URL!
+const INSFORGE_KEY = process.env.NEXT_PUBLIC_INSFORGE_ANON_KEY!
 
 export async function POST(request: NextRequest) {
   const userId = getUserId(request)
@@ -12,7 +15,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'client_id and client_secret required' }, { status: 400 })
   }
 
-  // Test the credentials first with client_credentials grant
+  // Test credentials with Contabo OAuth
   const tokenRes = await fetch('https://auth.contabo.com/auth/realms/contabo/protocol/openid-connect/token', {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -29,40 +32,56 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Invalid Contabo credentials' }, { status: 401 })
   }
 
-  const insforge = await createServerClient()
+  // Encrypt credentials before storing — never store raw secrets in DB
+  const encrypted = encrypt(JSON.stringify({ client_id, client_secret }))
 
-  // Check if exists
-  const { data: existing } = await insforge.database
-    .from('user_integrations')
-    .select('id')
-    .eq('id', userId)
-    .eq('provider', 'contabo')
-    .maybeSingle()
+  // Check if existing integration
+  const checkRes = await fetch(
+    `${INSFORGE_BASE}/api/database/records/user_integrations?id=eq.${userId}&provider=eq.contabo`,
+    {
+      headers: { 'Authorization': `Bearer ${INSFORGE_KEY}`, 'apikey': INSFORGE_KEY },
+    }
+  )
+  const existing = await checkRes.json()
 
   let result
-  if (existing) {
-    result = await insforge.database
-      .from('user_integrations')
-      .update({
-        credentials: { client_id, client_secret },
-        status: 'connected',
-      })
-      .eq('id', existing.id)
-      .select()
-      .single()
+  if (existing && existing.length > 0) {
+    // Update existing
+    result = await fetch(
+      `${INSFORGE_BASE}/api/database/records/user_integrations?id=eq.${userId}&provider=eq.contabo`,
+      {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${INSFORGE_KEY}`,
+          'apikey': INSFORGE_KEY,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=representation',
+        },
+        body: JSON.stringify({
+          credentials_encrypted: encrypted,
+          status: 'connected',
+        }),
+      }
+    )
   } else {
-    result = await insforge.database
-      .from('user_integrations')
-      .insert([{
+    // Insert new
+    result = await fetch(`${INSFORGE_BASE}/api/database/records/user_integrations`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${INSFORGE_KEY}`,
+        'apikey': INSFORGE_KEY,
+        'Content-Type': 'application/json',
+        'Prefer': 'representation',
+      },
+      body: JSON.stringify([{
         id: userId,
         provider: 'contabo',
-        credentials: { client_id, client_secret },
+        credentials_encrypted: encrypted,
         status: 'connected',
-      }])
-      .select()
-      .single()
+      }]),
+    })
   }
 
-  if (result.error) return NextResponse.json({ error: result.error.message }, { status: 500 })
+  if (!result.ok) return NextResponse.json({ error: 'Storage failed' }, { status: 500 })
   return NextResponse.json({ success: true })
 }

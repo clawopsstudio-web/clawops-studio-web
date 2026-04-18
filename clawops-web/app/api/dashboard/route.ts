@@ -57,7 +57,8 @@ export async function GET(request: NextRequest) {
     )
     if (tasksRes.ok) {
       const allTasks = (await tasksRes.json()) || []
-      tasks = allTasks.filter((t: any) => t.id === userId).slice(0, 5)
+      // Note: tasks table has no user_id column — showing all for now.
+      tasks = allTasks.slice(0, 5)
     }
   } catch { /* tasks table may be empty */ }
 
