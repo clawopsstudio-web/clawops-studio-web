@@ -104,3 +104,31 @@
 ## Google Doc: https://docs.google.com/document/d/1mhkWxJERmc2-lQ6wbUvyec5flw0GHU9MiVrXbLQAmyo
 
 ## Docs pushed to GitHub: docs/SYSTEM_DOCUMENTATION.md
+
+## Audit Round 6 — 2026-04-19
+
+### Architecture Changes
+- **InsForge has TWO auth systems:**
+  1. `/api/auth/sessions` — POST → login with email/password (INSFORGE native)
+  2. `/api/auth/users` — POST → signup (INSFORGE native)
+  3. `/api/auth/logout` — POST → logout
+- **InsForge DB endpoint:** `/api/database/records/{table}` — the WORKING endpoint
+- **Broken endpoint:** `/rest/v1/` — returns HTML 404, NOT for DB operations
+- **profiles table:** id, full_name, company, avatar_url, created_at, updated_at (NO email, NO password_hash)
+- **tasks table:** id, title, description, status, priority, due_date, created_at, updated_at (NO user_id)
+- **vps_instances table:** id (UUID, instance UUID), instance_id, name, ip_v4, etc. (NO user_id)
+- **accounts table:** id, name only (empty, InsForge-managed auth table)
+- All DB operations now use direct `fetch()` calls to `/api/database/records/` (not SDK)
+- All routes using `createServerClient()` or `insforgeAdmin` SDK were rewritten to direct fetch
+
+### Bugs Fixed
+1. Login/signup: was using broken `/rest/v1/profiles` → now uses `/api/auth/sessions` + `/api/auth/users`
+2. Workspace files: was exposing entire VPS `/root/.openclaw/workspace/` → now scoped to `/root/.openclaw/workspace/{userId}/` with blocked patterns (credentials/, memory/, .env, etc.)
+3. Dead routes deleted: `/api/auth/[...nextauth]`, `/api/auth-providers`, `/api/auth-new`, `/api/v1/login`, `/api/test-route`, `/api/debug-auth`, `/api/nauth-disabled.bak`
+4. Contabo credentials: stored encrypted (AES-256-GCM) instead of plain JSON
+5. All InsForge SDK usages removed from routes — replaced with direct fetch to `/api/database/records/`
+6. Tasks/instances: removed broken `id === userId` filter (tables have no user_id column — showing all for now)
+
+### mini-swe-agent installed
+- Available as `mini` command at `/usr/bin/mini`
+- Version 2.2.8

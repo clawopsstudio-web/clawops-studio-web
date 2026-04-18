@@ -7,7 +7,6 @@ import { Loader2 } from 'lucide-react'
 
 function SignupForm() {
   const router = useRouter()
-  const redirectTo = '/dashboard'
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -15,6 +14,7 @@ function SignupForm() {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -25,8 +25,8 @@ function SignupForm() {
       return
     }
 
-    if (password.length < 6) {
-      setError('Password must be at least 6 characters')
+    if (password.length < 8) {
+      setError('Password must be at least 8 characters')
       return
     }
 
@@ -47,9 +47,9 @@ function SignupForm() {
         return
       }
 
-      // Success - redirect to dashboard
-      router.push(redirectTo)
-      router.refresh()
+      // Success - show email verification message, redirect to login
+      setSuccess(data.message || 'Account created! Please check your email to verify your account.')
+      setLoading(false)
     } catch {
       setError('Something went wrong. Please try again.')
       setLoading(false)
@@ -233,6 +233,20 @@ function SignupForm() {
               {loading ? <Loader2 className="animate-spin" size={20} /> : 'Create account'}
             </button>
           </form>
+
+          {success && (
+            <div style={{
+              background: 'rgba(0,255,136,0.08)',
+              border: '1px solid rgba(0,255,136,0.3)',
+              borderRadius: 8,
+              padding: '12px 16px',
+              marginBottom: 16,
+              color: '#00ff88',
+              fontSize: 14,
+            }}>
+              {success}
+            </div>
+          )}
 
           <div style={{ marginTop: 24, textAlign: 'center', color: '#9ca3af', fontSize: 14 }}>
             Already have an account?{' '}

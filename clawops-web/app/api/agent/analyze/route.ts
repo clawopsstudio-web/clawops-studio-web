@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { getUserId } from '@/lib/api-auth'
 
 export async function POST(request: NextRequest) {
+  const userId = getUserId(request)
+  if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   try {
     const body = await request.json()
-    const { name, business, tools, websiteUrl, agentName } = body
+    const { name, business = '', tools = '', websiteUrl, agentName } = body
 
     if (!name || !agentName) {
       return NextResponse.json(

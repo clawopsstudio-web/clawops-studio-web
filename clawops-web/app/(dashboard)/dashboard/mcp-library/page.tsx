@@ -66,7 +66,7 @@ export default function MCPLibrary() {
     setToolsLoading(true)
     setTools([])
     try {
-      const res = await fetch(`/api/mcp/servers/${server.name}/tools`)
+      const res = await fetch(`/api/mcp/server-tools?name=${server.name}`)
       if (res.ok) {
         const data = await res.json()
         setTools(data.tools || [])

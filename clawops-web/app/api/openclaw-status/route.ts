@@ -1,10 +1,9 @@
 import { NextResponse } from 'next/server'
 
-// OpenClaw VPS services - use Contabo public IP
-const VPS_IP = '161.97.173.78'
-const VPS_MC_PORT = '8082'    // Mission Control
-const VPS_N8N_PORT = '5678'    // n8n
-const VPS_CHROME_PORT = '5800'   // Chrome VNC
+// Internal VPS services — only accessible from Vercel network, not exposed publicly
+const VPS_IP = process.env.VPS_INTERNAL_IP || '127.0.0.1'
+const VPS_MC_PORT = process.env.VPS_MC_PORT || '8082'
+const VPS_N8N_PORT = process.env.VPS_N8N_PORT || '5678'
 const TIMEOUT_MS = 5000
 
 export async function GET() {
