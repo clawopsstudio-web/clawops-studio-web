@@ -1,34 +1,39 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { getUserId } from '@/lib/api-auth'
 
 const INSFORGE_BASE = process.env.NEXT_PUBLIC_INSFORGE_BASE_URL!
 const INSFORGE_KEY = process.env.NEXT_PUBLIC_INSFORGE_ANON_KEY!
 
-async function getUserFromSession(request: NextRequest) {
-  const token = request.cookies.get('insforge_session')?.value
-  if (!token) return null
+function base64UrlDecode(str: string): string {
   try {
-    const res = await fetch(`${INSFORGE_BASE}/api/auth/sessions/current`, {
-      headers: { 'Authorization': `Bearer ${token}`, 'apikey': INSFORGE_KEY },
-    })
-    if (!res.ok) return null
-    const data = await res.json()
-    return data.user || null
+    const base64 = str.replace(/-/g, '+').replace(/_/g, '/')
+    const padded = base64 + '=='.slice(0, (4 - base64.length % 4) % 4)
+    return Buffer.from(padded, 'base64').toString('utf-8')
+  } catch {
+    return ''
+  }
+}
+
+function decodeJwtPayload(token: string): Record<string, unknown> | null {
+  try {
+    const parts = token.split('.')
+    if (parts.length !== 3) return null
+    return JSON.parse(base64UrlDecode(parts[1]))
   } catch {
     return null
   }
 }
 
 export async function GET(request: NextRequest) {
-  const user = await getUserFromSession(request)
-  if (!user) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
+  const userId = getUserId(request)
+  if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const userId = user.id
-  const userEmail = user.email || ''
-  const userName = user.profile?.name || user.profile?.full_name || userEmail.split('@')[0]
+  // Get user info from JWT payload
+  const token = request.cookies.get('insforge_session')?.value
+  const payload = token ? decodeJwtPayload(token) : null
+  const userEmail = (payload?.email as string) || ''
+  const userName = (payload?.name as string) || userEmail.split('@')[0]
 
-  // Fetch dashboard data from InsForge database using anon key
   let profile = null
   let tasks: any[] = []
   let instances: any[] = []
@@ -52,7 +57,6 @@ export async function GET(request: NextRequest) {
     )
     if (tasksRes.ok) {
       const allTasks = (await tasksRes.json()) || []
-      // tasks table uses id as user reference
       tasks = allTasks.filter((t: any) => t.id === userId).slice(0, 5)
     }
   } catch { /* tasks table may be empty */ }
@@ -64,7 +68,6 @@ export async function GET(request: NextRequest) {
     )
     if (instancesRes.ok) {
       const allInstances = (await instancesRes.json()) || []
-      // Filter by id (vps_instances uses id as user reference)
       instances = allInstances.filter((i: any) => i.id === userId).slice(0, 10)
     }
   } catch { /* instances table may be empty */ }

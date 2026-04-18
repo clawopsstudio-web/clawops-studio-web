@@ -1,25 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { getUserId } from '@/lib/api-auth'
 
 const INSFORGE_BASE = process.env.NEXT_PUBLIC_INSFORGE_BASE_URL!
 const INSFORGE_KEY = process.env.NEXT_PUBLIC_INSFORGE_ANON_KEY!
 
-async function getUserId(request: NextRequest): Promise<string> {
-  const token = request.cookies.get('insforge_session')?.value
-  if (!token) return ''
-  try {
-    const res = await fetch(`${INSFORGE_BASE}/api/auth/sessions/current`, {
-      headers: { 'Authorization': `Bearer ${token}`, 'apikey': INSFORGE_KEY },
-    })
-    if (!res.ok) return ''
-    const data = await res.json()
-    return data.user?.id || ''
-  } catch {
-    return ''
-  }
-}
-
 export async function GET(request: NextRequest) {
-  const userId = await getUserId(request)
+  const userId = getUserId(request)
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   try {
@@ -37,7 +23,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const userId = await getUserId(request)
+  const userId = getUserId(request)
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const body = await request.json()
@@ -54,7 +40,7 @@ export async function POST(request: NextRequest) {
           'Authorization': `Bearer ${INSFORGE_KEY}`,
           'apikey': INSFORGE_KEY,
           'Content-Type': 'application/json',
-          'Prefer': 'resolution=merge-duplicates',
+          Prefer: 'resolution=merge-duplicates',
         },
         body: JSON.stringify([{
           id: userId,

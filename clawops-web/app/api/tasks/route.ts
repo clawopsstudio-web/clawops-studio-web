@@ -1,25 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { getUserId } from '@/lib/api-auth'
 
 const INSFORGE_BASE = process.env.NEXT_PUBLIC_INSFORGE_BASE_URL!
 const INSFORGE_KEY = process.env.NEXT_PUBLIC_INSFORGE_ANON_KEY!
 
-async function getUserId(request: NextRequest): Promise<string> {
-  const token = request.cookies.get('insforge_session')?.value
-  if (!token) return ''
-  try {
-    const res = await fetch(`${INSFORGE_BASE}/api/auth/sessions/current`, {
-      headers: { 'Authorization': `Bearer ${token}`, 'apikey': INSFORGE_KEY },
-    })
-    if (!res.ok) return ''
-    const data = await res.json()
-    return data.user?.id || ''
-  } catch {
-    return ''
-  }
-}
-
 export async function GET(request: NextRequest) {
-  const userId = await getUserId(request)
+  const userId = getUserId(request)
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   try {
@@ -37,15 +23,13 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const userId = await getUserId(request)
+  const userId = getUserId(request)
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const body = await request.json()
   const { title, description, priority } = body
 
-  if (!title?.trim()) {
-    return NextResponse.json({ error: 'Title is required' }, { status: 400 })
-  }
+  if (!title) return NextResponse.json({ error: 'title is required' }, { status: 400 })
 
   try {
     const res = await fetch(
@@ -56,30 +40,25 @@ export async function POST(request: NextRequest) {
           'Authorization': `Bearer ${INSFORGE_KEY}`,
           'apikey': INSFORGE_KEY,
           'Content-Type': 'application/json',
-          'Prefer': 'representation',
         },
         body: JSON.stringify([{
           id: userId,
-          title: title.trim(),
+          title,
           description: description || null,
           priority: priority || 'medium',
           status: 'pending',
         }]),
       }
     )
-    if (!res.ok) {
-      const err = await res.json()
-      return NextResponse.json({ error: err.message || 'Insert failed' }, { status: 500 })
-    }
-    const task = await res.json()
-    return NextResponse.json({ task }, { status: 201 })
+    if (!res.ok) return NextResponse.json({ error: 'Failed to create task' }, { status: 500 })
+    return NextResponse.json({ success: true })
   } catch {
     return NextResponse.json({ error: 'Internal error' }, { status: 500 })
   }
 }
 
 export async function DELETE(request: NextRequest) {
-  const userId = await getUserId(request)
+  const userId = getUserId(request)
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const { searchParams } = new URL(request.url)
@@ -89,13 +68,10 @@ export async function DELETE(request: NextRequest) {
   try {
     const res = await fetch(
       `${INSFORGE_BASE}/api/database/records/tasks?id=eq.${id}&id=eq.${userId}`,
-      {
-        method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${INSFORGE_KEY}`, 'apikey': INSFORGE_KEY },
-      }
+      { method: 'DELETE', headers: { 'Authorization': `Bearer ${INSFORGE_KEY}`, 'apikey': INSFORGE_KEY } }
     )
     if (!res.ok) return NextResponse.json({ error: 'Delete failed' }, { status: 500 })
-    return NextResponse.json({ ok: true })
+    return NextResponse.json({ success: true })
   } catch {
     return NextResponse.json({ error: 'Internal error' }, { status: 500 })
   }
