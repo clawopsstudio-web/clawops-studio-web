@@ -1,16 +1,10 @@
-// @ts-nocheck
 import { NextRequest, NextResponse } from 'next/server'
 import crypto from 'crypto'
 
 const INSFORGE_BASE = process.env.NEXT_PUBLIC_INSFORGE_BASE_URL || 'https://4tn9u5bb.us-east.insforge.app'
 const INSFORGE_KEY = process.env.NEXT_PUBLIC_INSFORGE_ANON_KEY || 'ik_f11da2bf3d1087cfb816f76748ebfe93'
 
-function hashPassword(password: string): string {
-  const data = Buffer.from(password + 'clawops-salt-2024')
-  return crypto.createHash('sha256').update(data).digest('hex')
-}
-
-function createInsForgeToken(user: { id: string; email: string; name?: string }): string {
+function createSessionToken(user: { id: string; email: string; name?: string }): string {
   const header = Buffer.from(JSON.stringify({ alg: 'HS256', typ: 'JWT' })).toString('base64url')
   const payload = Buffer.from(JSON.stringify({
     sub: user.id,
@@ -36,44 +30,57 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Email and password required' }, { status: 400 })
     }
 
-    const res = await fetch(
-      `${INSFORGE_BASE}/rest/v1/profiles?email=eq.${encodeURIComponent(email)}&select=*`,
-      {
-        headers: {
-          apikey: INSFORGE_KEY,
-          Authorization: `Bearer ${INSFORGE_KEY}`,
-        },
+    // Use InsForge's built-in email/password auth endpoint
+    const res = await fetch(`${INSFORGE_BASE}/api/auth/sessions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': INSFORGE_KEY,
+      },
+      body: JSON.stringify({ email, password }),
+    })
+
+    const data = await res.json()
+
+    if (!res.ok) {
+      // Pass through InsForge error messages for better UX
+      if (data.statusCode === 403) {
+        return NextResponse.json(
+          { error: data.message || 'Email verification required' },
+          { status: 403 }
+        )
       }
-    )
-
-    const users = await res.json()
-
-    if (!users || users.length === 0) {
-      return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 })
+      if (data.statusCode === 401) {
+        return NextResponse.json(
+          { error: 'Invalid email or password' },
+          { status: 401 }
+        )
+      }
+      return NextResponse.json(
+        { error: data.message || 'Login failed' },
+        { status: res.status }
+      )
     }
 
-    const user = users[0]
+    // Extract user info from InsForge session response
+    const insforgeUser = data.user || {}
+    const userId = insforgeUser.id || email
+    const userEmail = insforgeUser.email || email
+    const userName = insforgeUser.user_metadata?.full_name || insforgeUser.user_metadata?.name || email.split('@')[0]
 
-    // Check password — accept plain text or SHA-256 hash
-    const inputHash = hashPassword(password)
-    const valid = user.password_hash === password || user.password_hash === inputHash
-
-    if (!valid) {
-      return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 })
-    }
-
-    const token = createInsForgeToken({
-      id: user.id,
-      email: user.email,
-      name: user.full_name,
+    // Create local JWT session (same format as OAuth flow)
+    const token = createSessionToken({
+      id: userId,
+      email: userEmail,
+      name: userName,
     })
 
     const response = NextResponse.json({
       ok: true,
       user: {
-        id: user.id,
-        email: user.email,
-        name: user.full_name,
+        id: userId,
+        email: userEmail,
+        name: userName,
       },
     })
 
