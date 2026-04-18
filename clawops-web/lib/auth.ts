@@ -15,9 +15,20 @@ interface CredentialsUser extends AuthUser {
   password?: string
 }
 
-export const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET || 'temp-secret-replace-before-deploy'
+export const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET || 'temp-secret-change-in-prod'
 
-// Password hashing (simple bcrypt-style for demo — in production use bcrypt)
+// Use explicit base URL - Vercel will have NEXTAUTH_URL set
+function getBaseUrl() {
+  if (process.env.NEXTAUTH_URL) {
+    return process.env.NEXTAUTH_URL
+  }
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`
+  }
+  return 'http://localhost:3000'
+}
+
+// Password hashing
 async function hashPassword(password: string): Promise<string> {
   const encoder = new TextEncoder()
   const data = encoder.encode(password + 'clawops-salt-2024')
@@ -37,7 +48,6 @@ async function upsertUserFromGoogle(googleUser: AuthUser): Promise<AuthUser> {
   const anonKey = process.env.NEXT_PUBLIC_INSFORGE_ANON_KEY!
 
   try {
-    // Check if user exists by email
     const checkRes = await fetch(`${baseUrl}/rest/v1/profiles?email=eq.${encodeURIComponent(googleUser.email)}&select=id`, {
       headers: {
         'apikey': anonKey,
@@ -48,7 +58,6 @@ async function upsertUserFromGoogle(googleUser: AuthUser): Promise<AuthUser> {
     if (checkRes.ok) {
       const existing = await checkRes.json()
       if (existing && existing.length > 0) {
-        // Update existing user
         await fetch(`${baseUrl}/rest/v1/profiles?id=eq.${existing[0].id}`, {
           method: 'PATCH',
           headers: {
@@ -67,7 +76,6 @@ async function upsertUserFromGoogle(googleUser: AuthUser): Promise<AuthUser> {
       }
     }
 
-    // Create new user
     const userId = `google-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
     const createRes = await fetch(`${baseUrl}/rest/v1/profiles`, {
       method: 'POST',
@@ -98,14 +106,12 @@ async function upsertUserFromGoogle(googleUser: AuthUser): Promise<AuthUser> {
   }
 }
 
-// Register email/password user
 async function registerEmailUser(email: string, password: string, name?: string): Promise<AuthUser | null> {
   const baseUrl = process.env.NEXT_PUBLIC_INSFORGE_BASE_URL!
   const anonKey = process.env.NEXT_PUBLIC_INSFORGE_ANON_KEY!
   const hashedPassword = await hashPassword(password)
 
   try {
-    // Check if user exists
     const checkRes = await fetch(`${baseUrl}/rest/v1/profiles?email=eq.${encodeURIComponent(email)}&select=id`, {
       headers: {
         'apikey': anonKey,
@@ -116,7 +122,7 @@ async function registerEmailUser(email: string, password: string, name?: string)
     if (checkRes.ok) {
       const existing = await checkRes.json()
       if (existing && existing.length > 0) {
-        return null // User already exists
+        return null
       }
     }
 
@@ -147,7 +153,6 @@ async function registerEmailUser(email: string, password: string, name?: string)
       }
     }
 
-    console.error('Failed to create user:', await createRes.text())
     return null
   } catch (error) {
     console.error('Error registering user:', error)
@@ -155,7 +160,6 @@ async function registerEmailUser(email: string, password: string, name?: string)
   }
 }
 
-// Login email/password user
 async function loginEmailUser(email: string, password: string): Promise<AuthUser | null> {
   const baseUrl = process.env.NEXT_PUBLIC_INSFORGE_BASE_URL!
   const anonKey = process.env.NEXT_PUBLIC_INSFORGE_ANON_KEY!
@@ -192,36 +196,27 @@ async function loginEmailUser(email: string, password: string): Promise<AuthUser
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   secret: NEXTAUTH_SECRET,
+  trustHost: true,
   session: {
     strategy: 'jwt',
-    maxAge: 7 * 24 * 60 * 60, // 7 days
+    maxAge: 7 * 24 * 60 * 60,
   },
   pages: {
     signIn: '/auth/login',
     error: '/auth/login',
   },
   providers: [
-    // Google OAuth — configure GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET in Vercel env vars
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID || '',
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
-      authorization: {
-        params: {
-          prompt: 'consent',
-          access_type: 'offline',
-          response_type: 'code',
-        },
-      },
+      clientId: process.env.GOOGLE_CLIENT_ID || 'missing-client-id',
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || 'missing-client-secret',
     }),
-
-    // Email/Password credentials
     CredentialsProvider({
       name: 'credentials',
       credentials: {
         email: { label: 'Email', type: 'email' },
         password: { label: 'Password', type: 'password' },
         name: { label: 'Name', type: 'text' },
-        mode: { label: 'Mode', type: 'text' }, // 'login' | 'signup'
+        mode: { label: 'Mode', type: 'text' },
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null
@@ -243,11 +238,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
     }),
   ],
-
   callbacks: {
     async signIn({ user, account, profile }) {
       if (account?.provider === 'google' && profile) {
-        // Upsert user in InsForge DB
         const googleUser: AuthUser = {
           id: '',
           email: profile.email || user.email || '',
@@ -259,7 +252,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
       return true
     },
-
     async jwt({ token, user, account, profile }) {
       if (user) {
         token.id = user.id
@@ -273,7 +265,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
       return token
     },
-
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.id as string || token.sub as string || ''
@@ -286,7 +277,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
 })
 
-// Extend next-auth types
 declare module 'next-auth' {
   interface Session {
     user: {
@@ -297,4 +287,3 @@ declare module 'next-auth' {
     }
   }
 }
-/* Sat Apr 18 08:43:58 CEST 2026 */
