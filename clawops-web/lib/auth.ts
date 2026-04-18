@@ -297,3 +297,4 @@ declare module 'next-auth' {
     }
   }
 }
+/* Sat Apr 18 08:43:58 CEST 2026 */
