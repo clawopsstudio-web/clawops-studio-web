@@ -9,6 +9,7 @@ export default withAuth({
 export const config = {
   matcher: [
     '/dashboard/:path*',
-    '/((?!auth/login|auth/signup|api/auth|_next/static|_next/image|favicon.ico).*)',
+    '/dashboard',
+    '/((?!auth/login|auth/signup|auth/google/callback|auth/github/callback|api/auth|_next/static|_next/image|favicon.ico).*)',
   ],
 }

@@ -1,7 +1,12 @@
 import { AuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
-import GoogleProvider from 'next-auth/providers/google'
-import { insforgeLogin } from './insforge'
+
+// ── Hardcoded test account (works immediately, no external deps) ──
+// Replace with real auth (InsForge Cloud / Supabase) after Vercel reset
+const TEST_USERS = [
+  { id: '1', email: 'admin@clawops.studio', name: 'Pulkit', password: 'ClawOps2024!' },
+  { id: '2', email: 'test@clawops.studio', name: 'Test User', password: 'test1234' },
+]
 
 const providers = [
   CredentialsProvider({
@@ -12,28 +17,46 @@ const providers = [
     },
     async authorize(credentials) {
       if (!credentials?.email || !credentials?.password) return null
-      const result = await insforgeLogin({
-        email: credentials.email,
-        password: credentials.password,
-      })
-      if (result.error || !result.user) return null
-      return {
-        id: result.user.id,
-        email: result.user.email,
-        name: result.user.name,
+
+      // Hardcoded test accounts — works immediately
+      const user = TEST_USERS.find(
+        u =>
+          u.email.toLowerCase() === credentials.email.toLowerCase() &&
+          u.password === credentials.password
+      )
+      if (user) {
+        return { id: user.id, email: user.email, name: user.name }
       }
+
+      // Try InsForge Cloud auth if env var is set
+      const insforgeUrl = process.env.NEXT_PUBLIC_INSFORGE_API_URL
+      if (insforgeUrl) {
+        try {
+          const res = await fetch(`${insforgeUrl}/api/auth/sessions`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email: credentials.email,
+              password: credentials.password,
+            }),
+          })
+          if (res.ok) {
+            const data = await res.json()
+            return {
+              id: data.user?.id || '1',
+              email: credentials.email,
+              name: data.user?.profile?.name || credentials.email.split('@')[0],
+            }
+          }
+        } catch {
+          // InsForge unavailable — fall through
+        }
+      }
+
+      return null
     },
   }),
 ]
-
-if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
-  providers.push(
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    }) as any
-  )
-}
 
 export const authOptions: AuthOptions = {
   providers: providers as any,
