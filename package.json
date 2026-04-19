@@ -1,7 +1,0 @@
-{
-  "name": "clawops-workspace",
-  "private": true,
-  "dependencies": {
-    "next": "16.1.6"
-  }
-}
