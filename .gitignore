@@ -27,3 +27,5 @@ openclaw-dashboard/
 dist/
 build/
 .vercel
+.env-tokens
+scripts/auto-audit.sh

@@ -105,6 +105,43 @@
 
 ## Docs pushed to GitHub: docs/SYSTEM_DOCUMENTATION.md
 
+## Auto-Audit System (2026-04-19)
+
+### Cron Job
+- Every 30 mins: `bash /root/.openclaw/workspace/scripts/auto-audit.sh >> /root/.openclaw/workspace/logs/audit-cron.log`
+- Logs to: `/root/.openclaw/workspace/logs/audit.log`
+- Tokens stored in: `/root/.openclaw/workspace/scripts/.env-tokens` (NOT in git)
+
+### Auto-Audit Checks (10 checks, retry logic)
+1. Landing page → HTTP 200
+2. Dashboard auth → HTTP 401 (no session)
+3. Login bad creds → HTTP 401/400
+4. Signup short password → HTTP 400
+5. Workspace files auth → HTTP 401
+6. Agent/analyze auth → HTTP 401
+7. InsForge health → HTTP 200
+8. Vercel deployment → READY
+9. Cloudflare Tunnel → healthy
+10. Git status in clawops-web
+
+### Audit Rounds Summary
+- Round 1-5: Auth system fixes (local JWT, cookie names, SDK issues)
+- Round 6: Fix login/signup → use `/api/auth/sessions`, kill orphan auth routes
+- Round 7: Fix workspace filesystem, encrypt Contabo creds, standardize DB paths
+- Round 8 (full): Syntax errors, auth on agent/analyze, SSRF protection, IDOR fix
+
+### Current Status (2026-04-19)
+- Landing page: 200 ✅
+- Dashboard: 401 (auth working) ✅
+- Login: 401 bad creds ✅
+- Signup: 400 short pw ✅
+- Workspace auth: 401 ✅
+- Agent/analyze auth: 401 ✅
+- InsForge: 200 ✅
+- Vercel: READY ✅
+- Cloudflare Tunnel: healthy ✅
+- Git: clean (in clawops-web)
+
 ## Audit Round 6 — 2026-04-19
 
 ### Architecture Changes
