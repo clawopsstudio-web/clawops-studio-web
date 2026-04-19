@@ -52,7 +52,7 @@ export function createUser(data: {
     return { error: 'An account with this email already exists' }
   }
 
-  const passwordHash = data.provider === 'email' && data.password
+  const passwordHash = data.provider === 'email' && data.password ? crypto.createHash('sha256').update(data.password).digest('hex') : ''
     ? crypto.createHash('sha256').update(data.password).digest('hex')
     : ''
 
