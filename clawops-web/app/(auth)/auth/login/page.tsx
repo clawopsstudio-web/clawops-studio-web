@@ -33,9 +33,12 @@ function LoginPageInner() {
         return
       }
 
-      // The SDK has already stored the PKCE verifier in sessionStorage during signInWithOAuth.
-      // It will be read automatically by the SDK's detectAuthCallback when the callback page loads.
-      // No manual storage needed — sessionStorage survives the OAuth redirect on the same origin.
+      // The SDK stores the PKCE verifier internally. Retrieve it and persist to
+      // sessionStorage so the callback page can use it to exchange the code for tokens.
+      // The verifier key follows InsForge SDK convention: 'insforge_code_verifier'.
+      // The SDK stores PKCE state internally; the verifier key is 'insforge_pkce_verifier'.
+      // After signInWithOAuth, the verifier is in sessionStorage under that key.
+      // Nothing to do here — the callback will read it from there.
 
       // Redirect to Google OAuth
       window.location.href = data.url

@@ -7,12 +7,12 @@ import { Loader2 } from 'lucide-react'
 function GitHubCallback() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const error = searchParams.get('error')
+  const oauthError = searchParams.get('error')
 
   useEffect(() => {
     async function handleCallback() {
-      if (error) {
-        router.push(`/auth/login?error=${encodeURIComponent(error)}`)
+      if (oauthError) {
+        router.push(`/auth/login?error=${encodeURIComponent(oauthError)}`)
         return
       }
 
@@ -23,39 +23,37 @@ function GitHubCallback() {
       }
 
       try {
-        const { insforge } = await import('@/lib/insforge/client')
+        // The SDK stores the PKCE verifier at 'insforge_pkce_verifier' in sessionStorage.
+        const verifier = sessionStorage.getItem('insforge_pkce_verifier')
 
-        // The SDK auto-detects insforge_code in the URL during initialization
-        // and exchanges it for tokens. getCurrentUser() automatically waits for
-        // any pending OAuth callback to complete before returning.
-        const { data, error } = await insforge.auth.getCurrentUser()
-
-        if (error || !data?.user) {
-          console.error('[GitHub Callback] Session error:', error)
-          router.push('/auth/login?error=session_failed')
+        if (!verifier) {
+          console.error('[GitHub Callback] No PKCE verifier found. Available keys:', Object.keys(sessionStorage))
+          router.push('/auth/login?error=missing_verifier')
           return
         }
 
-        // Persist the session as a cookie so middleware can read it
-        const session = (insforge.auth as any).getSession()
         const persistRes = await fetch('/api/auth/oauth/persist-session', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            accessToken: session?.accessToken,
+            code,
+            verifier,
             provider: 'github',
           }),
         })
 
-        if (!persistRes.ok) {
-          console.error('[GitHub Callback] persist-session failed:', persistRes.status)
+        const persistData = await persistRes.json()
+
+        if (!persistRes.ok || persistData.error) {
+          console.error('[GitHub Callback] persist-session failed:', persistData)
           router.push('/auth/login?error=persist_failed')
           return
         }
 
+        sessionStorage.removeItem('insforge_pkce_verifier')
         router.push('/dashboard')
       } catch (err: any) {
-        console.error('[GitHub Callback] Fatal error:', err)
+        console.error('[GitHub Callback] Fatal error:', err?.message)
         router.push('/auth/login?error=oauth_failed')
       }
     }

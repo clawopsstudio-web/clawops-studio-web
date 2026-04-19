@@ -7,12 +7,12 @@ import { Loader2 } from 'lucide-react'
 function GoogleCallback() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const error = searchParams.get('error')
+  const oauthError = searchParams.get('error')
 
   useEffect(() => {
     async function handleCallback() {
-      if (error) {
-        router.push(`/auth/login?error=${encodeURIComponent(error)}`)
+      if (oauthError) {
+        router.push(`/auth/login?error=${encodeURIComponent(oauthError)}`)
         return
       }
 
@@ -23,39 +23,42 @@ function GoogleCallback() {
       }
 
       try {
-        const { insforge } = await import('@/lib/insforge/client')
+        // The SDK stores the PKCE verifier at 'insforge_pkce_verifier' in sessionStorage.
+        const verifier = sessionStorage.getItem('insforge_pkce_verifier')
 
-        // The SDK auto-detects insforge_code in the URL during initialization
-        // and exchanges it for tokens. getCurrentUser() automatically waits for
-        // any pending OAuth callback to complete before returning.
-        const { data, error } = await insforge.auth.getCurrentUser()
-
-        if (error || !data?.user) {
-          console.error('[Google Callback] Session error:', error)
-          router.push('/auth/login?error=session_failed')
+        if (!verifier) {
+          console.error('[Google Callback] No PKCE verifier found. SDK key=insforge_pkce_verifier, available keys:', Object.keys(sessionStorage))
+          router.push('/auth/login?error=missing_verifier')
           return
         }
 
-        // Persist the session as a cookie so middleware can read it
-        const session = (insforge.auth as any).getSession()
+        // Exchange the code + verifier for a session token via our server route.
+        // The server route calls InsForge's OAuth exchange endpoint and returns
+        // an access token, which we then store as an httpOnly cookie.
         const persistRes = await fetch('/api/auth/oauth/persist-session', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            accessToken: session?.accessToken,
+            code,
+            verifier,
             provider: 'google',
           }),
         })
 
-        if (!persistRes.ok) {
-          console.error('[Google Callback] persist-session failed:', persistRes.status)
+        const persistData = await persistRes.json()
+
+        if (!persistRes.ok || persistData.error) {
+          console.error('[Google Callback] persist-session failed:', persistData)
           router.push('/auth/login?error=persist_failed')
           return
         }
 
+        // Clean up the verifier from sessionStorage
+        sessionStorage.removeItem('insforge_pkce_verifier')
+
         router.push('/dashboard')
       } catch (err: any) {
-        console.error('[Google Callback] Fatal error:', err)
+        console.error('[Google Callback] Fatal error:', err?.message)
         router.push('/auth/login?error=oauth_failed')
       }
     }
