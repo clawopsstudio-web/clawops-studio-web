@@ -1,2 +1,26 @@
-.vercel
+# Dependencies
+node_modules/
+clawops-web/node_modules/
+
+# Build
+.next/
+out/
+
+# Vercel
+.vercel/
+
+# Env files
+.env
+.env.local
+.env.*.local
+
+# Data (user data shouldn't be on VPS)
 data/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
