@@ -28,16 +28,14 @@ function LoginPageInner() {
     setError('')
 
     try {
-      const res = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+      const result = await signIn('credentials', {
+        email,
+        password,
+        redirect: false,
       })
 
-      const data = await res.json()
-
-      if (!res.ok || data.error) {
-        setError(data.error || 'Invalid credentials')
+      if (result?.error) {
+        setError('Invalid email or password')
         setLoading(false)
         return
       }

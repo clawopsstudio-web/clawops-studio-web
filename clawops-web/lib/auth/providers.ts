@@ -1,7 +1,7 @@
-import NextAuth, { AuthOptions } from 'next-auth'
+import { AuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import GoogleProvider from 'next-auth/providers/google'
-import { getUserByEmail, verifyPassword } from './users'
+import { insforgeLogin } from './insforge'
 
 const providers = [
   CredentialsProvider({
@@ -12,21 +12,20 @@ const providers = [
     },
     async authorize(credentials) {
       if (!credentials?.email || !credentials?.password) return null
-
-      const user = getUserByEmail(credentials.email)
-      if (!user) return null
-      if (!verifyPassword(user, credentials.password)) return null
-
+      const result = await insforgeLogin({
+        email: credentials.email,
+        password: credentials.password,
+      })
+      if (result.error || !result.user) return null
       return {
-        id: user.id,
-        email: user.email,
-        name: user.name,
+        id: result.user.id,
+        email: result.user.email,
+        name: result.user.name,
       }
     },
   }),
 ]
 
-// Add Google OAuth if env vars are configured
 if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
   providers.push(
     GoogleProvider({
@@ -43,18 +42,6 @@ export const authOptions: AuthOptions = {
     error: '/auth/login',
   },
   callbacks: {
-    async signIn({ user, account, profile }) {
-      if (account?.provider === 'google' && user.email) {
-        const { findOrCreateGoogleUser } = await import('./users')
-        const storedUser = findOrCreateGoogleUser({
-          email: user.email,
-          name: user.name || user.email.split('@')[0],
-          googleId: (profile as any)?.sub || user.id || '',
-        })
-        user.id = storedUser.id
-      }
-      return true
-    },
     async jwt({ token, user, account }) {
       if (user) {
         token.id = user.id

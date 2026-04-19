@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createUser } from '@/lib/auth/users'
+import { insforgeSignup } from '@/lib/auth/insforge'
 
 export async function POST(request: NextRequest) {
   try {
@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Name is required' }, { status: 400 })
     }
 
-    const result = createUser({ email, password, name })
+    const result = await insforgeSignup({ email, password, name })
 
     if ('error' in result) {
       return NextResponse.json({ error: result.error }, { status: 409 })
@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       ok: true,
-      user: { id: result.id, email: result.email, name: result.name },
+      user: { id: result.user!.id, email: result.user!.email, name: result.user!.name },
     })
   } catch (error) {
     console.error('Signup error:', error)
