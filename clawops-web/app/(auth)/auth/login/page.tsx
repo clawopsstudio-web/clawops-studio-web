@@ -1,5 +1,6 @@
 'use client'
 
+import { signIn } from 'next-auth/react'
 import { useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 
@@ -17,35 +18,8 @@ function LoginPageInner() {
 
   const handleGoogleLogin = async () => {
     setOauthLoading(true)
-    try {
-      const { insforge } = await import('@/lib/insforge/client')
-
-      // Get the OAuth URL without redirecting
-      const { data, error: oauthError } = await insforge.auth.signInWithOAuth({
-        provider: 'google',
-        redirectTo: `${window.location.origin}/auth/google/callback`,
-        skipBrowserRedirect: true,
-      })
-
-      if (oauthError || !data?.url) {
-        setError(oauthError?.message || 'Google sign-in failed')
-        setOauthLoading(false)
-        return
-      }
-
-      // The SDK stores the PKCE verifier internally. Retrieve it and persist to
-      // sessionStorage so the callback page can use it to exchange the code for tokens.
-      // The verifier key follows InsForge SDK convention: 'insforge_code_verifier'.
-      // The SDK stores PKCE state internally; the verifier key is 'insforge_pkce_verifier'.
-      // After signInWithOAuth, the verifier is in sessionStorage under that key.
-      // Nothing to do here — the callback will read it from there.
-
-      // Redirect to Google OAuth
-      window.location.href = data.url
-    } catch (err: any) {
-      setError(err?.message || 'Google sign-in failed')
-      setOauthLoading(false)
-    }
+    // Redirect to NextAuth Google OAuth — returns to callback, then dashboard
+    await signIn('google', { callbackUrl: redirectTo })
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -271,7 +245,7 @@ function LoginPageInner() {
             color: '#666',
             fontSize: 13,
           }}>
-            Don't have an account?{' '}
+            Don&apos;t have an account?{' '}
             <a href="/auth/signup" style={{ color: '#818cf8', textDecoration: 'none' }}>
               Sign up
             </a>

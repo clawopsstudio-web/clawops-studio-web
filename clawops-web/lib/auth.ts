@@ -196,7 +196,7 @@ async function loginEmailUser(email: string, password: string): Promise<AuthUser
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   secret: NEXTAUTH_SECRET,
-  trustHost: true,
+  
   session: {
     strategy: 'jwt',
     maxAge: 7 * 24 * 60 * 60,
@@ -245,7 +245,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           id: '',
           email: profile.email || user.email || '',
           name: profile.name || user.name,
-          image: profile.picture || user.image,
+          image: (profile as any)?.picture || user.image,
         }
         const dbUser = await upsertUserFromGoogle(googleUser)
         user.id = dbUser.id
